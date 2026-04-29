@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
-import { CoursesCarousel } from "@/components/for-companies/courses-carousel";
+import { CoursesCarousel } from "@/components/courses-carousel";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
 import { HeroSection } from "@/components/for-companies/hero-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
