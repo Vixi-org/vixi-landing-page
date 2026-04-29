@@ -3,7 +3,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MobileVisual } from "@/components/home/placeholder-visuals";
 
-export function MobileSection() {
+interface MobileSectionProps {
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+export function MobileSection({
+  ctaLabel = "Create your Duolingo-like course",
+  ctaHref = "/",
+}: MobileSectionProps = {}) {
   return (
     <section className="relative overflow-hidden bg-primary py-20 text-primary-foreground md:py-28">
       {/* dot grid accent */}
@@ -29,7 +37,7 @@ export function MobileSection() {
               asChild
               className="mt-8 h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
             >
-              <Link href="/">Create your Duolingo-like course</Link>
+              <Link href={ctaHref}>{ctaLabel}</Link>
             </Button>
           </div>
           <div className="relative">
