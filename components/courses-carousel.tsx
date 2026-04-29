@@ -1,6 +1,12 @@
 import { Star } from "lucide-react";
 
-const COURSES = [
+export interface Course {
+  title: string;
+  instructor: string;
+  body: string;
+}
+
+const CORPORATE_COURSES: Course[] = [
   {
     title: "AI for Business Professionals",
     instructor: "Coach Brainstorm",
@@ -43,7 +49,18 @@ const COURSES = [
   },
 ];
 
-export function CoursesCarousel() {
+interface CoursesCarouselProps {
+  courses?: Course[];
+  body?: string;
+}
+
+const DEFAULT_BODY =
+  "We have created a collection of courses, specialized to teach students the skills they need in 21st century. You can choose to offer some of these courses to your employees along with the courses you may create yourself.";
+
+export function CoursesCarousel({
+  courses = CORPORATE_COURSES,
+  body = DEFAULT_BODY,
+}: CoursesCarouselProps = {}) {
   return (
     <section className="bg-background py-20 md:py-24" aria-labelledby="courses-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
@@ -56,10 +73,7 @@ export function CoursesCarousel() {
             <span className="text-secondary">courses</span>
           </h2>
           <p className="mt-5 text-base leading-7 text-foreground md:text-lg">
-            We have created a collection of courses, specialized to teach
-            students the skills they need in 21st century. You can choose to
-            offer some of these courses to your employees along with the
-            courses you may create yourself.
+            {body}
           </p>
         </div>
       </div>
@@ -69,11 +83,8 @@ export function CoursesCarousel() {
           className="-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:-mx-6 md:px-6"
           role="list"
         >
-          {COURSES.map((course) => (
-            <li
-              key={course.title}
-              className="snap-start"
-            >
+          {courses.map((course) => (
+            <li key={course.title} className="snap-start">
               <article className="flex h-full w-[300px] flex-col rounded-2xl border-2 border-secondary/30 bg-background p-5 transition-all hover:border-secondary hover:shadow-[0_25px_60px_-30px_rgba(255,164,44,0.55)] md:w-[340px]">
                 <div className="flex items-start gap-3">
                   <div
