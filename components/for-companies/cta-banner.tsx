@@ -1,0 +1,37 @@
+import { Button } from "@/components/ui/button";
+
+interface CtaBannerProps {
+  appUrl: string;
+}
+
+export function CtaBanner({ appUrl }: CtaBannerProps) {
+  return (
+    <section className="bg-background py-16 md:py-20">
+      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <div className="relative overflow-hidden rounded-3xl border-2 border-secondary/40 bg-gradient-to-r from-[#fdf6f0] via-background to-[#fdf6f0] px-8 py-10 md:px-12 md:py-12">
+          <div
+            className="pointer-events-none absolute right-8 top-1/2 hidden h-24 w-32 -translate-y-1/2 opacity-40 md:block [background-image:radial-gradient(circle,rgb(74,50,111,0.6)_1.2px,transparent_1.2px)] [background-size:14px_14px]"
+            aria-hidden
+          />
+          <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-semibold leading-snug text-secondary md:text-3xl">
+                Create your first duolingo-like course for free
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-foreground md:text-base">
+                No card required. Spin up your first gamified course in minutes
+                and see the difference engagement makes.
+              </p>
+            </div>
+            <Button
+              asChild
+              className="h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
+            >
+              <a href={`${appUrl}/signup`}>Get Started</a>
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
