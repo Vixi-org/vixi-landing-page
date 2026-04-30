@@ -53,7 +53,7 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
         </FadeUp>
         <HeadingPop
           as="h1"
-          className="mt-6 text-4xl font-semibold leading-[1.05] text-card-foreground md:text-6xl lg:text-7xl"
+          className="mt-6 text-[1.91rem] font-semibold leading-[1.05] text-card-foreground md:text-[3.19rem] lg:text-[3.83rem]"
         >
           Create your Duolingo-like
           <br />
@@ -77,19 +77,12 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
           </span>
         </HeadingPop>
         <FadeUp delay={1.1}>
-          <p className="mt-8 max-w-2xl text-base leading-7 text-foreground md:text-lg">
-            Upload your PDFs, LinkedIn posts, podcasts, or lectures, and let our
-            AI instantly convert them into interactive, bite-sized,
-            Duolingo-like courses in no time!
+          <p className="mt-8 text-lg leading-7 text-foreground md:text-xl">
+            What do you want your course to be about?
           </p>
         </FadeUp>
-        <FadeUp delay={1.2} className="mt-10 w-full max-w-2xl">
+        <FadeUp delay={1.2} className="mt-6 w-full max-w-2xl">
           <HeroPromptForm appUrl={appUrl} />
-        </FadeUp>
-        <FadeUp delay={1.3}>
-          <p className="mt-4 text-xs text-foreground/70">
-            No credit card required · Free to try
-          </p>
         </FadeUp>
       </div>
     </section>
