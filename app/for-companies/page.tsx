@@ -32,9 +32,9 @@ export default function ForCompaniesPage() {
         eyebrow="Make it instant"
         heading={
           <>
-            Instant <span className="text-secondary">Gamification</span> of
+            Instant <span className="text-secondary">Gamification</span>
             <br />
-            your company&apos;s
+            of your company&apos;s
             <br />
             learning material
           </>
@@ -76,9 +76,8 @@ export default function ForCompaniesPage() {
         eyebrow="Reinvented"
         heading={
           <>
-            Corporate Training
+            Corporate Training &amp; Compliance
             <br />
-            &amp; Compliance{" "}
             <span className="text-secondary">Reinvented</span>
           </>
         }

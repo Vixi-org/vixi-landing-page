@@ -72,7 +72,8 @@ export function CoursesCarousel({
             id="courses-heading"
             className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl"
           >
-            Select from our already-built{" "}
+            Select from our already-built
+            <br />
             <span className="text-secondary">courses</span>
           </HeadingPop>
           <FadeUp delay={0.85}>
