@@ -122,6 +122,13 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Scale the entire site up by 10% — every Tailwind size token is
+     rem-based, so a root font-size of 110% bumps typography, spacing,
+     border-radii, and component dimensions in lockstep. Equivalent to
+     a permanent browser zoom of 110%, but bakes it into the design. */
+  :root {
+    font-size: 110%;
+  }
   body {
     @apply bg-background text-foreground font-sans;
   }
