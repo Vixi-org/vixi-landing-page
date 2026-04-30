@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
+
 interface PageBannerProps {
   title: string;
   /** The current page label as it appears in the breadcrumb. Defaults to `title`. */
@@ -23,9 +25,12 @@ export function PageBanner({ title, current }: PageBannerProps) {
         aria-hidden
       />
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-start gap-4 px-4 md:flex-row md:items-center md:justify-between md:px-6">
-        <h1 className="text-4xl font-semibold leading-none text-white md:text-6xl">
-          {title}
-        </h1>
+        <FadeUp>
+          <h1 className="text-4xl font-semibold leading-none text-white md:text-6xl">
+            {title}
+          </h1>
+        </FadeUp>
+        <FadeUp delay={0.1} as="div">
         <nav aria-label="Breadcrumb" className="text-sm font-medium text-white">
           <ol className="flex items-center gap-2">
             <li>
@@ -41,6 +46,7 @@ export function PageBanner({ title, current }: PageBannerProps) {
             </li>
           </ol>
         </nav>
+        </FadeUp>
       </div>
     </section>
   );

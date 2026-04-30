@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { PageBanner } from "@/components/page-banner";
 import { formatPostDate, posts } from "@/lib/posts";
 
@@ -22,9 +23,10 @@ export default function BlogIndexPage() {
       <section className="bg-background py-16 md:py-20">
         <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
           {featured && (
+            <FadeUp>
             <Link
               href={`/blog/${featured.slug}`}
-              className="group relative mb-12 block overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 p-8 shadow-[0_25px_70px_-40px_rgba(74,50,111,0.35)] transition-shadow hover:shadow-[0_35px_85px_-35px_rgba(74,50,111,0.45)] md:p-12"
+              className="group relative mb-12 block overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 p-8 shadow-[0_25px_70px_-40px_rgba(74,50,111,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_35px_85px_-35px_rgba(74,50,111,0.45)] md:p-12"
             >
               <div className="grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
                 <div>
@@ -64,12 +66,13 @@ export default function BlogIndexPage() {
                 </div>
               </div>
             </Link>
+            </FadeUp>
           )}
 
           {rest.length > 0 && (
             <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {rest.map((post, index) => (
-                <li key={post.slug}>
+                <FadeUp key={post.slug} as="li" delay={0.1 * index}>
                   <Link
                     href={`/blog/${post.slug}`}
                     className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-background p-7 transition-all hover:-translate-y-0.5 hover:border-secondary/60 hover:shadow-[0_25px_60px_-30px_rgba(74,50,111,0.4)]"
@@ -98,7 +101,7 @@ export default function BlogIndexPage() {
                       <span>{post.readingTime}</span>
                     </div>
                   </Link>
-                </li>
+                </FadeUp>
               ))}
             </ul>
           )}

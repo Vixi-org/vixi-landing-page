@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 export function DemoCtaSection() {
@@ -10,7 +11,7 @@ export function DemoCtaSection() {
         aria-hidden
       />
       <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
-        <div className="max-w-xl">
+        <FadeUp className="max-w-xl">
           <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
             Contact Us
           </span>
@@ -26,7 +27,7 @@ export function DemoCtaSection() {
           >
             <Link href="/contact">Contact us</Link>
           </Button>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );

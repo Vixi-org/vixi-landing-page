@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 import { MobileVisual } from "@/components/home/placeholder-visuals";
 
@@ -21,7 +22,7 @@ export function MobileSection({
       />
       <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
-          <div>
+          <FadeUp>
             <h2 className="text-3xl font-semibold leading-tight md:text-5xl">
               Mobile App
               <br />
@@ -39,10 +40,10 @@ export function MobileSection({
             >
               <Link href={ctaHref}>{ctaLabel}</Link>
             </Button>
-          </div>
-          <div className="relative">
+          </FadeUp>
+          <FadeUp delay={0.15} className="relative">
             <MobileVisual />
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>

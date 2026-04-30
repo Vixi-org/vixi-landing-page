@@ -1,5 +1,7 @@
 import { Star } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
+
 export interface Course {
   title: string;
   instructor: string;
@@ -64,7 +66,7 @@ export function CoursesCarousel({
   return (
     <section className="bg-background py-20 md:py-24" aria-labelledby="courses-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
-        <div className="mx-auto max-w-3xl text-center">
+        <FadeUp className="mx-auto max-w-3xl text-center">
           <h2
             id="courses-heading"
             className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl"
@@ -75,17 +77,17 @@ export function CoursesCarousel({
           <p className="mt-5 text-base leading-7 text-foreground md:text-lg">
             {body}
           </p>
-        </div>
+        </FadeUp>
       </div>
 
-      <div className="relative mt-12">
+      <FadeUp className="relative mt-12" delay={0.1}>
         <ul
           className="-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:-mx-6 md:px-6"
           role="list"
         >
           {courses.map((course) => (
             <li key={course.title} className="snap-start">
-              <article className="flex h-full w-[300px] flex-col rounded-2xl border-2 border-secondary/30 bg-background p-5 transition-all hover:border-secondary hover:shadow-[0_25px_60px_-30px_rgba(255,164,44,0.55)] md:w-[340px]">
+              <article className="flex h-full w-[300px] flex-col rounded-2xl border-2 border-secondary/30 bg-background p-5 transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-[0_25px_60px_-30px_rgba(255,164,44,0.55)] md:w-[340px]">
                 <div className="flex items-start gap-3">
                   <div
                     className="h-12 w-12 shrink-0 rounded-full bg-gradient-to-br from-secondary/30 to-primary/30 ring-2 ring-background"
@@ -112,7 +114,7 @@ export function CoursesCarousel({
             </li>
           ))}
         </ul>
-      </div>
+      </FadeUp>
     </section>
   );
 }

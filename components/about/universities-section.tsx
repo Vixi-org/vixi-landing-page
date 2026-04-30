@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 const BULLETS = [
@@ -15,7 +16,7 @@ export function UniversitiesSection() {
     <section className="bg-background py-20 md:py-28">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
-          <div>
+          <FadeUp>
             <h2 className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
               Backed by Top
               <br />
@@ -54,9 +55,9 @@ export function UniversitiesSection() {
             >
               <Link href="/contact">Schedule a Demo</Link>
             </Button>
-          </div>
+          </FadeUp>
 
-          <div className="relative">
+          <FadeUp delay={0.15} className="relative">
             {/* Small toggle accents (mirror the original site's decorations) */}
             <span
               className="absolute -top-4 left-2 hidden h-6 w-12 rounded-full border border-primary/40 bg-background shadow-sm md:block"
@@ -96,7 +97,7 @@ export function UniversitiesSection() {
               className="relative h-auto w-full"
               sizes="(min-width: 768px) 50vw, 100vw"
             />
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@
 import { type FormEvent, useState } from "react";
 import { Mail } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 interface EarlyAccessSectionProps {
@@ -26,11 +27,14 @@ export function EarlyAccessSection({ appUrl }: EarlyAccessSectionProps) {
     <section className="bg-gradient-to-br from-background via-[#fdf6f0] to-muted/40 py-20 md:py-24">
       <div className="mx-auto w-full max-w-5xl px-4 md:px-6">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <h2 className="text-4xl font-semibold leading-tight md:text-5xl">
-            <span className="text-card-foreground">Get </span>
-            <span className="text-secondary">early access</span>
-            <span className="text-card-foreground"> now!</span>
-          </h2>
+          <FadeUp>
+            <h2 className="text-4xl font-semibold leading-tight md:text-5xl">
+              <span className="text-card-foreground">Get </span>
+              <span className="text-secondary">early access</span>
+              <span className="text-card-foreground"> now!</span>
+            </h2>
+          </FadeUp>
+          <FadeUp delay={0.1} as="div">
           <form
             onSubmit={handleSubmit}
             className="rounded-2xl border border-border bg-background p-3 shadow-[0_25px_70px_-40px_rgba(74,50,111,0.35)]"
@@ -58,6 +62,7 @@ export function EarlyAccessSection({ appUrl }: EarlyAccessSectionProps) {
               </Button>
             </div>
           </form>
+          </FadeUp>
         </div>
       </div>
     </section>

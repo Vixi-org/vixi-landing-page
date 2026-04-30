@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 export interface FeatureRowProps {
@@ -46,7 +47,7 @@ export function FeatureRow({
             reverse ? "md:[&>:first-child]:order-2" : ""
           }`}
         >
-          <div>
+          <FadeUp>
             <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
               {eyebrow}
             </span>
@@ -84,9 +85,9 @@ export function FeatureRow({
                 <Link href={ctaHref}>{ctaLabel}</Link>
               </Button>
             )}
-          </div>
+          </FadeUp>
 
-          <div className="relative">
+          <FadeUp delay={0.15} className="relative">
             {imageSrc ? (
               <Image
                 src={imageSrc}
@@ -99,7 +100,7 @@ export function FeatureRow({
             ) : (
               visual
             )}
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>

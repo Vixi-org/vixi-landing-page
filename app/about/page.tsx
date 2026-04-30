@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { UniversitiesSection } from "@/components/about/universities-section";
+import { FadeUp } from "@/components/anim/fade-up";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
 import { PageBanner } from "@/components/page-banner";
 
@@ -21,7 +22,7 @@ export default function AboutPage() {
 
       <section className="bg-background pb-20 md:pb-28">
         <div className="mx-auto grid w-full max-w-5xl gap-16 px-4 md:gap-20 md:px-6">
-          <div>
+          <FadeUp>
             <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
               Learn More About Us
             </span>
@@ -36,9 +37,9 @@ export default function AboutPage() {
               experience that empowers individuals to reach their full
               potential.
             </p>
-          </div>
+          </FadeUp>
 
-          <div>
+          <FadeUp>
             <h2 className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
               What Sets Us Apart
             </h2>
@@ -50,7 +51,7 @@ export default function AboutPage() {
               learners to interact with them in a way that feels personal and
               engaging.
             </p>
-          </div>
+          </FadeUp>
         </div>
       </section>
 

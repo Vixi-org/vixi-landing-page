@@ -1,3 +1,4 @@
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 const CONTACT_EMAIL = "hassan@vixiai.co";
@@ -10,7 +11,7 @@ export function ContactSection() {
     <section className="bg-background py-20 md:py-24">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-16">
-          <div>
+          <FadeUp>
             <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
               Contact Us
             </span>
@@ -46,9 +47,9 @@ export function ContactSection() {
                 Contact us!
               </a>
             </Button>
-          </div>
+          </FadeUp>
 
-          <div className="flex items-start md:justify-end">
+          <FadeUp delay={0.1} className="flex items-start md:justify-end">
             <a
               href={LINKEDIN_URL}
               target="_blank"
@@ -65,7 +66,7 @@ export function ContactSection() {
                 <path d={LINKEDIN_PATH} />
               </svg>
             </a>
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>

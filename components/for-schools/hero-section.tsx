@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
+import { FloatingDot } from "@/components/anim/floating-dot";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -12,17 +14,56 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-[#fdf6f0] to-muted/30 pt-16 pb-24 md:pt-20 md:pb-28">
       {/* scattered decorative dots — denser than home / for-companies, kid-friendly vibe */}
-      <span className="absolute right-[24%] top-[12%] h-3 w-3 rounded-full bg-pink-400/80" aria-hidden />
-      <span className="absolute right-[18%] top-[18%] h-2 w-2 rounded-full bg-secondary" aria-hidden />
-      <span className="absolute right-[34%] top-[20%] h-2.5 w-2.5 rounded-full bg-primary/60" aria-hidden />
-      <span className="absolute right-[14%] top-[26%] h-2 w-2 rounded-full bg-secondary/80" aria-hidden />
-      <span className="absolute left-[10%] bottom-[24%] h-2.5 w-2.5 rounded-full bg-secondary/80" aria-hidden />
-      <span className="absolute left-[18%] bottom-[16%] h-2 w-2 rounded-full bg-primary/60" aria-hidden />
-      <span className="absolute left-[26%] bottom-[10%] h-3 w-3 rounded-full bg-pink-400/80" aria-hidden />
-      <span className="absolute left-[6%] bottom-[40%] h-2 w-2 rounded-full bg-secondary" aria-hidden />
+      <FloatingDot
+        className="absolute right-[24%] top-[12%] h-3 w-3 rounded-full bg-pink-400/80"
+        amplitude={12}
+        duration={6}
+      />
+      <FloatingDot
+        className="absolute right-[18%] top-[18%] h-2 w-2 rounded-full bg-secondary"
+        amplitude={10}
+        duration={7}
+        delay={0.5}
+      />
+      <FloatingDot
+        className="absolute right-[34%] top-[20%] h-2.5 w-2.5 rounded-full bg-primary/60"
+        amplitude={14}
+        duration={8}
+        delay={1}
+      />
+      <FloatingDot
+        className="absolute right-[14%] top-[26%] h-2 w-2 rounded-full bg-secondary/80"
+        amplitude={10}
+        duration={6.5}
+        delay={1.5}
+      />
+      <FloatingDot
+        className="absolute left-[10%] bottom-[24%] h-2.5 w-2.5 rounded-full bg-secondary/80"
+        amplitude={12}
+        duration={7.5}
+        delay={0.3}
+      />
+      <FloatingDot
+        className="absolute left-[18%] bottom-[16%] h-2 w-2 rounded-full bg-primary/60"
+        amplitude={10}
+        duration={8}
+        delay={1.2}
+      />
+      <FloatingDot
+        className="absolute left-[26%] bottom-[10%] h-3 w-3 rounded-full bg-pink-400/80"
+        amplitude={14}
+        duration={6}
+        delay={0.8}
+      />
+      <FloatingDot
+        className="absolute left-[6%] bottom-[40%] h-2 w-2 rounded-full bg-secondary"
+        amplitude={10}
+        duration={7}
+        delay={1.8}
+      />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 md:grid-cols-[1fr_1fr] md:px-6">
-        <div>
+        <FadeUp>
           <h1 className="text-4xl font-semibold leading-[1.1] text-primary md:text-6xl">
             AI-Powered
             <br />
@@ -42,10 +83,10 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
           >
             <Link href="/contact">See a demo</Link>
           </Button>
-        </div>
+        </FadeUp>
 
         {/* visual: black "Build AI courses" badge + arrow + smaller source-picker tile */}
-        <div className="relative flex h-[360px] items-center justify-center md:h-[420px]">
+        <FadeUp delay={0.2} className="relative flex h-[360px] items-center justify-center md:h-[420px]">
           <div className="absolute left-0 top-4 flex h-20 w-20 items-center justify-center rounded-full bg-card-foreground text-center text-[10px] font-semibold leading-tight text-white shadow-2xl md:h-24 md:w-24 md:text-xs">
             <span>
               Build AI
@@ -88,7 +129,7 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
               priority
             />
           </div>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
+import { FadeUp } from "@/components/anim/fade-up";
+import { FloatingDot } from "@/components/anim/floating-dot";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -11,12 +13,26 @@ interface HeroSectionProps {
 export function HeroSection({ appUrl }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 pt-16 pb-20 md:pt-20 md:pb-28">
-      <span className="absolute left-[6%] top-[20%] h-2.5 w-2.5 rounded-full bg-primary/40" aria-hidden />
-      <span className="absolute left-[10%] bottom-[18%] h-3 w-3 rounded-full bg-secondary/70" aria-hidden />
-      <span className="absolute right-[8%] top-[12%] h-2 w-2 rounded-full bg-pink-400/70" aria-hidden />
+      <FloatingDot
+        className="absolute left-[6%] top-[20%] h-2.5 w-2.5 rounded-full bg-primary/40"
+        amplitude={14}
+        duration={7}
+      />
+      <FloatingDot
+        className="absolute left-[10%] bottom-[18%] h-3 w-3 rounded-full bg-secondary/70"
+        amplitude={16}
+        duration={8}
+        delay={0.6}
+      />
+      <FloatingDot
+        className="absolute right-[8%] top-[12%] h-2 w-2 rounded-full bg-pink-400/70"
+        amplitude={12}
+        duration={6.5}
+        delay={1.2}
+      />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 md:grid-cols-[1fr_1.1fr] md:gap-10 md:px-6">
-        <div>
+        <FadeUp>
           <h1 className="text-4xl font-semibold leading-[1.1] text-card-foreground md:text-6xl">
             AI-Powered
             <br />
@@ -60,10 +76,10 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
               <Link href="/contact">Book a demo</Link>
             </Button>
           </div>
-        </div>
+        </FadeUp>
 
         {/* Laptop mockup wrapper around source-picker */}
-        <div className="relative">
+        <FadeUp delay={0.2} className="relative">
           <div className="rounded-t-2xl bg-card-foreground p-3 shadow-2xl">
             <div className="overflow-hidden rounded-xl bg-background">
               <div className="flex items-center gap-1.5 border-b border-border bg-muted/40 px-3 py-2">
@@ -82,7 +98,7 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             </div>
           </div>
           <div className="mx-auto -mt-1 h-2 w-[110%] -translate-x-[5%] rounded-b-3xl bg-card-foreground/90 shadow-xl" />
-        </div>
+        </FadeUp>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { FadeUp } from "@/components/anim/fade-up";
 import { Button } from "@/components/ui/button";
 
 interface CtaBannerProps {
@@ -8,7 +9,7 @@ export function CtaBanner({ appUrl }: CtaBannerProps) {
   return (
     <section className="bg-background py-16 md:py-20">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
-        <div className="relative overflow-hidden rounded-3xl border-2 border-secondary/40 bg-gradient-to-r from-[#fdf6f0] via-background to-[#fdf6f0] px-8 py-10 md:px-12 md:py-12">
+        <FadeUp className="relative overflow-hidden rounded-3xl border-2 border-secondary/40 bg-gradient-to-r from-[#fdf6f0] via-background to-[#fdf6f0] px-8 py-10 md:px-12 md:py-12">
           <div
             className="pointer-events-none absolute right-8 top-1/2 hidden h-24 w-32 -translate-y-1/2 opacity-40 md:block [background-image:radial-gradient(circle,rgb(74,50,111,0.6)_1.2px,transparent_1.2px)] [background-size:14px_14px]"
             aria-hidden
@@ -30,7 +31,7 @@ export function CtaBanner({ appUrl }: CtaBannerProps) {
               <a href={`${appUrl}/signup`}>Get Started</a>
             </Button>
           </div>
-        </div>
+        </FadeUp>
       </div>
     </section>
   );
