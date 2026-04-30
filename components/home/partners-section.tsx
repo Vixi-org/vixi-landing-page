@@ -12,7 +12,7 @@ const PARTNERS = [
 
 export function PartnersSection() {
   return (
-    <section className="bg-background py-16 md:py-20" aria-labelledby="partners-heading">
+    <section className="bg-background pt-16 pb-9 md:pt-20 md:pb-10" aria-labelledby="partners-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <HeadingPop
           as="h2"
@@ -27,14 +27,14 @@ export function PartnersSection() {
               key={partner.alt}
               as="li"
               delay={0.08 * index}
-              className="flex h-20 w-full items-center justify-center"
+              className="flex h-28 w-full items-center justify-center md:h-32"
             >
               <Image
                 src={partner.src}
                 alt={partner.alt}
-                width={150}
-                height={150}
-                className="h-auto max-h-20 w-auto max-w-[180px] object-contain transition-transform duration-300 hover:scale-105"
+                width={220}
+                height={220}
+                className="h-auto max-h-28 w-auto max-w-[260px] object-contain transition-transform duration-300 hover:scale-105 md:max-h-32 md:max-w-[280px]"
               />
             </FadeUp>
           ))}

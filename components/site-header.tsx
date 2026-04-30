@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
@@ -8,6 +11,7 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/for-companies", label: "For Companies" },
   { href: "/for-schools", label: "For Schools" },
+  { href: "/for-creators", label: "For Creators" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
@@ -15,9 +19,23 @@ const NAV_LINKS = [
 
 export function SiteHeader() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/75">
+    <header
+      className={`fixed inset-x-0 top-0 z-40 w-full transition-colors duration-300 ${
+        scrolled
+          ? "border-b border-border/60 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/75"
+          : "border-b border-transparent"
+      }`}
+    >
       <div className="mx-auto flex h-20 w-full max-w-6xl items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center" aria-label="Vixi home">
           <Image
@@ -30,7 +48,7 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex lg:gap-7">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

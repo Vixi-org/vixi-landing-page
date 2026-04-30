@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
-import { CtaBanner } from "@/components/for-companies/cta-banner";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
 import { HeroSection } from "@/components/for-schools/hero-section";
 import { CoursesCarousel, type Course } from "@/components/courses-carousel";
+import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
-import { MobileSection } from "@/components/home/mobile-section";
 import { EditableVisual } from "@/components/home/placeholder-visuals";
 import { ThemesShowcase } from "@/components/themes-showcase";
 
@@ -124,7 +123,12 @@ export default function ForSchoolsPage() {
 
       <FeatureRow
         eyebrow="Edit your course"
-        heading="Fully editable material"
+        heading={
+          <>
+            Fully editable{" "}
+            <span className="whitespace-nowrap">material</span>
+          </>
+        }
         body="Teachers can modify AI-generated lessons, quizzes, and challenges, ensuring alignment with their teaching goals and state/national curriculum standards."
         bullets={[
           "Insert Additional Learning Material",
@@ -138,8 +142,7 @@ export default function ForSchoolsPage() {
         background="tint"
       />
 
-      <MobileSection ctaLabel="Explore the mobile app" ctaHref="/contact" />
-      <CtaBanner appUrl={appUrl} />
+      <DemoCtaSection />
     </>
   );
 }

@@ -9,7 +9,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ appUrl }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-16 pb-24 md:pt-24 md:pb-32">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-36 pb-24 md:pt-44 md:pb-32">
       <FloatingDot
         className="absolute left-[10%] top-[18%] h-2.5 w-2.5 rounded-full bg-secondary/70"
         amplitude={12}

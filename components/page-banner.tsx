@@ -11,44 +11,43 @@ interface PageBannerProps {
 }
 
 /**
- * Reusable page-banner used by all secondary marketing pages
- * (about, contact, etc.) — orange gradient strip with a large
- * white title on the left and a Home > Current breadcrumb on the right.
+ * Reusable page header used by secondary marketing pages
+ * (about, blog, contact). Soft cream gradient that matches the
+ * primary heroes — orange eyebrow breadcrumb, deep-purple title.
  */
 export function PageBanner({ title, current }: PageBannerProps) {
   const breadcrumbCurrent = current ?? title;
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-secondary via-secondary to-secondary/80 py-16 md:py-20">
-      {/* subtle texture dots */}
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-25 [background-image:radial-gradient(circle,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:18px_18px]"
-        aria-hidden
-      />
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col items-start gap-4 px-4 md:flex-row md:items-center md:justify-between md:px-6">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-36 pb-12 md:pt-44 md:pb-16">
+      <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
+        <FadeUp>
+          <nav
+            aria-label="Breadcrumb"
+            className="font-subheading text-xs font-semibold uppercase tracking-[0.2em] text-secondary"
+          >
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link
+                  href="/"
+                  className="text-secondary/70 transition-colors hover:text-secondary"
+                >
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden>
+                <ChevronRight className="size-3.5 opacity-60" />
+              </li>
+              <li aria-current="page">{breadcrumbCurrent}</li>
+            </ol>
+          </nav>
+        </FadeUp>
         <HeadingPop
           as="h1"
-          className="text-4xl font-semibold leading-none text-white md:text-6xl"
+          className="mt-4 text-4xl font-semibold leading-tight text-card-foreground md:text-6xl"
         >
           {title}
         </HeadingPop>
-        <FadeUp delay={0.5} as="div">
-        <nav aria-label="Breadcrumb" className="text-sm font-medium text-white">
-          <ol className="flex items-center gap-2">
-            <li>
-              <Link href="/" className="transition-opacity hover:opacity-80">
-                Home
-              </Link>
-            </li>
-            <li aria-hidden>
-              <ChevronRight className="size-4 opacity-80" />
-            </li>
-            <li aria-current="page" className="opacity-90">
-              {breadcrumbCurrent}
-            </li>
-          </ol>
-        </nav>
-        </FadeUp>
       </div>
     </section>
   );

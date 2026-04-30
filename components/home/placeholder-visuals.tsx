@@ -7,12 +7,18 @@ import { BookOpen, Edit3, Mic, Volume2 } from "lucide-react";
  */
 
 export function VoiceVisual() {
+  const bars = [28, 56, 40, 78, 64, 90, 52, 70, 36, 84, 48, 62, 30, 76, 44];
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-[#fbf2e6] via-background to-muted/40 p-8 shadow-[0_30px_80px_-40px_rgba(74,50,111,0.25)]">
       <div className="absolute inset-x-8 top-8 rounded-2xl bg-background p-5 shadow-md ring-1 ring-border/60">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary/15 text-secondary">
-            <Mic className="size-5" aria-hidden />
+          <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-secondary/15 text-secondary">
+            <span
+              aria-hidden
+              className="absolute inset-0 rounded-full bg-secondary/40"
+              style={{ animation: "voice-mic-ring 1.8s ease-out infinite" }}
+            />
+            <Mic className="relative size-5" aria-hidden />
           </span>
           <div className="flex-1">
             <p className="text-sm font-semibold text-card-foreground">
@@ -22,17 +28,27 @@ export function VoiceVisual() {
               We&apos;ll match your tone
             </p>
           </div>
+          <span className="flex items-center gap-1.5 rounded-full bg-rose-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-rose-600">
+            <span
+              aria-hidden
+              className="h-1.5 w-1.5 rounded-full bg-rose-500"
+              style={{ animation: "voice-rec-dot 1.2s ease-in-out infinite" }}
+            />
+            Rec
+          </span>
         </div>
-        <div className="mt-5 flex h-16 items-end gap-1">
-          {[28, 56, 40, 78, 64, 90, 52, 70, 36, 84, 48, 62, 30, 76, 44].map(
-            (h, i) => (
-              <span
-                key={i}
-                className="flex-1 rounded-full bg-gradient-to-t from-secondary/40 to-secondary"
-                style={{ height: `${h}%` }}
-              />
-            ),
-          )}
+        <div className="mt-5 flex h-16 items-center gap-1">
+          {bars.map((h, i) => (
+            <span
+              key={i}
+              className="flex-1 rounded-full bg-gradient-to-t from-secondary/40 to-secondary"
+              style={{
+                height: `${h}%`,
+                transformOrigin: "center",
+                animation: `voice-bar 1.1s ease-in-out ${i * 0.08}s infinite`,
+              }}
+            />
+          ))}
         </div>
       </div>
       <div className="absolute right-8 bottom-8 flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-lg">

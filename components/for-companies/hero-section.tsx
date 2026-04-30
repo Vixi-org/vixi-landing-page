@@ -14,7 +14,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ appUrl }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 pt-16 pb-20 md:pt-20 md:pb-28">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 pt-36 pb-20 md:pt-40 md:pb-28">
       <FloatingDot
         className="absolute left-[6%] top-[20%] h-2.5 w-2.5 rounded-full bg-primary/40"
         amplitude={14}
@@ -37,7 +37,7 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
         <div>
           <HeadingPop
             as="h1"
-            className="text-4xl font-semibold leading-[1.1] text-card-foreground md:text-6xl"
+            className="text-[2.025rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.375rem]"
           >
             AI-Powered
             <br />

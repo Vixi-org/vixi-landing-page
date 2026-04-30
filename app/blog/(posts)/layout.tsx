@@ -8,7 +8,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <>
-      <article className="bg-background py-12 md:py-16">
+      <article className="bg-background pt-32 pb-12 md:pt-36 md:pb-16">
         <div className="mx-auto w-full max-w-3xl px-4 md:px-6">
           <Link
             href="/blog"

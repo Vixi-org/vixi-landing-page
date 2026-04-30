@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 
-import { DemoCtaSection } from "@/components/home/demo-cta-section";
-import { EarlyAccessSection } from "@/components/home/early-access-section";
+import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
+import { HeroPromptForm } from "@/components/hero-prompt-form";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { HeroSection } from "@/components/home/hero-section";
-import { HowItWorksSection } from "@/components/home/how-it-works-section";
-import { MobileSection } from "@/components/home/mobile-section";
 import { PartnersSection } from "@/components/home/partners-section";
 import {
   EditableVisual,
@@ -27,19 +26,19 @@ export default function HomePage() {
   return (
     <>
       <HeroSection appUrl={appUrl} />
-      <HowItWorksSection />
       <PartnersSection />
 
       <FeatureRow
         eyebrow="Learn More About Us"
         heading={
           <>
-            Transform your knowledge
+            Transform your{" "}
+            <span className="whitespace-nowrap">knowledge</span>
             <br />
             into gamified courses
           </>
         }
-        body="Effortlessly turn traditional materials into dynamic, gamified courses that boost learner engagement. Our cutting-edge AI takes static content — whether an e-book, podcast, or lecture — and intelligently restructures it into a highly engaging, gamified course."
+        body="Effortlessly turn traditional materials into dynamic, gamified courses that boost learner engagement. Our cutting-edge AI takes static content, whether an e-book, podcast, or lecture, and intelligently restructures it into a highly engaging, gamified course."
         ctaHref="/"
         imageSrc="/mockups/transform.png"
         imageAlt="Books, LinkedIn content, and presentation slides flowing into a gamified phone-based course"
@@ -83,7 +82,12 @@ export default function HomePage() {
 
       <FeatureRow
         eyebrow="Edit your course"
-        heading="Fully editable material"
+        heading={
+          <>
+            Fully editable{" "}
+            <span className="whitespace-nowrap">material</span>
+          </>
+        }
         body="Our AI-generated courses provide a strong foundation, but you have the freedom to shape the learning experience exactly as you envision it. With our intuitive authoring tool, you can add, remove, or restructure content seamlessly, ensuring the course reflects your expertise and teaching style."
         bullets={[
           "Insert additional learning material",
@@ -114,11 +118,23 @@ export default function HomePage() {
         visual={<ThemesShowcase />}
       />
 
-      <MobileSection />
       <GamificationStatsSection />
-      <DemoCtaSection />
-      <EarlyAccessSection appUrl={appUrl} />
 
+      <section className="relative overflow-hidden bg-gradient-to-b from-background via-[#fdf6f0] to-background py-20 md:py-28">
+        <div className="mx-auto w-full max-w-3xl px-4 text-center md:px-6">
+          <HeadingPop className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
+            Ready to build your course?
+          </HeadingPop>
+          <FadeUp delay={0.5} className="mt-6">
+            <p className="text-base text-muted-foreground md:text-lg">
+              Describe what you want to teach — we&rsquo;ll turn it into a gamified course.
+            </p>
+          </FadeUp>
+          <FadeUp delay={0.7} className="mt-8 w-full">
+            <HeroPromptForm appUrl={appUrl} />
+          </FadeUp>
+        </div>
+      </section>
     </>
   );
 }
