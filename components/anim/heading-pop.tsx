@@ -64,7 +64,7 @@ export function HeadingPop({
         className="inline-block"
         initial={reduced ? false : { opacity: 0, scale: 1.4, y: -8 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={VIEWPORT_TRIGGER}
         transition={{
           duration: 0.45,
           delay,
@@ -135,3 +135,18 @@ export function HeadingPop({
 }
 
 const SKIP_RECURSE = new Set(["svg", "img", "video", "iframe", "canvas"]);
+
+/**
+ * Shared viewport trigger config used by both HeadingPop and FadeUp.
+ *
+ * `margin: "0px 0px -50% 0px"` shrinks the active intersection zone to
+ * the top 50% of the viewport. The element only triggers `whileInView`
+ * when it has scrolled up enough that part of it is in the upper half —
+ * for typical heading heights (150–300px), that's when the top of the
+ * heading is around 1/3 from the top of the viewport. Less jarring than
+ * the default "as soon as it peeks above the bottom edge".
+ */
+export const VIEWPORT_TRIGGER = {
+  once: true as const,
+  margin: "0px 0px -50% 0px",
+};
