@@ -105,10 +105,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${readexPro.variable} ${roboto.variable} ${nunitoSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${readexPro.variable} ${roboto.variable} ${nunitoSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
+      <body className="flex min-h-screen flex-col bg-background font-sans text-foreground">
         <JsonLd data={[ORGANIZATION_SCHEMA, WEBSITE_SCHEMA]} />
         <SmoothScroll />
         <ThemeProvider
