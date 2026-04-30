@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { Link } from "@/i18n/navigation";
 
 interface PageBannerProps {
   title: string;
@@ -15,7 +16,8 @@ interface PageBannerProps {
  * (about, blog, contact). Soft cream gradient that matches the
  * primary heroes — orange eyebrow breadcrumb, deep-purple title.
  */
-export function PageBanner({ title, current }: PageBannerProps) {
+export async function PageBanner({ title, current }: PageBannerProps) {
+  const t = await getTranslations("pageBanner");
   const breadcrumbCurrent = current ?? title;
 
   return (
@@ -32,11 +34,11 @@ export function PageBanner({ title, current }: PageBannerProps) {
                   href="/"
                   className="text-secondary/70 transition-colors hover:text-secondary"
                 >
-                  Home
+                  {t("home")}
                 </Link>
               </li>
               <li aria-hidden>
-                <ChevronRight className="size-3.5 opacity-60" />
+                <ChevronRight className="size-3.5 opacity-60 rtl:-scale-x-100" />
               </li>
               <li aria-current="page">{breadcrumbCurrent}</li>
             </ol>

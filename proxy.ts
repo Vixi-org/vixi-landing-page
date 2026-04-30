@@ -17,6 +17,8 @@ const ARABIC_ENABLED_PATHS = new Set<string>([
   "/for-companies",
   "/for-schools",
   "/for-creators",
+  "/about",
+  "/contact",
 ]);
 
 export default function proxy(req: NextRequest) {
