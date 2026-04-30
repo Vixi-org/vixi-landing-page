@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { Suspense } from "react";
 
+import { TransformTextExperiment } from "@/components/anim/experiments/transform-text-experiment";
+import { VariantSwitcher } from "@/components/anim/experiments/variant-switcher";
 import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { EarlyAccessSection } from "@/components/home/early-access-section";
 import { FeatureRow } from "@/components/home/feature-row";
@@ -30,20 +34,29 @@ export default function HomePage() {
       <HowItWorksSection />
       <PartnersSection />
 
-      <FeatureRow
-        eyebrow="Learn More About Us"
-        heading={
-          <>
-            Transform your knowledge
-            <br />
-            into gamified courses
-          </>
-        }
-        body="Effortlessly turn traditional materials into dynamic, gamified courses that boost learner engagement. Our cutting-edge AI takes static content — whether an e-book, podcast, or lecture — and intelligently restructures it into a highly engaging, gamified course."
-        ctaHref="/"
-        imageSrc="/mockups/transform.png"
-        imageAlt="Books, LinkedIn content, and presentation slides flowing into a gamified phone-based course"
-      />
+      {/* TRANSFORM SECTION — animation A/B testbed. Replace with FeatureRow once a variant is picked. */}
+      <section
+        id="transform-section"
+        className="relative bg-background py-20 md:py-28 scroll-mt-24"
+      >
+        <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
+            <Suspense fallback={<div />}>
+              <TransformTextExperiment />
+            </Suspense>
+            <div className="relative">
+              <Image
+                src="/mockups/transform.png"
+                alt="Books, LinkedIn content, and presentation slides flowing into a gamified phone-based course"
+                width={1000}
+                height={800}
+                className="h-auto w-full rounded-3xl"
+                sizes="(min-width: 768px) 50vw, 100vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <FeatureRow
         eyebrow="Learn More About Us"
@@ -120,6 +133,10 @@ export default function HomePage() {
       <GamificationStatsSection />
       <DemoCtaSection />
       <EarlyAccessSection appUrl={appUrl} />
+
+      <Suspense fallback={null}>
+        <VariantSwitcher />
+      </Suspense>
     </>
   );
 }
