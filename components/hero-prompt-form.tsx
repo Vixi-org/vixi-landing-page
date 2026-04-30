@@ -3,15 +3,13 @@
 import {
   type FormEvent,
   type KeyboardEvent,
-  Suspense,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { useReducedMotion } from "framer-motion";
+import { Wand2 } from "lucide-react";
 
-import { HeroCtaExperiment } from "@/components/anim/experiments/hero-cta-experiment";
-import { HeroCtaV1 } from "@/components/anim/experiments/hero-cta-variants";
+import { cn } from "@/lib/utils";
 
 interface HeroPromptFormProps {
   appUrl: string;
@@ -95,7 +93,6 @@ function useTypewriterPlaceholder(samples: string[]) {
 export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   const [prompt, setPrompt] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
   const placeholder = useTypewriterPlaceholder(SAMPLE_PROMPTS);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -117,8 +114,6 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
 
   return (
     <form
-      ref={formRef}
-      id="hero-cta-experiment"
       onSubmit={handleSubmit}
       className="group relative w-full overflow-hidden rounded-2xl border border-border bg-background shadow-[0_20px_60px_-30px_rgba(74,50,111,0.35)] transition-shadow focus-within:border-primary focus-within:shadow-[0_25px_70px_-25px_rgba(74,50,111,0.45)]"
     >
@@ -134,9 +129,23 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         className="block w-full resize-none border-0 bg-transparent px-5 pt-5 pb-2 text-base leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
       />
       <div className="flex items-center justify-end px-3 pb-3 md:px-4 md:pb-4">
-        <Suspense fallback={<HeroCtaV1 disabled={!canSubmit} submitting={submitting} />}>
-          <HeroCtaExperiment disabled={!canSubmit} submitting={submitting} />
-        </Suspense>
+        <button
+          type="submit"
+          disabled={!canSubmit}
+          className={cn(
+            "inline-flex h-10 items-center justify-center gap-2 select-none",
+            "rounded-2xl border-2 border-card-foreground bg-secondary px-4 text-sm font-semibold text-secondary-foreground",
+            "shadow-[3px_3px_0_0_rgb(74,50,111)]",
+            "transition-all duration-150 ease-out",
+            "hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-[1.5px_1.5px_0_0_rgb(74,50,111)]",
+            "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
+            "disabled:pointer-events-none disabled:opacity-60",
+          )}
+        >
+          <Wand2 className="size-4" aria-hidden />
+          {submitting ? "Generating…" : "Generate course"}
+        </button>
       </div>
     </form>
   );

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
-import { HeroCtaSwitcher } from "@/components/anim/experiments/hero-cta-switcher";
 import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { EarlyAccessSection } from "@/components/home/early-access-section";
 import { FeatureRow } from "@/components/home/feature-row";
@@ -121,9 +119,6 @@ export default function HomePage() {
       <DemoCtaSection />
       <EarlyAccessSection appUrl={appUrl} />
 
-      <Suspense fallback={null}>
-        <HeroCtaSwitcher />
-      </Suspense>
     </>
   );
 }
