@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
@@ -29,7 +30,9 @@ export function ConversationalSection() {
           </div>
 
           <FadeUp delay={0.15} className="relative">
-            <CourseConversation />
+            <Suspense fallback={null}>
+              <CourseConversation />
+            </Suspense>
           </FadeUp>
         </div>
       </div>
