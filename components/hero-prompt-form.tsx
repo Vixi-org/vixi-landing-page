@@ -8,21 +8,13 @@ import {
 } from "react";
 import { useReducedMotion } from "framer-motion";
 import { Wand2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 
 interface HeroPromptFormProps {
   appUrl: string;
 }
-
-const SAMPLE_PROMPTS = [
-  "Teach digital marketing fundamentals to junior marketers",
-  "A cybersecurity awareness course for marketing teams",
-  "Onboarding new hires at a fast-growing fintech startup",
-  "Spanish phrases for travelers heading to Mexico",
-  "Intro to machine learning for product managers",
-  "Sales playbook for B2B SaaS account executives",
-];
 
 const TYPE_MS = 45;
 const TYPE_JITTER = 25;
@@ -91,9 +83,12 @@ function useTypewriterPlaceholder(samples: string[]) {
 }
 
 export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
+  const t = useTranslations("home.hero");
+  const tCommon = useTranslations("common");
+  const samples = t.raw("samples") as string[];
   const [prompt, setPrompt] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const placeholder = useTypewriterPlaceholder(SAMPLE_PROMPTS);
+  const placeholder = useTypewriterPlaceholder(samples);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -125,7 +120,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         rows={3}
         autoFocus
         disabled={submitting}
-        aria-label="Course prompt"
+        aria-label={t("promptAriaLabel")}
         className="block w-full resize-none border-0 bg-transparent px-5 pt-5 pb-2 text-base leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
       />
       <div className="flex items-center justify-end px-3 pb-3 md:px-4 md:pb-4">
@@ -144,7 +139,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
           )}
         >
           <Wand2 className="size-4" aria-hidden />
-          {submitting ? "Generating…" : "Generate course"}
+          {submitting ? tCommon("generatingCourse") : tCommon("generateCourse")}
         </button>
       </div>
     </form>

@@ -1,9 +1,23 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 import { CtaBanner } from "@/components/for-companies/cta-banner";
 
-export default function PostLayout({ children }: { children: React.ReactNode }) {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function PostLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
 
   return (

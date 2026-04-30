@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
@@ -7,7 +9,8 @@ interface HeroSectionProps {
   appUrl: string;
 }
 
-export function HeroSection({ appUrl }: HeroSectionProps) {
+export async function HeroSection({ appUrl }: HeroSectionProps) {
+  const t = await getTranslations("home.hero");
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-36 pb-24 md:pt-44 md:pb-32">
       <FloatingDot
@@ -48,18 +51,16 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
       <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 text-center md:px-6">
         <FadeUp>
           <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
-            #1 AI to publish gamified courses
+            {t("eyebrow")}
           </span>
         </FadeUp>
         <HeadingPop
           as="h1"
           className="mt-6 text-[1.91rem] font-semibold leading-[1.05] text-card-foreground md:text-[3.19rem] lg:text-[3.83rem]"
         >
-          Create your Duolingo-like
-          <br />
-          courses,{" "}
+          {t("title.main")}{" "}
           <span className="relative inline-block text-secondary">
-            in minutes
+            {t("title.highlight")}
             <svg
               aria-hidden
               viewBox="0 0 240 18"
@@ -78,7 +79,7 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
         </HeadingPop>
         <FadeUp delay={1.1}>
           <p className="mt-8 text-lg leading-7 text-foreground md:text-xl">
-            What do you want your course to be about?
+            {t("promptInvite")}
           </p>
         </FadeUp>
         <FadeUp delay={1.2} className="mt-6 w-full max-w-2xl">

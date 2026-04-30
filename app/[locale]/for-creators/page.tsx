@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
@@ -9,15 +10,34 @@ import { GamificationStatsSection } from "@/components/home/gamification-stats-s
 import { EditableVisual } from "@/components/home/placeholder-visuals";
 import { ThemesShowcase } from "@/components/themes-showcase";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
+
 export const metadata: Metadata = {
   title:
     "For Content Creators — Turn your videos into gamified courses you can sell",
   description:
     "Vixi turns your Instagram reels, TikTok videos, podcasts, and YouTube content into interactive Duolingo-like courses you can sell directly to your audience — no editing skills required.",
-  alternates: { canonical: "/for-creators" },
+  alternates: {
+    canonical: `${SITE_URL}/for-creators`,
+    languages: {
+      en: `${SITE_URL}/for-creators`,
+      "x-default": `${SITE_URL}/for-creators`,
+    },
+  },
 };
 
-export default function ForCreatorsPage() {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function ForCreatorsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
 
   return (

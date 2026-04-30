@@ -227,6 +227,19 @@
 }
 
 
+/* Arabic locale: swap the Latin font stack for Cairo so Arabic glyphs
+   render with proper weight, joins, and rhythm. Cairo includes Latin
+   coverage so mixed text (URLs, brand names) stays consistent. */
+[lang="ar"] body,
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3,
+[lang="ar"] h4,
+[lang="ar"] h5,
+[lang="ar"] h6 {
+  font-family: var(--font-cairo), system-ui, sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
