@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ButtonGallery } from "@/components/anim/experiments/button-gallery";
 import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { EarlyAccessSection } from "@/components/home/early-access-section";
 import { FeatureRow } from "@/components/home/feature-row";
@@ -27,6 +28,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection appUrl={appUrl} />
+      <ButtonGallery />
       <HowItWorksSection />
       <PartnersSection />
 
