@@ -1,0 +1,60 @@
+export const metadata = {
+  title: "Behind the scenes: building a Pixar-like character generator",
+  description:
+    "How we turn a single photo into a 3D animated avatar that can teach in your voice, with your gestures, in any course.",
+  alternates: { canonical: "/blog/behind-the-scenes-3d-character-generator" },
+};
+
+# Behind the scenes: building a Pixar-like character generator
+
+When we tell people that Vixi can turn a single photo into a 3D animated character that teaches a course in your voice, the most common response is mild disbelief. So we want to show some of the work.
+
+This post walks through the four pieces that make it actually feel like *you* on screen — not a generic avatar with your face stuck on it.
+
+## 1. Identity-preserving stylization
+
+The first step is the easiest to get wrong. Most "stylize my photo" tools either change so much that it stops looking like you, or so little that it looks like a filter. Neither is acceptable for a course you're putting your name on.
+
+Our pipeline trains on a small batch of paired references — a real photo and an artist-styled equivalent — to learn the distance metric the artists actually care about: cheekbones, jaw line, hairline, eye spacing. Skin tone and hair color we let drift toward the stylized palette; identity landmarks we hold steady.
+
+The result: looking at the avatar, people who know you say "yes, that's clearly *you*."
+
+## 2. Rigging without manual work
+
+A character that doesn't move is a portrait, not an avatar. A character that moves badly is a meme. The bar for "moves convincingly" turns out to be lower than people expect, but only if you get a few things right:
+
+- **Anchor points.** Eyes, mouth, head tilt, eyebrows. Animate these well and the rest can be coarser.
+- **Microexpressions.** A blink every 4–6 seconds, a tiny head shift while thinking. Without these, the character looks dead between frames.
+- **Mouth shapes that match phonemes.** Not lip-sync as a special effect — phoneme-aware mouth shapes that fall out of the audio track automatically.
+
+We build this rig automatically from the stylized output. No manual rigging, no Blender skill required from the user.
+
+## 3. Voice cloning that respects you
+
+Voice is where we made the most product decisions. We chose to:
+
+- Clone from **30–60 seconds** of clean audio — enough for high quality, low enough that people will actually record it.
+- **Default to coaching, not announcing.** Course narration sounds best when it sounds like an explanation to a friend, not a TED talk. We bias the prosody that way.
+- Always disclose. Voice clones are powerful and easy to misuse. Our terms make consent and use-case explicit.
+
+The cloning model itself is a fine-tuned diffusion-based TTS. The harder problem isn't quality — it's getting prosody that fits *teaching*, which is a different speech register than read-aloud audiobook.
+
+## 4. The runtime engine that makes it cheap
+
+A high-quality animated character that costs $5 per minute to render isn't a product — it's a demo. To make this work at scale, the runtime had to be aggressive:
+
+- Pre-render facial primitives once per identity, then composite at runtime
+- Stream audio + animation tracks rather than rendering whole video files
+- Cache aggressively at the lesson-segment level (the same intro plays 1,000 times)
+
+The end result: a fully animated, voice-cloned course of 20 lessons costs roughly the same as a static video — but updates instantly when the script changes.
+
+## What's next
+
+We're working on:
+
+- **Multi-character scenes.** Two avatars in dialogue, switching between them.
+- **Real-time lip-sync from a teleprompter.** Type a correction, the next take regenerates in seconds.
+- **Brand-styled characters.** Match your brand palette and feel without retraining.
+
+If you want to see your course taught by your own avatar, [contact us](/contact) — we'll generate the character from a photo and you'll see the first lesson live within a couple of days.
