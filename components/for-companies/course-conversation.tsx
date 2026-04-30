@@ -60,7 +60,7 @@ export function CourseConversation() {
     <div
       ref={containerRef}
       id="bubble-experiment"
-      className="relative mx-auto w-full max-w-xl overflow-hidden rounded-3xl border border-border/60 bg-background shadow-[0_30px_80px_-40px_rgba(74,50,111,0.4)]"
+      className="relative mx-auto w-full max-w-md overflow-hidden rounded-3xl border border-border/60 bg-background shadow-[0_30px_80px_-40px_rgba(74,50,111,0.4)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -86,16 +86,16 @@ export function CourseConversation() {
       </div>
 
       {/* Conversation area */}
-      <div className="relative grid min-h-[360px] gap-5 px-4 pb-6 pt-4 md:min-h-[440px] md:gap-7 md:px-6">
+      <div className="relative grid min-h-[280px] gap-4 px-4 pb-5 pt-3 md:min-h-[320px] md:gap-5 md:px-5">
         {/* Educator on left */}
-        <div className="flex items-start gap-3 md:gap-4">
-          <div className="relative aspect-[2/3] w-24 shrink-0 md:w-36 lg:w-40">
+        <div className="flex items-start gap-3">
+          <div className="relative aspect-[2/3] w-20 shrink-0 md:w-24">
             <Image
               src="/mockups/conversation/educator.png"
               alt="Educator"
               fill
               className="object-contain"
-              sizes="(min-width: 1024px) 160px, (min-width: 768px) 144px, 96px"
+              sizes="(min-width: 768px) 96px, 80px"
               priority
             />
           </div>
@@ -109,14 +109,14 @@ export function CourseConversation() {
         </div>
 
         {/* Vixi on right */}
-        <div className="flex flex-row-reverse items-start gap-3 md:gap-4">
-          <div className="relative aspect-[2/3] w-24 shrink-0 md:w-36 lg:w-40">
+        <div className="flex flex-row-reverse items-start gap-3">
+          <div className="relative aspect-[2/3] w-20 shrink-0 md:w-24">
             <Image
               src="/mockups/conversation/vixi.png"
               alt="Vixi mascot"
               fill
               className="object-contain"
-              sizes="(min-width: 1024px) 160px, (min-width: 768px) 144px, 96px"
+              sizes="(min-width: 768px) 96px, 80px"
             />
           </div>
           <ConversationBubbleExperiment

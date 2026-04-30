@@ -70,9 +70,9 @@ interface VariantStyle {
 }
 
 const STYLES: Record<BubbleVariant, VariantStyle> = {
-  // V1 — Cream soft (current baseline)
+  // V1 — White card, soft orange ring, prominent white tail
   v1: {
-    body: "rounded-3xl rounded-tl-md border border-secondary/30 bg-[#fff5e8] shadow-sm",
+    body: "rounded-3xl rounded-tl-md border border-secondary/35 bg-background shadow-sm",
     rightBodyExtra: "rounded-tl-3xl rounded-tr-md",
   },
   // V2 — Paper outlined with hand-drawn line tail
@@ -102,16 +102,26 @@ function Tail({
   side: "left" | "right";
 }) {
   if (variant === "v1") {
+    // Bigger SVG tail — white fill, soft orange outline, visible against
+    // the white course-screen card without re-introducing an orange tint.
     return (
-      <span
+      <svg
         aria-hidden
+        viewBox="0 0 14 22"
         className={cn(
-          "absolute top-4 h-0 w-0 border-y-8 border-y-transparent",
-          side === "left"
-            ? "-left-2 border-r-8 border-r-[#fff5e8]"
-            : "-right-2 border-l-8 border-l-[#fff5e8]",
+          "absolute top-3.5 h-[22px] w-[14px]",
+          side === "left" ? "-left-3" : "-right-3 -scale-x-100",
         )}
-      />
+      >
+        <path
+          d="M14 1 L 1 11 L 14 21"
+          fill="rgb(255 255 255)"
+          stroke="rgb(255 164 44 / 0.55)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
+      </svg>
     );
   }
   if (variant === "v2") {
