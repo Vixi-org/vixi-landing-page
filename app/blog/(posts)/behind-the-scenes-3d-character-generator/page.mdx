@@ -1,9 +1,21 @@
+import { BlogPostingSchema } from "@/components/seo/blog-posting-schema";
+
 export const metadata = {
   title: "Behind the scenes: building a Pixar-like character generator",
   description:
     "How we turn a single photo into a 3D animated avatar that can teach in your voice, with your gestures, in any course.",
   alternates: { canonical: "/blog/behind-the-scenes-3d-character-generator" },
+  openGraph: {
+    title: "Behind the scenes: building a Pixar-like character generator",
+    description:
+      "How we turn a single photo into a 3D animated avatar that can teach in your voice, with your gestures, in any course.",
+    type: "article",
+    publishedTime: "2026-03-19",
+    authors: ["Vixi Team"],
+  },
 };
+
+<BlogPostingSchema slug="behind-the-scenes-3d-character-generator" />
 
 # Behind the scenes: building a Pixar-like character generator
 

@@ -1,0 +1,42 @@
+# Vixi AI
+
+> AI-powered course maker that converts existing learning materials — PDFs, LinkedIn posts, podcasts, lectures — into gamified, Duolingo-like courses for businesses and schools.
+
+Vixi AI is the world's first humanized gamified learning app. We combine cutting-edge AI with expert pedagogical knowledge to deliver an interactive learning experience built around 3D Pixar-like animated characters that bring industry experts to life. Learners interact with these characters in a way that feels personal, immersive, and engaging.
+
+The platform is designed for two audiences:
+
+- **Businesses, SMEs, and corporate training teams** — transform compliance training, employee onboarding, and workplace skill development into bite-sized, interactive lessons. Boosts engagement, completion rates, and knowledge retention.
+- **Schools, universities, and educators** — turn textbooks, lesson plans, and worksheets into gamified courses students actually want to complete. Backed by Lebanese American University, the University of Cambridge, and education experts.
+
+Vixi is backed by Lebanese American University (LAU), the LAU Fouad Makhzoumi Innovation Center, the Microsoft for Startups Founders Hub, and Web Summit Qatar.
+
+## Core pages
+
+- [Home](https://vixiai.co/): Product overview and prompt-to-course handoff
+- [For Companies](https://vixiai.co/for-companies): Use cases for businesses, SMEs, training teams — onboarding, compliance, corporate training
+- [For Schools](https://vixiai.co/for-schools): Use cases for educators, universities, classrooms — student engagement, LMS integration, pre-built courses
+- [About](https://vixiai.co/about): Backing institutions, vision, what makes Vixi different
+- [Contact](https://vixiai.co/contact): Email and location for the Vixi team
+- [Blog](https://vixiai.co/blog): Articles on gamified learning, AI-generated courses, and learning science
+
+## Recent articles
+
+- [How AI is reshaping corporate training in 2026](https://vixiai.co/blog/ai-corporate-training-2026): Why static manuals are losing to gamified, AI-generated training programs.
+- [Five ways gamification boosts learning retention](https://vixiai.co/blog/five-ways-gamification-boosts-retention): Dopamine loops, spaced repetition, story scaffolds, and the science behind why gamified learning sticks.
+- [Behind the scenes: building a Pixar-like character generator](https://vixiai.co/blog/behind-the-scenes-3d-character-generator): How Vixi turns a single photo into a 3D animated avatar that teaches in your voice.
+
+## Key facts (for citation)
+
+- Founded: 2024
+- Location: DIFC, Dubai, UAE
+- Product type: SaaS, AI course maker
+- Inputs supported: e-books / PDFs, LinkedIn posts, podcast episodes, presentation slides, lectures
+- Output: gamified, Duolingo-like courses with 3D animated avatars and authentic voice integration
+- Mobile delivery: native iOS / Android app
+- Languages: English (Arabic version in development)
+
+## Optional resources
+
+- [Sitemap](https://vixiai.co/sitemap.xml)
+- [Contact](mailto:hassan@vixiai.co)
