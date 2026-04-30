@@ -8,10 +8,8 @@ import { CoursesCarousel, type Course } from "@/components/courses-carousel";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { MobileSection } from "@/components/home/mobile-section";
-import {
-  EditableVisual,
-  ThemesVisual,
-} from "@/components/home/placeholder-visuals";
+import { EditableVisual } from "@/components/home/placeholder-visuals";
+import { ThemesShowcase } from "@/components/themes-showcase";
 
 const SCHOOL_COURSES: Course[] = [
   {
@@ -121,7 +119,7 @@ export default function ForSchoolsPage() {
         ]}
         ctaLabel="See a demo"
         ctaHref="/contact"
-        visual={<ThemesVisual />}
+        visual={<ThemesShowcase />}
       />
 
       <FeatureRow

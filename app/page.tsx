@@ -10,9 +10,9 @@ import { MobileSection } from "@/components/home/mobile-section";
 import { PartnersSection } from "@/components/home/partners-section";
 import {
   EditableVisual,
-  ThemesVisual,
   VoiceVisual,
 } from "@/components/home/placeholder-visuals";
+import { ThemesShowcase } from "@/components/themes-showcase";
 
 export const metadata: Metadata = {
   title: "Vixi AI — Create Duolingo-like courses in minutes",
@@ -111,7 +111,7 @@ export default function HomePage() {
           "Select custom backgrounds, icons, and animations that resonate with your audience",
         ]}
         ctaHref="/"
-        visual={<ThemesVisual />}
+        visual={<ThemesShowcase />}
       />
 
       <MobileSection />

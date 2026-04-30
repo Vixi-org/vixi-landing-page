@@ -1,4 +1,4 @@
-import { BookOpen, Edit3, Mic, Palette, Sparkles, Volume2 } from "lucide-react";
+import { BookOpen, Edit3, Mic, Volume2 } from "lucide-react";
 
 /**
  * Stylized placeholder visuals for sections where the original
@@ -83,44 +83,6 @@ export function EditableVisual() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-export function ThemesVisual() {
-  const themes = [
-    { name: "Roadmap", from: "from-emerald-300", to: "to-emerald-500" },
-    { name: "Jungle", from: "from-yellow-300", to: "to-orange-400" },
-    { name: "Ocean", from: "from-sky-300", to: "to-indigo-500" },
-    { name: "Quiz", from: "from-fuchsia-300", to: "to-purple-500" },
-  ];
-  return (
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-background via-muted/20 to-background p-8 shadow-[0_30px_80px_-40px_rgba(74,50,111,0.25)]">
-      <div className="grid h-full grid-cols-2 grid-rows-2 gap-4">
-        {themes.map((theme, i) => (
-          <div
-            key={theme.name}
-            className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${theme.from} ${theme.to} p-4 text-white shadow-md transition-transform ${
-              i === 0 ? "rotate-[-2deg]" : i === 1 ? "rotate-[1deg]" : i === 2 ? "rotate-[1deg]" : "rotate-[-1deg]"
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              <Palette className="size-4" aria-hidden />
-              <span className="text-xs font-semibold uppercase tracking-wider">
-                {theme.name}
-              </span>
-            </div>
-            <div className="mt-3 space-y-1.5">
-              <span className="block h-1.5 w-3/4 rounded-full bg-white/70" />
-              <span className="block h-1.5 w-1/2 rounded-full bg-white/50" />
-              <span className="block h-1.5 w-2/3 rounded-full bg-white/40" />
-            </div>
-            <div className="absolute right-3 bottom-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
-              <Sparkles className="size-4" aria-hidden />
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

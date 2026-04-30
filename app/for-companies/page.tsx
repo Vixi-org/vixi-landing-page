@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
-import { ThemesShowcaseExperiment } from "@/components/anim/experiments/themes-showcase-experiment";
-import { ThemesShowcaseSwitcher } from "@/components/anim/experiments/themes-showcase-switcher";
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { CoursesCarousel } from "@/components/courses-carousel";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
@@ -12,6 +9,7 @@ import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { MobileSection } from "@/components/home/mobile-section";
 import { EditableVisual } from "@/components/home/placeholder-visuals";
+import { ThemesShowcase } from "@/components/themes-showcase";
 
 export const metadata: Metadata = {
   title: "For Companies — AI-powered gamified learning for employees",
@@ -118,30 +116,24 @@ export default function ForCompaniesPage() {
       <TeachersCarousel />
       <ConversationalSection />
 
-      <div id="themes-showcase">
-        <FeatureRow
-          eyebrow="Make it yours"
-          heading={
-            <>
-              Fully Customizable
-              <br />
-              Course Themes
-            </>
-          }
-          body="Every course is unique, and now its theme can be too! Our platform allows you to fully customize the look and feel of your gamified course inside the app, ensuring that the learning experience is visually aligned with your subject matter."
-          bullets={[
-            "A theme that automatically adapts to match the subject",
-            "Select custom backgrounds, icons, and animations that resonate with your audience",
-          ]}
-          ctaLabel="See a demo"
-          ctaHref="/contact"
-          visual={
-            <Suspense fallback={null}>
-              <ThemesShowcaseExperiment />
-            </Suspense>
-          }
-        />
-      </div>
+      <FeatureRow
+        eyebrow="Make it yours"
+        heading={
+          <>
+            Fully Customizable
+            <br />
+            Course Themes
+          </>
+        }
+        body="Every course is unique, and now its theme can be too! Our platform allows you to fully customize the look and feel of your gamified course inside the app, ensuring that the learning experience is visually aligned with your subject matter."
+        bullets={[
+          "A theme that automatically adapts to match the subject",
+          "Select custom backgrounds, icons, and animations that resonate with your audience",
+        ]}
+        ctaLabel="See a demo"
+        ctaHref="/contact"
+        visual={<ThemesShowcase />}
+      />
 
       <FeatureRow
         eyebrow="Edit your course"
@@ -161,10 +153,6 @@ export default function ForCompaniesPage() {
 
       <MobileSection ctaLabel="Explore the mobile app" ctaHref="/contact" />
       <CtaBanner appUrl={appUrl} />
-
-      <Suspense fallback={null}>
-        <ThemesShowcaseSwitcher />
-      </Suspense>
     </>
   );
 }
