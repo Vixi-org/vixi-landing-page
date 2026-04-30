@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
@@ -61,14 +62,33 @@ const SCHOOL_COURSES: Course[] = [
 const SCHOOL_COURSES_BODY =
   "We have created a collection of courses specialized to teach students the skills they need in 21st century. You can choose to offer some of these courses to your students along with the courses you may create yourself.";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
+
 export const metadata: Metadata = {
   title: "For Schools — AI-powered gamified learning for classrooms",
   description:
     "Engage students, empower teachers, and revolutionize education with AI-powered gamified learning. Seamlessly integrate with your school's LMS.",
-  alternates: { canonical: "/for-schools" },
+  alternates: {
+    canonical: `${SITE_URL}/for-schools`,
+    languages: {
+      en: `${SITE_URL}/for-schools`,
+      "x-default": `${SITE_URL}/for-schools`,
+    },
+  },
 };
 
-export default function ForSchoolsPage() {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function ForSchoolsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
 
   return (

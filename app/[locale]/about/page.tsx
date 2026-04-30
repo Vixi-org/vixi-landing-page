@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 
 import { UniversitiesSection } from "@/components/about/universities-section";
 import { FadeUp } from "@/components/anim/fade-up";
@@ -6,14 +7,33 @@ import { HeadingPop } from "@/components/anim/heading-pop";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
 import { PageBanner } from "@/components/page-banner";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
+
 export const metadata: Metadata = {
   title: "About Vixi — Backed by top universities and education experts",
   description:
     "Vixi AI is the world's first humanized gamified learning app, supported by Lebanese American University, the University of Cambridge, and leading education experts.",
-  alternates: { canonical: "/about" },
+  alternates: {
+    canonical: `${SITE_URL}/about`,
+    languages: {
+      en: `${SITE_URL}/about`,
+      "x-default": `${SITE_URL}/about`,
+    },
+  },
 };
 
-export default function AboutPage() {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
 
   return (

@@ -1,20 +1,40 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { PageBanner } from "@/components/page-banner";
 import { formatPostDate, posts } from "@/lib/posts";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
+
 export const metadata: Metadata = {
   title: "Blog — Vixi AI",
   description:
     "Field notes from the Vixi team — on gamified learning, AI-generated courses, and the science behind making training stick.",
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: `${SITE_URL}/blog`,
+    languages: {
+      en: `${SITE_URL}/blog`,
+      "x-default": `${SITE_URL}/blog`,
+    },
+  },
 };
 
-export default function BlogIndexPage() {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function BlogIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const [featured, ...rest] = posts;
 
   return (

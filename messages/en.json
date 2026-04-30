@@ -1,0 +1,177 @@
+{
+  "common": {
+    "seeADemo": "See a demo",
+    "bookADemo": "Book a demo",
+    "startFreeTrial": "Start free trial",
+    "createCourse": "Create your Duolingo-like course",
+    "exploreApp": "Explore the mobile app",
+    "scheduleDemo": "Schedule a demo",
+    "login": "Login",
+    "noCardsRequired": "No cards required",
+    "thirtyDayFreeTrial": "30 day free trial",
+    "generatingCourse": "Generating…",
+    "generateCourse": "Generate course"
+  },
+  "nav": {
+    "home": "Home",
+    "forCompanies": "For Companies",
+    "forSchools": "For Schools",
+    "forCreators": "For Creators",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "openMenu": "Open menu"
+  },
+  "footer": {
+    "tagline": "Vixi AI allows people to transform their knowledge into gamified Duolingo-like courses in no time!",
+    "company": "Company",
+    "links": {
+      "about": "About",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    },
+    "copyright": "Copyright © {year}, Vixi AI. All Rights Reserved.",
+    "social": {
+      "linkedin": "LinkedIn",
+      "instagram": "Instagram",
+      "x": "X"
+    }
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "en": "English",
+    "ar": "العربية"
+  },
+  "metadata": {
+    "root": {
+      "title": "Vixi AI — Personalised AI-generated courses",
+      "description": "Vixi AI generates personalised, structured learning courses on any topic, in minutes. Type a prompt and start learning."
+    },
+    "home": {
+      "title": "Vixi AI — Create Duolingo-like courses in minutes",
+      "description": "Upload your PDFs, LinkedIn posts, podcasts, or lectures. Vixi's AI instantly converts them into interactive, bite-sized, Duolingo-like courses."
+    },
+    "forCompanies": {
+      "title": "For Companies — AI-powered gamified learning for employees",
+      "description": "Vixi's AI-powered course maker for businesses, SMEs, and training teams. Transform compliance, onboarding, and corporate training into engaging Duolingo-like courses."
+    },
+    "forSchools": {
+      "title": "For Schools — AI-powered gamified learning for classrooms",
+      "description": "Engage students, empower teachers, and revolutionize education with AI-powered gamified learning. Seamlessly integrate with your school's LMS."
+    },
+    "forCreators": {
+      "title": "For Content Creators — Turn your videos into gamified courses you can sell",
+      "description": "Vixi turns your Instagram reels, TikTok videos, podcasts, and YouTube content into interactive Duolingo-like courses you can sell directly to your audience — no editing skills required."
+    },
+    "about": {
+      "title": "About Vixi — Backed by top universities and education experts",
+      "description": "Vixi AI is the world's first humanized gamified learning app, supported by Lebanese American University, the University of Cambridge, and leading education experts."
+    },
+    "contact": {
+      "title": "Contact Vixi AI",
+      "description": "Get in touch with the Vixi AI team in DIFC, Dubai. Email hassan@vixiai.co or schedule a demo."
+    },
+    "blog": {
+      "title": "Blog — Vixi AI",
+      "description": "Field notes from the Vixi team — on gamified learning, AI-generated courses, and the science behind making training stick."
+    }
+  },
+  "pageBanner": {
+    "home": "Home"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "#1 AI to publish gamified courses",
+      "title": {
+        "main": "Create your Duolingo-like courses,",
+        "highlight": "in minutes"
+      },
+      "promptInvite": "What do you want your course to be about?",
+      "promptAriaLabel": "Course prompt",
+      "samples": [
+        "Teach digital marketing fundamentals to junior marketers",
+        "A cybersecurity awareness course for marketing teams",
+        "Onboarding new hires at a fast-growing fintech startup",
+        "Spanish phrases for travelers heading to Mexico",
+        "Intro to machine learning for product managers",
+        "Sales playbook for B2B SaaS account executives"
+      ]
+    },
+    "partners": {
+      "heading": "Backed & supported by"
+    },
+    "transform": {
+      "eyebrow": "Learn More About Us",
+      "headingLine1": "Transform your knowledge",
+      "headingLine2": "into gamified courses",
+      "body": "Effortlessly turn traditional materials into dynamic, gamified courses that boost learner engagement. Our cutting-edge AI takes static content, whether an e-book, podcast, or lecture, and intelligently restructures it into a highly engaging, gamified course.",
+      "imageAlt": "Books, LinkedIn content, and presentation slides flowing into a gamified phone-based course"
+    },
+    "avatar": {
+      "eyebrow": "Learn More About Us",
+      "headingLine1": "Turn yourself into an",
+      "headingLine2": "animated character",
+      "body": "Bring your teaching to life with a 3D animated avatar that mirrors your appearance, making your presence truly felt in the course. Simply upload a picture, and our AI generates a Pixar-like digital character with natural facial expressions, gestures, and animations.",
+      "bullets": [
+        "Upload a picture of you",
+        "Our AI model generates your character",
+        "Use this character inside your gamified course"
+      ],
+      "imageAlt": "Vixi avatar gallery showing several stylized 3D characters"
+    },
+    "voice": {
+      "eyebrow": "Optimize learning",
+      "headingLine1": "Authentic Voice",
+      "headingLine2": "Integration",
+      "body": "Our AI replicates your voice and integrates your signature phrases, tone, and speaking style into the lessons. Learners will hear familiar explanations, making the experience feel more immersive, relatable, and engaging — just like having you in the room with them."
+    },
+    "editable": {
+      "eyebrow": "Edit your course",
+      "headingLine1": "Fully editable",
+      "headingLine2": "material",
+      "body": "Our AI-generated courses provide a strong foundation, but you have the freedom to shape the learning experience exactly as you envision it. With our intuitive authoring tool, you can add, remove, or restructure content seamlessly, ensuring the course reflects your expertise and teaching style.",
+      "bullets": [
+        "Insert additional learning material",
+        "Delete unnecessary sections",
+        "Rearrange course structure"
+      ]
+    },
+    "themes": {
+      "eyebrow": "Make it yours",
+      "headingLine1": "Fully Customizable",
+      "headingLine2": "Course Themes",
+      "body": "Every course is unique, and now its theme can be too! Our platform allows you to fully customize the look and feel of your gamified course inside the app, ensuring that the learning experience is visually aligned with your subject matter.",
+      "bullets": [
+        "A theme that automatically adapts to match the subject",
+        "Select custom backgrounds, icons, and animations that resonate with your audience"
+      ]
+    },
+    "buildPrompt": {
+      "heading": "Ready to build your course?",
+      "invite": "Describe what you want to teach — we'll turn it into a gamified course."
+    }
+  },
+  "gamificationStats": {
+    "eyebrow": "A question to be asked…",
+    "heading": "Why gamified learning?",
+    "body": "Static learning methods fail to sustain engagement and retention, leading to passive learning and low completion rates. Gamified learning, backed by cognitive science, transforms education into an interactive, immersive experience that drives real results.",
+    "stats": {
+      "engagement": {
+        "title": "Increased Engagement",
+        "body": "According to a study by TalentLMS, 83% of learners felt more motivated to engage with gamified content, leading to higher levels of participation and interaction."
+      },
+      "completion": {
+        "title": "Enhanced Completion Rates",
+        "body": "Studies reveal that completion rates can increase by as much as 90% when gamified elements are integrated into the learning process. (TalentLMS)"
+      },
+      "experience": {
+        "title": "Positive Learning Experience",
+        "body": "A survey conducted by TalentLMS found that 61% of employees would be more likely to engage in learning if it were gamified, because they enjoy it more."
+      },
+      "retention": {
+        "title": "Better Retention Rates",
+        "body": "Incorporating gamification elements into learning experiences has been found to improve information retention rates by up to 9 times compared to traditional methods."
+      }
+    }
+  }
+}

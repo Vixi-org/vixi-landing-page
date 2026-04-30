@@ -2,23 +2,27 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Menu } from "lucide-react";
+import { useTranslations } from "next-intl";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/for-companies", label: "For Companies" },
-  { href: "/for-schools", label: "For Schools" },
-  { href: "/for-creators", label: "For Creators" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-];
+  { href: "/", labelKey: "home" },
+  { href: "/for-companies", labelKey: "forCompanies" },
+  { href: "/for-schools", labelKey: "forSchools" },
+  { href: "/for-creators", labelKey: "forCreators" },
+  { href: "/about", labelKey: "about" },
+  { href: "/blog", labelKey: "blog" },
+  { href: "/contact", labelKey: "contact" },
+] as const;
 
 export function SiteHeader() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -48,40 +52,41 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex lg:gap-7">
+        <nav className="hidden items-center gap-5 md:flex lg:gap-6">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-card-foreground transition-colors hover:text-secondary aria-[current=page]:text-secondary"
             >
-              {link.label}
+              {tNav(link.labelKey)}
             </Link>
           ))}
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <LanguageSwitcher />
           <Button
             asChild
             variant="outline"
             className="h-10 rounded-full border-2 border-secondary px-5 text-sm font-semibold text-secondary hover:bg-secondary hover:text-secondary-foreground"
           >
-            <a href={`${appUrl}/login`}>Login</a>
+            <a href={`${appUrl}/login`}>{tCommon("login")}</a>
           </Button>
           <Button
             asChild
             className="h-10 rounded-full bg-secondary px-5 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
           >
-            <a href={`${appUrl}/signup`}>See a demo</a>
+            <a href={`${appUrl}/signup`}>{tCommon("seeADemo")}</a>
           </Button>
         </div>
 
         <details className="relative md:hidden">
           <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg text-primary hover:bg-muted [&::-webkit-details-marker]:hidden">
             <Menu className="size-5" aria-hidden />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{tNav("openMenu")}</span>
           </summary>
-          <div className="absolute right-0 mt-2 w-56 rounded-lg border border-border bg-background p-2 shadow-lg">
+          <div className="absolute end-0 mt-2 w-56 rounded-lg border border-border bg-background p-2 shadow-lg">
             <ul className="flex flex-col">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
@@ -89,24 +94,25 @@ export function SiteHeader() {
                     href={link.href}
                     className="block rounded-md px-3 py-2 text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
                   >
-                    {link.label}
+                    {tNav(link.labelKey)}
                   </Link>
                 </li>
               ))}
             </ul>
             <div className="mt-1 flex flex-col gap-2 border-t border-border pt-2">
+              <LanguageSwitcher className="self-start" />
               <Button
                 asChild
                 variant="outline"
                 className="rounded-full border-2 border-secondary text-secondary"
               >
-                <a href={`${appUrl}/login`}>Login</a>
+                <a href={`${appUrl}/login`}>{tCommon("login")}</a>
               </Button>
               <Button
                 asChild
                 className="rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
               >
-                <a href={`${appUrl}/signup`}>See a demo</a>
+                <a href={`${appUrl}/signup`}>{tCommon("seeADemo")}</a>
               </Button>
             </div>
           </div>

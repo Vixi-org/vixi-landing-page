@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
@@ -10,7 +11,8 @@ const PARTNERS = [
   { src: "/partners/lau.png", alt: "Lebanese American University" },
 ];
 
-export function PartnersSection() {
+export async function PartnersSection() {
+  const t = await getTranslations("home.partners");
   return (
     <section className="bg-background pt-16 pb-9 md:pt-20 md:pb-10" aria-labelledby="partners-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
@@ -19,7 +21,7 @@ export function PartnersSection() {
           id="partners-heading"
           className="text-center text-2xl font-semibold text-card-foreground md:text-3xl"
         >
-          Backed &amp; supported by
+          {t("heading")}
         </HeadingPop>
         <ul className="mt-12 grid grid-cols-2 items-center justify-items-center gap-10 md:grid-cols-4 md:gap-14">
           {PARTNERS.map((partner, index) => (

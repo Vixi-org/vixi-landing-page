@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { CoursesCarousel } from "@/components/courses-carousel";
@@ -10,14 +11,33 @@ import { GamificationStatsSection } from "@/components/home/gamification-stats-s
 import { EditableVisual } from "@/components/home/placeholder-visuals";
 import { ThemesShowcase } from "@/components/themes-showcase";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
+
 export const metadata: Metadata = {
   title: "For Companies — AI-powered gamified learning for employees",
   description:
     "Vixi's AI-powered course maker for businesses, SMEs, and training teams. Transform compliance, onboarding, and corporate training into engaging Duolingo-like courses.",
-  alternates: { canonical: "/for-companies" },
+  alternates: {
+    canonical: `${SITE_URL}/for-companies`,
+    languages: {
+      en: `${SITE_URL}/for-companies`,
+      "x-default": `${SITE_URL}/for-companies`,
+    },
+  },
 };
 
-export default function ForCompaniesPage() {
+export function generateStaticParams() {
+  return [{ locale: "en" }];
+}
+
+export default async function ForCompaniesPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
 
   return (
