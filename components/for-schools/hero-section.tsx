@@ -1,19 +1,22 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { HeroVisual } from "@/components/for-schools/hero-visual";
+import { Link } from "@/i18n/navigation";
 import { Cta } from "@/components/ui/cta";
 
 interface HeroSectionProps {
   appUrl: string;
 }
 
-export function HeroSection({ appUrl }: HeroSectionProps) {
+export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
+  const t = await getTranslations("forSchools.hero");
+  const tCommon = await getTranslations("common");
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-[#fdf6f0] to-muted/30 pt-36 pb-24 md:pt-40 md:pb-28">
-      {/* scattered decorative dots — denser than home / for-companies, kid-friendly vibe */}
       <FloatingDot
         className="absolute right-[24%] top-[12%] h-3 w-3 rounded-full bg-pink-400/80"
         amplitude={12}
@@ -68,21 +71,18 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             as="h1"
             className="text-[2.025rem] font-semibold leading-[1.1] text-primary md:text-[3.375rem]"
           >
-            AI-Powered
+            {t("title.line1")}
             <br />
-            <span className="whitespace-nowrap">Gamified Learning</span>
+            <span className="whitespace-nowrap">{t("title.line2")}</span>
             <br />
-            for Schools
+            {t("title.line3")}
           </HeadingPop>
           <FadeUp delay={0.95}>
             <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
-              Engage students, empower teachers, and revolutionize education
-              with AI-powered gamified learning. Seamlessly integrate with your
-              school&apos;s LMS and bring interactive, fun, and personalized
-              learning to your classrooms!
+              {t("body")}
             </p>
             <Cta asChild className="mt-8">
-              <Link href="/contact">See a demo</Link>
+              <Link href="/contact">{tCommon("seeADemo")}</Link>
             </Cta>
           </FadeUp>
         </div>

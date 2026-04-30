@@ -1,10 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Check } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Cta } from "@/components/ui/cta";
 
@@ -12,7 +13,10 @@ interface HeroSectionProps {
   appUrl: string;
 }
 
-export function HeroSection({ appUrl }: HeroSectionProps) {
+export async function HeroSection({ appUrl }: HeroSectionProps) {
+  const t = await getTranslations("forCreators.hero");
+  const tCommon = await getTranslations("common");
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-[#fdf6f0] via-background to-muted/40 pt-36 pb-20 md:pt-40 md:pb-28">
       <FloatingDot
@@ -45,50 +49,47 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             as="h1"
             className="text-[2.025rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.375rem]"
           >
-            AI-Powered
+            {t("title.line1")}
             <br />
-            Gamified
+            {t("title.line2")}
             <br />
-            Courses for
+            {t("title.line3")}
             <br />
-            <span className="text-primary">creators</span>
+            <span className="text-primary">{t("title.line4Highlight")}</span>
           </HeadingPop>
           <FadeUp delay={0.95}>
             <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
-              Vixi turns your reels, TikToks, podcasts, and YouTube videos into
-              Duolingo-like courses you can sell directly to your audience —
-              no editing skills required.
+              {t("body")}
             </p>
             <div className="mt-7 flex flex-col gap-4 text-sm text-card-foreground sm:flex-row sm:items-center sm:gap-7">
               <span className="inline-flex items-center gap-2">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-secondary text-secondary">
                   <Check className="size-3" strokeWidth={3} aria-hidden />
                 </span>
-                Sell to your fans
+                {t("sellToFans")}
               </span>
               <span className="inline-flex items-center gap-2">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-secondary text-secondary">
                   <Check className="size-3" strokeWidth={3} aria-hidden />
                 </span>
-                30 day free trial
+                {tCommon("thirtyDayFreeTrial")}
               </span>
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
               <Cta asChild>
-                <a href={`${appUrl}/signup`}>Start free trial</a>
+                <a href={`${appUrl}/signup`}>{tCommon("startFreeTrial")}</a>
               </Cta>
               <Button
                 asChild
                 variant="outline"
                 className="h-11 rounded-full border-2 border-primary bg-transparent px-6 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
               >
-                <Link href="/contact">Book a demo</Link>
+                <Link href="/contact">{tCommon("bookADemo")}</Link>
               </Button>
             </div>
           </FadeUp>
         </div>
 
-        {/* Laptop mockup with the source picker */}
         <FadeUp delay={0.3} className="relative">
           <div className="rounded-t-2xl bg-card-foreground p-3 shadow-2xl">
             <div className="overflow-hidden rounded-xl bg-background">

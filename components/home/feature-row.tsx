@@ -1,9 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Check } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { Link } from "@/i18n/navigation";
 import { Cta } from "@/components/ui/cta";
 
 export interface FeatureRowProps {
@@ -20,12 +21,12 @@ export interface FeatureRowProps {
   background?: "light" | "tint";
 }
 
-export function FeatureRow({
+export async function FeatureRow({
   eyebrow,
   heading,
   body,
   bullets,
-  ctaLabel = "Create your Duolingo-like course",
+  ctaLabel,
   ctaHref,
   imageSrc,
   imageAlt,
@@ -33,6 +34,9 @@ export function FeatureRow({
   reverse = false,
   background = "light",
 }: FeatureRowProps) {
+  const tCommon = await getTranslations("common");
+  const finalCtaLabel = ctaLabel ?? tCommon("createCourse");
+
   const bgClass =
     background === "tint"
       ? "bg-gradient-to-b from-muted/30 via-background to-background"
@@ -79,7 +83,7 @@ export function FeatureRow({
 
               {ctaHref && (
                 <Cta asChild className="mt-8">
-                  <Link href={ctaHref}>{ctaLabel}</Link>
+                  <Link href={ctaHref}>{finalCtaLabel}</Link>
                 </Cta>
               )}
             </FadeUp>
