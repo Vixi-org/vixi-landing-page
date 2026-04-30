@@ -93,6 +93,10 @@ The intended protection set, ready to apply when unblocked, is the same on both 
 - Require linear history
 - Allowed merge methods: squash only
 
+## Authoring guides
+
+- **[Publishing a new blog post](docs/publishing-a-blog-post.md)** — end-to-end walkthrough with SEO best practices baked in. Use this when adding a new article to `/blog`.
+
 ## Build order
 
 Documented in [`_reference/PROJECT-BRIEF.md`](_reference/PROJECT-BRIEF.md). Brief snapshot:
