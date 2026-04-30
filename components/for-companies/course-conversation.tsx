@@ -1,11 +1,10 @@
 "use client";
 
-import { useInView, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { Heart, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
-import { ConversationBubbleExperiment } from "@/components/anim/experiments/conversation-bubble-experiment";
 import { cn } from "@/lib/utils";
 
 interface Turn {
@@ -99,13 +98,13 @@ export function CourseConversation() {
               priority
             />
           </div>
-          <ConversationBubbleExperiment
+          <SpeechBubble
             side="left"
             stepKey={`e-${step}`}
             reduced={!!reduced}
           >
             {turn.educator}
-          </ConversationBubbleExperiment>
+          </SpeechBubble>
         </div>
 
         {/* Vixi on right */}
@@ -119,13 +118,13 @@ export function CourseConversation() {
               sizes="(min-width: 768px) 96px, 80px"
             />
           </div>
-          <ConversationBubbleExperiment
+          <SpeechBubble
             side="right"
             stepKey={`v-${step}`}
             reduced={!!reduced}
           >
             {turn.vixi}
-          </ConversationBubbleExperiment>
+          </SpeechBubble>
         </div>
       </div>
 
@@ -196,6 +195,63 @@ function ProgressDots({
           )}
         </div>
       ))}
+    </div>
+  );
+}
+
+function SpeechBubble({
+  children,
+  side,
+  stepKey,
+  reduced,
+}: {
+  children: ReactNode;
+  side: "left" | "right";
+  stepKey: string;
+  reduced: boolean;
+}) {
+  return (
+    <div className="relative min-h-[64px] flex-1">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={stepKey}
+          initial={
+            reduced
+              ? { opacity: 0 }
+              : { opacity: 0, x: side === "left" ? -10 : 10, y: 6 }
+          }
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={
+            reduced
+              ? { opacity: 0 }
+              : { opacity: 0, x: side === "left" ? 10 : -10, y: -6 }
+          }
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className={cn(
+            "relative rounded-3xl border border-secondary/35 bg-background px-4 py-3 text-sm leading-6 text-card-foreground shadow-sm md:px-5 md:py-4 md:text-base",
+            side === "left" ? "rounded-tl-md" : "rounded-tr-md",
+          )}
+        >
+          {children}
+          <svg
+            aria-hidden
+            viewBox="0 0 14 22"
+            className={cn(
+              "absolute top-3.5 h-[22px] w-[14px]",
+              side === "left" ? "-left-3" : "-right-3 -scale-x-100",
+            )}
+          >
+            <path
+              d="M14 1 L 1 11 L 14 21"
+              fill="rgb(255 255 255)"
+              stroke="rgb(255 164 44 / 0.55)"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+            />
+          </svg>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

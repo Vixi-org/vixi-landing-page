@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
-import { ConversationBubbleSwitcher } from "@/components/anim/experiments/conversation-bubble-switcher";
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { CoursesCarousel } from "@/components/courses-carousel";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
@@ -155,10 +153,6 @@ export default function ForCompaniesPage() {
 
       <MobileSection ctaLabel="Explore the mobile app" ctaHref="/contact" />
       <CtaBanner appUrl={appUrl} />
-
-      <Suspense fallback={null}>
-        <ConversationBubbleSwitcher />
-      </Suspense>
     </>
   );
 }
