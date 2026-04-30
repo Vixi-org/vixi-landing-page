@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 const PHONES = [
   {
@@ -45,12 +45,9 @@ export function ConversationalSection() {
                 dialogues and role-play scenarios, keeping students engaged while
                 learning core concepts.
               </p>
-              <Button
-                asChild
-                className="mt-8 h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-              >
+              <Cta asChild className="mt-8">
                 <Link href="/contact">See a demo</Link>
-              </Button>
+              </Cta>
             </FadeUp>
           </div>
 

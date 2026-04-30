@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 export function DemoCtaSection() {
   return (
@@ -25,12 +25,9 @@ export function DemoCtaSection() {
             <p className="mt-5 text-base leading-7 text-foreground md:text-lg">
               Our team will walk you through our AI tool.
             </p>
-            <Button
-              asChild
-              className="mt-8 h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
+            <Cta asChild className="mt-8">
               <Link href="/contact">Contact us</Link>
-            </Button>
+            </Cta>
           </FadeUp>
         </div>
       </div>

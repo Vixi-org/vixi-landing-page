@@ -1,6 +1,6 @@
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 const CONTACT_EMAIL = "hassan@vixiai.co";
 const LINKEDIN_URL = "https://www.linkedin.com/company/vixi-ai";
@@ -39,10 +39,7 @@ export function ContactSection() {
                 <dd>DIFC, Dubai, UAE.</dd>
               </div>
             </dl>
-            <Button
-              asChild
-              className="mt-8 h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
+            <Cta asChild className="mt-8">
               <a
                 href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
                   "Hello from vixiai.co",
@@ -50,7 +47,7 @@ export function ContactSection() {
               >
                 Contact us!
               </a>
-            </Button>
+            </Cta>
             </FadeUp>
           </div>
 

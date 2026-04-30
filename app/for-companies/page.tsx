@@ -135,7 +135,6 @@ export default function ForCompaniesPage() {
         ]}
         ctaLabel="See a demo"
         ctaHref="/contact"
-        ctaVariant="filled"
         visual={<ThemesVisual />}
       />
 

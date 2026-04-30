@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 export default function NotFound() {
   return (
@@ -23,9 +23,9 @@ export default function NotFound() {
           The link may be broken, or the page may have moved. Head back home to
           keep exploring.
         </p>
-        <Button asChild size="lg" className="mt-8">
+        <Cta asChild size="lg" className="mt-8">
           <Link href="/">Back to home</Link>
-        </Button>
+        </Cta>
       </FadeUp>
     </section>
   );

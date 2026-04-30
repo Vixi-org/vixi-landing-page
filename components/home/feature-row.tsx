@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 export interface FeatureRowProps {
   eyebrow: string;
@@ -13,7 +13,6 @@ export interface FeatureRowProps {
   bullets?: string[];
   ctaLabel?: string;
   ctaHref?: string;
-  ctaVariant?: "filled" | "outline";
   imageSrc?: string;
   imageAlt?: string;
   visual?: React.ReactNode;
@@ -28,7 +27,6 @@ export function FeatureRow({
   bullets,
   ctaLabel = "Create your Duolingo-like course",
   ctaHref,
-  ctaVariant = "outline",
   imageSrc,
   imageAlt,
   visual,
@@ -80,16 +78,9 @@ export function FeatureRow({
               )}
 
               {ctaHref && (
-                <Button
-                  asChild
-                  className={
-                    ctaVariant === "filled"
-                      ? "mt-8 h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-                      : "mt-8 h-11 rounded-full border-2 border-secondary bg-transparent px-6 text-sm font-semibold text-secondary hover:bg-secondary hover:text-secondary-foreground"
-                  }
-                >
+                <Cta asChild className="mt-8">
                   <Link href={ctaHref}>{ctaLabel}</Link>
-                </Button>
+                </Cta>
               )}
             </FadeUp>
           </div>

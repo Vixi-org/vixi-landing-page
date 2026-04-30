@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { ButtonGallery } from "@/components/anim/experiments/button-gallery";
 import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { EarlyAccessSection } from "@/components/home/early-access-section";
 import { FeatureRow } from "@/components/home/feature-row";
@@ -28,7 +27,6 @@ export default function HomePage() {
   return (
     <>
       <HeroSection appUrl={appUrl} />
-      <ButtonGallery />
       <HowItWorksSection />
       <PartnersSection />
 
@@ -80,7 +78,6 @@ export default function HomePage() {
         }
         body="Our AI replicates your voice and integrates your signature phrases, tone, and speaking style into the lessons. Learners will hear familiar explanations, making the experience feel more immersive, relatable, and engaging — just like having you in the room with them."
         ctaHref="/"
-        ctaVariant="filled"
         visual={<VoiceVisual />}
       />
 
@@ -114,7 +111,6 @@ export default function HomePage() {
           "Select custom backgrounds, icons, and animations that resonate with your audience",
         ]}
         ctaHref="/"
-        ctaVariant="filled"
         visual={<ThemesVisual />}
       />
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 import { MobileVisual } from "@/components/home/placeholder-visuals";
 
 interface MobileSectionProps {
@@ -36,12 +36,9 @@ export function MobileSection({
                 access your content anytime, anywhere — whether on a commute,
                 during a break, or from the comfort of their home.
               </p>
-              <Button
-                asChild
-                className="mt-8 h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-              >
+              <Cta asChild className="mt-8">
                 <Link href={ctaHref}>{ctaLabel}</Link>
-              </Button>
+              </Cta>
             </FadeUp>
           </div>
           <FadeUp delay={0.15} className="relative">

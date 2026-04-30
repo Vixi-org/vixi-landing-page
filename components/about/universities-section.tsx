@@ -4,7 +4,7 @@ import { Check } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 const BULLETS = [
   "Our AI-driven course creation aligns with modern educational methodologies.",
@@ -51,12 +51,9 @@ export function UniversitiesSection() {
               bridge the gap between traditional education and next-generation
               learning experiences.
             </p>
-            <Button
-              asChild
-              className="mt-8 h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
+            <Cta asChild className="mt-8">
               <Link href="/contact">Schedule a Demo</Link>
-            </Button>
+            </Cta>
             </FadeUp>
           </div>
 

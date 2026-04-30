@@ -6,6 +6,7 @@ import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 interface HeroSectionProps {
   appUrl: string;
@@ -67,12 +68,9 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             </span>
           </div>
           <div className="mt-9 flex flex-wrap gap-3">
-            <Button
-              asChild
-              className="h-11 rounded-full bg-secondary px-6 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
+            <Cta asChild>
               <a href={`${appUrl}/signup`}>Start free trial</a>
-            </Button>
+            </Cta>
             <Button
               asChild
               variant="outline"

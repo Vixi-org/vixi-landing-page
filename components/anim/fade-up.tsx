@@ -3,8 +3,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
-import { VIEWPORT_TRIGGER } from "@/components/anim/heading-pop";
-
 interface FadeUpProps {
   children: ReactNode;
   delay?: number;
@@ -12,6 +10,10 @@ interface FadeUpProps {
   distance?: number;
   /** Animation duration in seconds. Default 0.6. */
   duration?: number;
+  /** Fraction of element that must be visible before animating. Default 0.2. */
+  amount?: number;
+  /** When true, animates only the first time it enters view. Default true. */
+  once?: boolean;
   /** Optional className passthrough so the wrapper inherits layout styles. */
   className?: string;
   /** Render as a different HTML element. Default "div". */
@@ -30,6 +32,8 @@ export function FadeUp({
   delay = 0,
   distance = 24,
   duration = 0.6,
+  amount = 0.2,
+  once = true,
   className,
   as = "div",
 }: FadeUpProps) {
@@ -45,8 +49,8 @@ export function FadeUp({
       className={className}
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={VIEWPORT_TRIGGER}
-      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] as const }}
+      viewport={{ once, amount }}
+      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </Tag>

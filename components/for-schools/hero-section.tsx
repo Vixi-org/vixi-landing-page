@@ -5,7 +5,7 @@ import { Sparkles } from "lucide-react";
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Button } from "@/components/ui/button";
+import { Cta } from "@/components/ui/cta";
 
 interface HeroSectionProps {
   appUrl: string;
@@ -82,12 +82,9 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
               school&apos;s LMS and bring interactive, fun, and personalized
               learning to your classrooms!
             </p>
-            <Button
-              asChild
-              className="mt-8 h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
+            <Cta asChild className="mt-8">
               <Link href="/contact">See a demo</Link>
-            </Button>
+            </Cta>
           </FadeUp>
         </div>
 
