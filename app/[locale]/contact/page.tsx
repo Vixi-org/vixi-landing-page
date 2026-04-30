@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ContactSection } from "@/components/contact/contact-section";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
@@ -7,21 +7,29 @@ import { PageBanner } from "@/components/page-banner";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
-export const metadata: Metadata = {
-  title: "Contact Vixi AI",
-  description:
-    "Get in touch with the Vixi AI team in DIFC, Dubai. Email hassan@vixiai.co or schedule a demo.",
-  alternates: {
-    canonical: `${SITE_URL}/contact`,
-    languages: {
-      en: `${SITE_URL}/contact`,
-      "x-default": `${SITE_URL}/contact`,
-    },
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.contact" });
+  const englishUrl = `${SITE_URL}/contact`;
+  const arabicUrl = `${SITE_URL}/ar/contact`;
+  const canonical = locale === "en" ? englishUrl : arabicUrl;
 
-export function generateStaticParams() {
-  return [{ locale: "en" }];
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical,
+      languages: {
+        en: englishUrl,
+        ar: arabicUrl,
+        "x-default": englishUrl,
+      },
+    },
+  };
 }
 
 export default async function ContactPage({
@@ -33,10 +41,11 @@ export default async function ContactPage({
   setRequestLocale(locale);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const tBanner = await getTranslations("pageBanner");
 
   return (
     <>
-      <PageBanner title="Contact Us" />
+      <PageBanner title={tBanner("breadcrumbs.contact")} />
       <ContactSection />
       <CtaBanner appUrl={appUrl} />
     </>

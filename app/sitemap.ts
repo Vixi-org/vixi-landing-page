@@ -22,8 +22,8 @@ const STATIC_ROUTES: Array<{
   { path: "/for-companies", changeFrequency: "monthly", priority: 0.9, arabic: true },
   { path: "/for-schools", changeFrequency: "monthly", priority: 0.9, arabic: true },
   { path: "/for-creators", changeFrequency: "monthly", priority: 0.9, arabic: true },
-  { path: "/about", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
+  { path: "/about", changeFrequency: "monthly", priority: 0.6, arabic: true },
+  { path: "/contact", changeFrequency: "yearly", priority: 0.5, arabic: true },
   { path: "/blog", changeFrequency: "weekly", priority: 0.7 },
 ];
 
