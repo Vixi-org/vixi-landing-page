@@ -1,4 +1,5 @@
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 
 const TEACHERS = [
   { role: "History teacher", name: "Alex Huffman", from: "from-amber-200", to: "to-orange-300" },
@@ -12,11 +13,13 @@ export function TeachersCarousel() {
     <section className="bg-gradient-to-b from-background via-[#fdf6f0] to-background py-20 md:py-28" aria-labelledby="teachers-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
-          <FadeUp>
-            <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
-              Developers
-            </span>
-            <h2
+          <div>
+            <FadeUp>
+              <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
+                Developers
+              </span>
+            </FadeUp>
+            <HeadingPop
               id="teachers-heading"
               className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-5xl"
             >
@@ -25,18 +28,20 @@ export function TeachersCarousel() {
               Animated Avatars
               <br />
               of <span className="text-secondary">Teachers</span>
-            </h2>
-            <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
-              Teachers can upload their photo, and our AI generates a 3D
-              animated version of them to personally guide students through
-              lessons — making remote learning more engaging and familiar.
-            </p>
-            {/* dot decoration */}
-            <div
-              className="mt-8 h-16 w-32 opacity-40 [background-image:radial-gradient(circle,rgb(74,50,111,0.7)_1.5px,transparent_1.5px)] [background-size:14px_14px]"
-              aria-hidden
-            />
-          </FadeUp>
+            </HeadingPop>
+            <FadeUp delay={0.95}>
+              <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
+                Teachers can upload their photo, and our AI generates a 3D
+                animated version of them to personally guide students through
+                lessons — making remote learning more engaging and familiar.
+              </p>
+              {/* dot decoration */}
+              <div
+                className="mt-8 h-16 w-32 opacity-40 [background-image:radial-gradient(circle,rgb(74,50,111,0.7)_1.5px,transparent_1.5px)] [background-size:14px_14px]"
+                aria-hidden
+              />
+            </FadeUp>
+          </div>
 
           <ul
             className="-mr-4 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pr-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:-mr-6 md:pr-6"

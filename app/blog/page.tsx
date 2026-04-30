@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { PageBanner } from "@/components/page-banner";
 import { formatPostDate, posts } from "@/lib/posts";
 
@@ -36,9 +37,9 @@ export default function BlogIndexPage() {
                     </span>
                     <span>{featured.category}</span>
                   </div>
-                  <h2 className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-4xl">
+                  <HeadingPop className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-4xl">
                     {featured.title}
-                  </h2>
+                  </HeadingPop>
                   <p className="mt-4 text-base leading-7 text-foreground md:text-lg">
                     {featured.description}
                   </p>

@@ -1,6 +1,7 @@
 import { Award, Heart, TrendingUp, Trophy } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 
 const STATS = [
   {
@@ -29,20 +30,24 @@ export function GamificationStatsSection() {
   return (
     <section className="bg-background py-20 md:py-28">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
-        <FadeUp className="mx-auto max-w-3xl text-center">
-          <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
-            A question to be asked…
-          </span>
-          <h2 className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <FadeUp>
+            <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
+              A question to be asked…
+            </span>
+          </FadeUp>
+          <HeadingPop className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
             Why gamified learning?
-          </h2>
-          <p className="mt-6 text-base leading-7 text-foreground md:text-lg">
-            Static learning methods fail to sustain engagement and retention,
-            leading to passive learning and low completion rates. Gamified
-            learning, backed by cognitive science, transforms education into an
-            interactive, immersive experience that drives real results.
-          </p>
-        </FadeUp>
+          </HeadingPop>
+          <FadeUp delay={0.7}>
+            <p className="mt-6 text-base leading-7 text-foreground md:text-lg">
+              Static learning methods fail to sustain engagement and retention,
+              leading to passive learning and low completion rates. Gamified
+              learning, backed by cognitive science, transforms education into
+              an interactive, immersive experience that drives real results.
+            </p>
+          </FadeUp>
+        </div>
 
         <ul className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {STATS.map(({ Icon, title, body }, index) => (

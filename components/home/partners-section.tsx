@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 
 const PARTNERS = [
   { src: "/partners/lau-innovation.png", alt: "LAU Fouad Makhzoumi Innovation Center" },
@@ -13,14 +14,13 @@ export function PartnersSection() {
   return (
     <section className="bg-background py-16 md:py-20" aria-labelledby="partners-heading">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
-        <FadeUp>
-          <h2
-            id="partners-heading"
-            className="text-center text-2xl font-semibold text-card-foreground md:text-3xl"
-          >
-            Backed &amp; supported by
-          </h2>
-        </FadeUp>
+        <HeadingPop
+          as="h2"
+          id="partners-heading"
+          className="text-center text-2xl font-semibold text-card-foreground md:text-3xl"
+        >
+          Backed &amp; supported by
+        </HeadingPop>
         <ul className="mt-12 grid grid-cols-2 items-center justify-items-center gap-10 md:grid-cols-4 md:gap-14">
           {PARTNERS.map((partner, index) => (
             <FadeUp

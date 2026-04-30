@@ -1,4 +1,5 @@
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
 
 interface CtaBannerProps {
@@ -16,20 +17,24 @@ export function CtaBanner({ appUrl }: CtaBannerProps) {
           />
           <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div className="max-w-xl">
-              <h2 className="text-2xl font-semibold leading-snug text-secondary md:text-3xl">
+              <HeadingPop className="text-2xl font-semibold leading-snug text-secondary md:text-3xl">
                 Create your first duolingo-like course for free
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-foreground md:text-base">
-                No card required. Spin up your first gamified course in minutes
-                and see the difference engagement makes.
-              </p>
+              </HeadingPop>
+              <FadeUp delay={1.05}>
+                <p className="mt-3 text-sm leading-6 text-foreground md:text-base">
+                  No card required. Spin up your first gamified course in minutes
+                  and see the difference engagement makes.
+                </p>
+              </FadeUp>
             </div>
-            <Button
-              asChild
-              className="h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-            >
-              <a href={`${appUrl}/signup`}>Get Started</a>
-            </Button>
+            <FadeUp delay={1.15}>
+              <Button
+                asChild
+                className="h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
+              >
+                <a href={`${appUrl}/signup`}>Get Started</a>
+              </Button>
+            </FadeUp>
           </div>
         </FadeUp>
       </div>

@@ -2,18 +2,20 @@ import type { MDXComponents } from "mdx/types";
 import Image, { type ImageProps } from "next/image";
 import Link from "next/link";
 
+import { HeadingPop } from "@/components/anim/heading-pop";
+
 /**
  * Branded MDX styling. Required at the project root by @next/mdx
  * for the App Router. Applied automatically to every .mdx file.
  */
 const components: MDXComponents = {
-  h1: ({ children, ...props }) => (
-    <h1
+  h1: ({ children }) => (
+    <HeadingPop
+      as="h1"
       className="mt-12 mb-6 text-4xl font-semibold leading-tight text-card-foreground first:mt-0 md:text-5xl"
-      {...props}
     >
       {children}
-    </h1>
+    </HeadingPop>
   ),
   h2: ({ children, ...props }) => (
     <h2

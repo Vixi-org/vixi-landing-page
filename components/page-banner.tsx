@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 
 interface PageBannerProps {
   title: string;
@@ -25,12 +26,13 @@ export function PageBanner({ title, current }: PageBannerProps) {
         aria-hidden
       />
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-start gap-4 px-4 md:flex-row md:items-center md:justify-between md:px-6">
-        <FadeUp>
-          <h1 className="text-4xl font-semibold leading-none text-white md:text-6xl">
-            {title}
-          </h1>
-        </FadeUp>
-        <FadeUp delay={0.1} as="div">
+        <HeadingPop
+          as="h1"
+          className="text-4xl font-semibold leading-none text-white md:text-6xl"
+        >
+          {title}
+        </HeadingPop>
+        <FadeUp delay={0.5} as="div">
         <nav aria-label="Breadcrumb" className="text-sm font-medium text-white">
           <ol className="flex items-center gap-2">
             <li>

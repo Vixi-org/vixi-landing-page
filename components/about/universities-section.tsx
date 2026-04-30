@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
 
 const BULLETS = [
@@ -16,14 +17,15 @@ export function UniversitiesSection() {
     <section className="bg-background py-20 md:py-28">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
-          <FadeUp>
-            <h2 className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
+          <div>
+            <HeadingPop className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
               Backed by Top
               <br />
               Universities &amp;
               <br />
               <span className="text-primary">Education Experts</span>
-            </h2>
+            </HeadingPop>
+            <FadeUp delay={1.1}>
             <p className="mt-6 text-base leading-7 text-foreground md:text-lg">
               We are proudly supported by leading academic institutions,
               including the Lebanese American University (LAU) and the
@@ -55,7 +57,8 @@ export function UniversitiesSection() {
             >
               <Link href="/contact">Schedule a Demo</Link>
             </Button>
-          </FadeUp>
+            </FadeUp>
+          </div>
 
           <FadeUp delay={0.15} className="relative">
             {/* Small toggle accents (mirror the original site's decorations) */}

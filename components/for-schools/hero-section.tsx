@@ -4,6 +4,7 @@ import { Sparkles } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -63,27 +64,32 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
       />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 md:grid-cols-[1fr_1fr] md:px-6">
-        <FadeUp>
-          <h1 className="text-4xl font-semibold leading-[1.1] text-primary md:text-6xl">
+        <div>
+          <HeadingPop
+            as="h1"
+            className="text-4xl font-semibold leading-[1.1] text-primary md:text-6xl"
+          >
             AI-Powered
             <br />
             Gamified Learning
             <br />
             for Schools
-          </h1>
-          <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
-            Engage students, empower teachers, and revolutionize education with
-            AI-powered gamified learning. Seamlessly integrate with your
-            school&apos;s LMS and bring interactive, fun, and personalized
-            learning to your classrooms!
-          </p>
-          <Button
-            asChild
-            className="mt-8 h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
-          >
-            <Link href="/contact">See a demo</Link>
-          </Button>
-        </FadeUp>
+          </HeadingPop>
+          <FadeUp delay={0.95}>
+            <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
+              Engage students, empower teachers, and revolutionize education
+              with AI-powered gamified learning. Seamlessly integrate with your
+              school&apos;s LMS and bring interactive, fun, and personalized
+              learning to your classrooms!
+            </p>
+            <Button
+              asChild
+              className="mt-8 h-11 rounded-full bg-secondary px-7 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
+            >
+              <Link href="/contact">See a demo</Link>
+            </Button>
+          </FadeUp>
+        </div>
 
         {/* visual: black "Build AI courses" badge + arrow + smaller source-picker tile */}
         <FadeUp delay={0.2} className="relative flex h-[360px] items-center justify-center md:h-[420px]">

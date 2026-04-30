@@ -1,4 +1,5 @@
 import { FadeUp } from "@/components/anim/fade-up";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
 
 const CONTACT_EMAIL = "hassan@vixiai.co";
@@ -11,13 +12,16 @@ export function ContactSection() {
     <section className="bg-background py-20 md:py-24">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-16">
-          <FadeUp>
-            <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
-              Contact Us
-            </span>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
+          <div>
+            <FadeUp>
+              <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
+                Contact Us
+              </span>
+            </FadeUp>
+            <HeadingPop className="mt-4 text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
               Let&apos;s get in touch!
-            </h2>
+            </HeadingPop>
+            <FadeUp delay={0.7}>
             <dl className="mt-8 space-y-3 text-base text-card-foreground">
               <div className="flex flex-wrap items-baseline gap-2">
                 <dt className="font-medium text-foreground">Email:</dt>
@@ -47,7 +51,8 @@ export function ContactSection() {
                 Contact us!
               </a>
             </Button>
-          </FadeUp>
+            </FadeUp>
+          </div>
 
           <FadeUp delay={0.1} className="flex items-start md:justify-end">
             <a

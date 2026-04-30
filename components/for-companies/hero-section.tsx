@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -32,8 +33,11 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
       />
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 md:grid-cols-[1fr_1.1fr] md:gap-10 md:px-6">
-        <FadeUp>
-          <h1 className="text-4xl font-semibold leading-[1.1] text-card-foreground md:text-6xl">
+        <div>
+          <HeadingPop
+            as="h1"
+            className="text-4xl font-semibold leading-[1.1] text-card-foreground md:text-6xl"
+          >
             AI-Powered
             <br />
             Gamified
@@ -41,7 +45,8 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             Learning for
             <br />
             <span className="text-primary">employees</span>
-          </h1>
+          </HeadingPop>
+          <FadeUp delay={0.95}>
           <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
             Our AI-powered course maker is for businesses, SMEs, and training
             teams looking to transform traditional learning materials into
@@ -76,10 +81,11 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
               <Link href="/contact">Book a demo</Link>
             </Button>
           </div>
-        </FadeUp>
+          </FadeUp>
+        </div>
 
         {/* Laptop mockup wrapper around source-picker */}
-        <FadeUp delay={0.2} className="relative">
+        <FadeUp delay={0.3} className="relative">
           <div className="rounded-t-2xl bg-card-foreground p-3 shadow-2xl">
             <div className="overflow-hidden rounded-xl bg-background">
               <div className="flex items-center gap-1.5 border-b border-border bg-muted/40 px-3 py-2">

@@ -1,5 +1,6 @@
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
+import { HeadingPop } from "@/components/anim/heading-pop";
 import { HeroPromptForm } from "@/components/hero-prompt-form";
 
 interface HeroSectionProps {
@@ -50,41 +51,42 @@ export function HeroSection({ appUrl }: HeroSectionProps) {
             #1 AI to publish gamified courses
           </span>
         </FadeUp>
-        <FadeUp delay={0.1}>
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] text-card-foreground md:text-6xl lg:text-7xl">
-            Create your Duolingo-like
-            <br />
-            courses,{" "}
-            <span className="relative inline-block text-secondary">
-              in minutes
-              <svg
-                aria-hidden
-                viewBox="0 0 240 18"
-                className="absolute -bottom-3 left-0 h-3 w-full text-secondary"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M2 12 C 40 2, 80 16, 120 8 S 200 2, 238 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-          </h1>
-        </FadeUp>
-        <FadeUp delay={0.2}>
+        <HeadingPop
+          as="h1"
+          className="mt-6 text-4xl font-semibold leading-[1.05] text-card-foreground md:text-6xl lg:text-7xl"
+        >
+          Create your Duolingo-like
+          <br />
+          courses,{" "}
+          <span className="relative inline-block text-secondary">
+            in minutes
+            <svg
+              aria-hidden
+              viewBox="0 0 240 18"
+              className="absolute -bottom-3 left-0 h-3 w-full text-secondary"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M2 12 C 40 2, 80 16, 120 8 S 200 2, 238 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
+        </HeadingPop>
+        <FadeUp delay={1.1}>
           <p className="mt-8 max-w-2xl text-base leading-7 text-foreground md:text-lg">
             Upload your PDFs, LinkedIn posts, podcasts, or lectures, and let our
             AI instantly convert them into interactive, bite-sized,
             Duolingo-like courses in no time!
           </p>
         </FadeUp>
-        <FadeUp delay={0.3} className="mt-10 w-full max-w-2xl">
+        <FadeUp delay={1.2} className="mt-10 w-full max-w-2xl">
           <HeroPromptForm appUrl={appUrl} />
         </FadeUp>
-        <FadeUp delay={0.4}>
+        <FadeUp delay={1.3}>
           <p className="mt-4 text-xs text-foreground/70">
             No credit card required · Free to try
           </p>
