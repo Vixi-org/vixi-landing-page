@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { Heart, X } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -12,33 +13,12 @@ interface Turn {
   vixi: string;
 }
 
-const TURNS: Turn[] = [
-  {
-    educator:
-      "Most people chase a bigger paycheck. But real wealth comes from how much you keep, not how much you earn.",
-    vixi: "Wait, earning more isn't the same as getting wealthier?",
-  },
-  {
-    educator:
-      "Exactly. It's about understanding what makes your wallet thicker, not just your workload.",
-    vixi: "So it's not how much I earn, but how much I keep?",
-  },
-  {
-    educator:
-      "Right. Step one: pay yourself first. Move savings out before you pay any other bill.",
-    vixi: "Pay myself first? But what about rent and groceries, don't those come first?",
-  },
-  {
-    educator:
-      "It feels backwards, but living on what's left forces wealth to grow on autopilot.",
-    vixi: "Save before I spend. Got it, I'm starting this month!",
-  },
-];
-
-const TOTAL = TURNS.length;
 const AUTOPLAY_MS = 3000;
 
 export function CourseConversation() {
+  const t = useTranslations("conversationalSection");
+  const turns = t.raw("turns") as Turn[];
+  const total = turns.length;
   const [step, setStep] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduced = useReducedMotion();
@@ -48,12 +28,12 @@ export function CourseConversation() {
   useEffect(() => {
     if (!inView || paused || reduced) return;
     const id = window.setInterval(() => {
-      setStep((s) => (s + 1) % TOTAL);
+      setStep((s) => (s + 1) % total);
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [inView, paused, reduced]);
+  }, [inView, paused, reduced, total]);
 
-  const turn = TURNS[step];
+  const turn = turns[step];
 
   return (
     <div
@@ -72,7 +52,7 @@ export function CourseConversation() {
           <X className="size-5" />
         </span>
 
-        <ProgressDots total={TOTAL} current={step} />
+        <ProgressDots total={total} current={step} stepLabel={(n, current) => current ? t("controls.stepCurrent", { n }) : t("controls.stepN", { n })} />
 
         <div className="flex items-center gap-2 md:gap-3">
           <span className="flex items-center gap-1 text-sm font-semibold text-rose-500">
@@ -132,27 +112,27 @@ export function CourseConversation() {
       <div className="flex items-center justify-between gap-4 border-t border-border/60 px-4 py-3 md:px-5 md:py-4">
         <button
           type="button"
-          onClick={() => setStep((s) => (s === 0 ? TOTAL - 1 : s - 1))}
-          aria-label="Previous step"
+          onClick={() => setStep((s) => (s === 0 ? total - 1 : s - 1))}
+          aria-label={t("controls.previousStep")}
           className={cn(
             "rounded-full border-2 border-border bg-background px-6 py-2 text-sm font-semibold text-secondary transition-colors",
             "hover:bg-muted",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
           )}
         >
-          Back
+          {t("controls.back")}
         </button>
         <button
           type="button"
-          onClick={() => setStep((s) => (s + 1) % TOTAL)}
-          aria-label="Next step"
+          onClick={() => setStep((s) => (s + 1) % total)}
+          aria-label={t("controls.nextStep")}
           className={cn(
             "rounded-full bg-secondary px-8 py-2 text-sm font-semibold text-secondary-foreground shadow-md transition-all",
             "hover:brightness-105",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
           )}
         >
-          Next
+          {t("controls.next")}
         </button>
       </div>
     </div>
@@ -162,9 +142,11 @@ export function CourseConversation() {
 function ProgressDots({
   total,
   current,
+  stepLabel,
 }: {
   total: number;
   current: number;
+  stepLabel: (n: number, isCurrent: boolean) => string;
 }) {
   return (
     <div className="flex items-center gap-1">
@@ -180,7 +162,7 @@ function ProgressDots({
                 : "bg-muted text-foreground/60",
             )}
             aria-current={i === current ? "step" : undefined}
-            aria-label={`Step ${i + 1}${i === current ? " (current)" : ""}`}
+            aria-label={stepLabel(i + 1, i === current)}
           >
             {i + 1}
           </span>

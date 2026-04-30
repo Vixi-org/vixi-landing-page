@@ -8,7 +8,6 @@ import { SmoothScroll } from "@/components/anim/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 
 import "../globals.css";
@@ -150,17 +149,9 @@ export default async function RootLayout({
         <JsonLd data={[ORGANIZATION_SCHEMA, websiteSchema]} />
         <SmoothScroll />
         <NextIntlClientProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            forcedTheme="light"
-            enableSystem={false}
-            disableTransitionOnChange
-          >
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </ThemeProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { CoursesCarousel } from "@/components/courses-carousel";
@@ -13,21 +13,29 @@ import { ThemesShowcase } from "@/components/themes-showcase";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
-export const metadata: Metadata = {
-  title: "For Companies — AI-powered gamified learning for employees",
-  description:
-    "Vixi's AI-powered course maker for businesses, SMEs, and training teams. Transform compliance, onboarding, and corporate training into engaging Duolingo-like courses.",
-  alternates: {
-    canonical: `${SITE_URL}/for-companies`,
-    languages: {
-      en: `${SITE_URL}/for-companies`,
-      "x-default": `${SITE_URL}/for-companies`,
-    },
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.forCompanies" });
+  const englishUrl = `${SITE_URL}/for-companies`;
+  const arabicUrl = `${SITE_URL}/ar/for-companies`;
+  const canonical = locale === "en" ? englishUrl : arabicUrl;
 
-export function generateStaticParams() {
-  return [{ locale: "en" }];
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical,
+      languages: {
+        en: englishUrl,
+        ar: arabicUrl,
+        "x-default": englishUrl,
+      },
+    },
+  };
 }
 
 export default async function ForCompaniesPage({
@@ -39,6 +47,7 @@ export default async function ForCompaniesPage({
   setRequestLocale(locale);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const t = await getTranslations("forCompanies");
 
   return (
     <>
@@ -46,43 +55,38 @@ export default async function ForCompaniesPage({
       <GamificationStatsSection />
 
       <FeatureRow
-        eyebrow="Make it instant"
+        eyebrow={t("instantGamification.eyebrow")}
         heading={
           <>
-            Instant <span className="text-secondary">Gamification</span>
+            {t("instantGamification.headingLine1")}{" "}
+            <span className="text-secondary">
+              {t("instantGamification.headingLine1Highlight")}
+            </span>
             <br />
-            of your company&apos;s
+            {t("instantGamification.headingLine1End")}
             <br />
-            learning material
+            {t("instantGamification.headingLine3")}
           </>
         }
-        body="Whether you're gamifying corporate training, employee onboarding, or school curriculums, our platform provides everything you need to create, customize, and scale high-impact learning experiences."
-        bullets={[
-          "Convert compliance training, or onboarding materials into bite-sized, interactive lessons that boost knowledge retention.",
-          "AI automatically structures content, creates interactive quizzes, and applies gamified mechanics, ensuring employees or students stay engaged.",
-        ]}
+        body={t("instantGamification.body")}
+        bullets={t.raw("instantGamification.bullets") as string[]}
         imageSrc="/mockups/transform.png"
-        imageAlt="Books and presentation slides being converted into a phone-based gamified course"
+        imageAlt={t("instantGamification.imageAlt")}
       />
 
       <FeatureRow
-        eyebrow="Edit your course"
+        eyebrow={t("onboarding.eyebrow")}
         heading={
           <>
-            Interactive
+            {t("onboarding.headingLine1")}
             <br />
-            Onboarding for New
+            {t("onboarding.headingLine2")}
             <br />
-            Employees
+            {t("onboarding.headingLine3")}
           </>
         }
-        body="Cut training time, boost engagement, and ensure new hires quickly adapt — leading to faster productivity, stronger retention, and a thriving workplace!"
-        bullets={[
-          "Transform boring onboarding manuals into interactive journeys that new hires actually enjoy.",
-          "Use real-world scenarios, challenges, and rewards to help employees grasp company culture, policies, and workflows faster.",
-          "Progress tracking & milestone rewards ensure new employees feel a sense of accomplishment from day one.",
-        ]}
-        ctaLabel="See a demo"
+        body={t("onboarding.body")}
+        bullets={t.raw("onboarding.bullets") as string[]}
         ctaHref="/contact"
         visual={<EditableVisual />}
         reverse
@@ -90,44 +94,39 @@ export default async function ForCompaniesPage({
       />
 
       <FeatureRow
-        eyebrow="Reinvented"
+        eyebrow={t("compliance.eyebrow")}
         heading={
           <>
-            Corporate Training &amp; Compliance
+            {t("compliance.headingLine1")}
             <br />
-            <span className="text-secondary">Reinvented</span>
+            <span className="text-secondary">
+              {t("compliance.headingLine2Highlight")}
+            </span>
           </>
         }
-        body="Make training exciting, not exhausting! Our AI transforms compliance and workplace training into interactive experiences — boosting engagement, improving decisions, and ensuring employees stay motivated and accountable."
-        bullets={[
-          "Keep employees engaged in mandatory training (HR policies, cybersecurity, workplace safety, etc.) with gamified experiences.",
-          "AI-generated role-playing scenarios simulate real-life workplace challenges to improve decision-making skills.",
-          "Leaderboards, certifications, and progress tracking keep employees motivated and accountable.",
-        ]}
+        body={t("compliance.body")}
+        bullets={t.raw("compliance.bullets") as string[]}
         imageSrc="/mockups/transform.png"
-        imageAlt="Corporate training materials transformed into interactive gamified content"
+        imageAlt={t("compliance.imageAlt")}
       />
 
       <CoursesCarousel />
 
       <FeatureRow
-        eyebrow="Learn More About Us"
+        eyebrow={t("trainersAvatar.eyebrow")}
         heading={
           <>
-            Turn your company&apos;s
+            {t("trainersAvatar.headingLine1")}
             <br />
-            trainers into an
+            {t("trainersAvatar.headingLine2")}
             <br />
-            animated character
+            {t("trainersAvatar.headingLine3")}
           </>
         }
-        body="Bring your teaching to life with a 3D animated avatar that mirrors your appearance, making your presence truly felt in the course. Simply upload a picture, and our AI generates a Pixar-like digital character with natural facial expressions, gestures, and animations."
-        bullets={[
-          "SMEs and businesses can upload a leader's or expert's photo to create a lifelike 3D AI avatar as the course instructor.",
-          "This feature allows C-level executives, HR managers, or industry experts to be the face of training, making it more relatable.",
-        ]}
+        body={t("trainersAvatar.body")}
+        bullets={t.raw("trainersAvatar.bullets") as string[]}
         imageSrc="/mockups/avatars.png"
-        imageAlt="Vixi avatar gallery showing several stylized 3D characters"
+        imageAlt={t("trainersAvatar.imageAlt")}
         reverse
         background="tint"
       />
@@ -136,39 +135,32 @@ export default async function ForCompaniesPage({
       <ConversationalSection />
 
       <FeatureRow
-        eyebrow="Make it yours"
+        eyebrow={t("themes.eyebrow")}
         heading={
           <>
-            Fully Customizable
+            {t("themes.headingLine1")}
             <br />
-            Course Themes
+            {t("themes.headingLine2")}
           </>
         }
-        body="Every course is unique, and now its theme can be too! Our platform allows you to fully customize the look and feel of your gamified course inside the app, ensuring that the learning experience is visually aligned with your subject matter."
-        bullets={[
-          "A theme that automatically adapts to match the subject",
-          "Select custom backgrounds, icons, and animations that resonate with your audience",
-        ]}
-        ctaLabel="See a demo"
+        body={t("themes.body")}
+        bullets={t.raw("themes.bullets") as string[]}
         ctaHref="/contact"
         visual={<ThemesShowcase />}
       />
 
       <FeatureRow
-        eyebrow="Edit your course"
+        eyebrow={t("editable.eyebrow")}
         heading={
           <>
-            Fully editable{" "}
-            <span className="whitespace-nowrap">material</span>
+            {t("editable.headingLine1")}{" "}
+            <span className="whitespace-nowrap">
+              {t("editable.headingLine2")}
+            </span>
           </>
         }
-        body="Teachers can modify AI-generated lessons, quizzes, and challenges, ensuring alignment with their teaching goals and state/national curriculum standards."
-        bullets={[
-          "Insert Additional Learning Material",
-          "Delete Unnecessary Sections",
-          "Rearrange Course Structure",
-        ]}
-        ctaLabel="See a demo"
+        body={t("editable.body")}
+        bullets={t.raw("editable.bullets") as string[]}
         ctaHref="/contact"
         visual={<EditableVisual />}
         reverse

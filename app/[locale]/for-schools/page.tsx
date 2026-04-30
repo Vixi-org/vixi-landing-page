@@ -1,84 +1,45 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
 import { HeroSection } from "@/components/for-schools/hero-section";
-import { CoursesCarousel, type Course } from "@/components/courses-carousel";
+import {
+  CoursesCarousel,
+  type Course,
+  SCHOOL_COURSE_KEYS,
+} from "@/components/courses-carousel";
 import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { EditableVisual } from "@/components/home/placeholder-visuals";
 import { ThemesShowcase } from "@/components/themes-showcase";
 
-const SCHOOL_COURSES: Course[] = [
-  {
-    title: "AI for Kids",
-    instructor: "Smart Sammy",
-    body: "A friendly intro to AI for young learners — meet AI in everyday life and pick up the vocabulary, ideas, and entrepreneurial mindset.",
-  },
-  {
-    title: "Digital Citizenship & Safety",
-    instructor: "Cyber Sam",
-    body: "A must-have guide to navigating the internet safely, spotting scams, and using technology responsibly!",
-  },
-  {
-    title: "Creative Problem Solving",
-    instructor: "Coach Brainstorm",
-    body: "Through exciting challenges, kids learn to think outside the box, tackle problems, and develop innovative solutions!",
-  },
-  {
-    title: "Emotional Intelligence",
-    instructor: "CEO at Company",
-    body: "Learn how to understand emotions, build empathy, and handle challenges with kindness and confidence.",
-  },
-  {
-    title: "Entrepreneurship for Kids",
-    instructor: "Bizzy Young",
-    body: "Kids explore creativity, leadership, and the basics of developing a business idea through fun activities!",
-  },
-  {
-    title: "AI Explorers",
-    instructor: "Active Logic",
-    body: "Kids will discover how AI works, explore fun AI projects, and learn how computers \"think\" in simple terms!",
-  },
-  {
-    title: "Smart Money Basics",
-    instructor: "Penny",
-    body: "A fun introduction to saving, spending, and making smart money choices — building lifelong financial habits early!",
-  },
-  {
-    title: "Healthy Habits for Life",
-    instructor: "Wellness Wendy",
-    body: "A fun course on nutrition, exercise, mindfulness, and self-care to help kids build lifelong healthy habits!",
-  },
-  {
-    title: "Teamwork & Leadership",
-    instructor: "Captain Collaboration",
-    body: "Through fun activities, kids develop leadership skills, teamwork strategies, and learn how to lead with empathy and effectively with others.",
-  },
-];
-
-const SCHOOL_COURSES_BODY =
-  "We have created a collection of courses specialized to teach students the skills they need in 21st century. You can choose to offer some of these courses to your students along with the courses you may create yourself.";
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
-export const metadata: Metadata = {
-  title: "For Schools — AI-powered gamified learning for classrooms",
-  description:
-    "Engage students, empower teachers, and revolutionize education with AI-powered gamified learning. Seamlessly integrate with your school's LMS.",
-  alternates: {
-    canonical: `${SITE_URL}/for-schools`,
-    languages: {
-      en: `${SITE_URL}/for-schools`,
-      "x-default": `${SITE_URL}/for-schools`,
-    },
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.forSchools" });
+  const englishUrl = `${SITE_URL}/for-schools`;
+  const arabicUrl = `${SITE_URL}/ar/for-schools`;
+  const canonical = locale === "en" ? englishUrl : arabicUrl;
 
-export function generateStaticParams() {
-  return [{ locale: "en" }];
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical,
+      languages: {
+        en: englishUrl,
+        ar: arabicUrl,
+        "x-default": englishUrl,
+      },
+    },
+  };
 }
 
 export default async function ForSchoolsPage({
@@ -90,6 +51,15 @@ export default async function ForSchoolsPage({
   setRequestLocale(locale);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const t = await getTranslations("forSchools");
+  const tSchool = await getTranslations("schoolCourses");
+
+  const schoolCourses: Course[] = SCHOOL_COURSE_KEYS.map(({ key, Icon }) => ({
+    Icon,
+    title: tSchool(`${key}.title`),
+    instructor: tSchool(`${key}.instructor`),
+    body: tSchool(`${key}.body`),
+  }));
 
   return (
     <>
@@ -97,65 +67,57 @@ export default async function ForSchoolsPage({
       <GamificationStatsSection />
 
       <FeatureRow
-        eyebrow="Make it instant"
+        eyebrow={t("instantGamification.eyebrow")}
         heading={
           <>
-            Instant{" "}
-            <span className="text-secondary">Gamification</span> of
+            {t("instantGamification.headingLine1")}{" "}
+            <span className="text-secondary">
+              {t("instantGamification.headingLine1Highlight")}
+            </span>{" "}
+            {t("instantGamification.headingLine1End")}
             <br />
-            School Lessons
+            {t("instantGamification.headingLine3")}
           </>
         }
-        body="Vixi turns the materials you already use into bite-sized, gamified lessons your students will actually look forward to."
-        bullets={[
-          "Upload textbooks, lesson plans, or worksheets",
-          "Our AI transforms them into bite-sized, interactive lessons with quizzes, challenges, and engaging storytelling.",
-        ]}
-        ctaLabel="See a demo"
+        body={t("instantGamification.body")}
+        bullets={t.raw("instantGamification.bullets") as string[]}
         ctaHref="/contact"
         imageSrc="/mockups/transform.png"
-        imageAlt="Textbooks and presentation slides being transformed into a phone-based gamified course"
+        imageAlt={t("instantGamification.imageAlt")}
       />
 
-      <CoursesCarousel courses={SCHOOL_COURSES} body={SCHOOL_COURSES_BODY} />
+      <CoursesCarousel courses={schoolCourses} body={t("coursesBody")} />
 
       <TeachersCarousel />
       <ConversationalSection />
 
       <FeatureRow
-        eyebrow="Make it yours"
+        eyebrow={t("themes.eyebrow")}
         heading={
           <>
-            Fully Customizable
+            {t("themes.headingLine1")}
             <br />
-            Course Themes
+            {t("themes.headingLine2")}
           </>
         }
-        body="Every course is unique, and now its theme can be too! Our platform allows you to fully customize the look and feel of your gamified course inside the app, ensuring that the learning experience is visually aligned with your subject matter."
-        bullets={[
-          "A theme that automatically adapts to match the subject",
-          "Select custom backgrounds, icons, and animations that resonate with your audience",
-        ]}
-        ctaLabel="See a demo"
+        body={t("themes.body")}
+        bullets={t.raw("themes.bullets") as string[]}
         ctaHref="/contact"
         visual={<ThemesShowcase />}
       />
 
       <FeatureRow
-        eyebrow="Edit your course"
+        eyebrow={t("editable.eyebrow")}
         heading={
           <>
-            Fully editable{" "}
-            <span className="whitespace-nowrap">material</span>
+            {t("editable.headingLine1")}{" "}
+            <span className="whitespace-nowrap">
+              {t("editable.headingLine2")}
+            </span>
           </>
         }
-        body="Teachers can modify AI-generated lessons, quizzes, and challenges, ensuring alignment with their teaching goals and state/national curriculum standards."
-        bullets={[
-          "Insert Additional Learning Material",
-          "Delete Unnecessary Sections",
-          "Rearrange Course Structure",
-        ]}
-        ctaLabel="See a demo"
+        body={t("editable.body")}
+        bullets={t.raw("editable.bullets") as string[]}
         ctaHref="/contact"
         visual={<EditableVisual />}
         reverse

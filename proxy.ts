@@ -12,7 +12,12 @@ const intlMiddleware = createMiddleware(routing);
  * to avoid serving mixed-language pages (Arabic chrome around English content) that
  * would hurt SEO.
  */
-const ARABIC_ENABLED_PATHS = new Set<string>(["/"]);
+const ARABIC_ENABLED_PATHS = new Set<string>([
+  "/",
+  "/for-companies",
+  "/for-schools",
+  "/for-creators",
+]);
 
 export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;

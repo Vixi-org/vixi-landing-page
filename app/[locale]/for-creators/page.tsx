@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
@@ -12,22 +12,29 @@ import { ThemesShowcase } from "@/components/themes-showcase";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
-export const metadata: Metadata = {
-  title:
-    "For Content Creators — Turn your videos into gamified courses you can sell",
-  description:
-    "Vixi turns your Instagram reels, TikTok videos, podcasts, and YouTube content into interactive Duolingo-like courses you can sell directly to your audience — no editing skills required.",
-  alternates: {
-    canonical: `${SITE_URL}/for-creators`,
-    languages: {
-      en: `${SITE_URL}/for-creators`,
-      "x-default": `${SITE_URL}/for-creators`,
-    },
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.forCreators" });
+  const englishUrl = `${SITE_URL}/for-creators`;
+  const arabicUrl = `${SITE_URL}/ar/for-creators`;
+  const canonical = locale === "en" ? englishUrl : arabicUrl;
 
-export function generateStaticParams() {
-  return [{ locale: "en" }];
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical,
+      languages: {
+        en: englishUrl,
+        ar: arabicUrl,
+        "x-default": englishUrl,
+      },
+    },
+  };
 }
 
 export default async function ForCreatorsPage({
@@ -39,6 +46,7 @@ export default async function ForCreatorsPage({
   setRequestLocale(locale);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const t = await getTranslations("forCreators");
 
   return (
     <>
@@ -46,46 +54,40 @@ export default async function ForCreatorsPage({
       <GamificationStatsSection />
 
       <FeatureRow
-        eyebrow="Make it instant"
+        eyebrow={t("transform.eyebrow")}
         heading={
           <>
-            Turn your{" "}
-            <span className="text-secondary">reels &amp; videos</span>
+            {t("transform.headingLine1")}{" "}
+            <span className="text-secondary">
+              {t("transform.headingLine1Highlight")}
+            </span>
             <br />
-            into gamified courses
+            {t("transform.headingLine2")}
           </>
         }
-        body="Whether you post on Instagram, TikTok, YouTube, or Spotify, Vixi automatically transforms your existing content into interactive, bite-sized lessons. Your voice, your style — packaged into a course your followers will actually finish."
-        bullets={[
-          "Upload reels, TikToks, podcasts, transcripts, or long-form videos — no editing skills required.",
-          "AI structures your content into lessons, quizzes, and gamified challenges that drive completion.",
-          "Sell direct to your audience or share with subscribers — you keep the relationship and the margin.",
-        ]}
-        ctaLabel="Start free trial"
+        body={t("transform.body")}
+        bullets={t.raw("transform.bullets") as string[]}
         ctaHref={`${appUrl}/signup`}
         imageSrc="/mockups/transform.png"
-        imageAlt="Reels, TikToks, and podcasts transformed into a phone-based gamified course"
+        imageAlt={t("transform.imageAlt")}
       />
 
       <FeatureRow
-        eyebrow="Be the face"
+        eyebrow={t("avatar.eyebrow")}
         heading={
           <>
-            Turn yourself into a
+            {t("avatar.headingLine1")}
             <br />
-            <span className="text-secondary">3D animated character</span>
+            <span className="text-secondary">
+              {t("avatar.headingLine2Highlight")}
+            </span>
           </>
         }
-        body="Show up in every lesson — even when you're not filming. Upload one photo and our AI generates a Pixar-like avatar that mirrors your appearance, gestures, and tone, so your presence is felt across every minute of the course."
-        bullets={[
-          "Upload one picture — our AI builds your character",
-          "Use your avatar as the host across every lesson",
-          "Record once, scale forever — your character does the heavy lifting",
-        ]}
-        ctaLabel="See a demo"
+        body={t("avatar.body")}
+        bullets={t.raw("avatar.bullets") as string[]}
         ctaHref="/contact"
         imageSrc="/mockups/avatars.png"
-        imageAlt="Vixi avatar gallery showing several stylized 3D characters"
+        imageAlt={t("avatar.imageAlt")}
         reverse
         background="tint"
       />
@@ -94,39 +96,32 @@ export default async function ForCreatorsPage({
       <ConversationalSection />
 
       <FeatureRow
-        eyebrow="Make it yours"
+        eyebrow={t("themes.eyebrow")}
         heading={
           <>
-            Themes that match
+            {t("themes.headingLine1")}
             <br />
-            your brand
+            {t("themes.headingLine2")}
           </>
         }
-        body="Your aesthetic matters. Vixi lets you fully customize the look and feel of your course — colors, icons, animations, and backgrounds — so the experience feels native to your channel and consistent with your content."
-        bullets={[
-          "AI-generated themes that auto-adapt to your topic",
-          "Choose backgrounds, icons, and animations that resonate with your audience",
-        ]}
-        ctaLabel="See a demo"
+        body={t("themes.body")}
+        bullets={t.raw("themes.bullets") as string[]}
         ctaHref="/contact"
         visual={<ThemesShowcase />}
       />
 
       <FeatureRow
-        eyebrow="Stay in control"
+        eyebrow={t("editable.eyebrow")}
         heading={
           <>
-            Fully editable{" "}
-            <span className="whitespace-nowrap">material</span>
+            {t("editable.headingLine1")}{" "}
+            <span className="whitespace-nowrap">
+              {t("editable.headingLine2")}
+            </span>
           </>
         }
-        body="Vixi gives you a strong starting point, but the final word is yours. Tweak lessons, restructure modules, and drop in fresh material whenever inspiration strikes — without rebuilding the whole course."
-        bullets={[
-          "Insert additional content, worksheets, or bonus lessons",
-          "Delete sections that don't fit",
-          "Rearrange the course flow to match your style",
-        ]}
-        ctaLabel="See a demo"
+        body={t("editable.body")}
+        bullets={t.raw("editable.bullets") as string[]}
         ctaHref="/contact"
         visual={<EditableVisual />}
         reverse
