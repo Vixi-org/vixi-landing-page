@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Nunito_Sans, Readex_Pro, Roboto } from "next/font/google";
 
+import { SmoothScroll } from "@/components/anim/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -109,6 +110,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         <JsonLd data={[ORGANIZATION_SCHEMA, WEBSITE_SCHEMA]} />
+        <SmoothScroll />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
