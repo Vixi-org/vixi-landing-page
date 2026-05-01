@@ -78,19 +78,29 @@ export function HeadingPop({
     );
   };
 
-  // Split by space first → render each word as a sequence of inline-block
-  // motion.spans, with literal text-node spaces between words. This keeps
-  // the browser's natural line-break opportunities (wrap only happens at
-  // spaces, never mid-word) AND preserves visible spacing (a lone-space
-  // motion.span gets collapsed by the inline-block layout).
+  // Split by space → each word becomes a `whitespace-nowrap` wrapper
+  // containing per-character motion.spans. The wrapper prevents the
+  // browser from breaking *within* a word (adjacent inline-blocks are
+  // otherwise valid break points), while the literal text-node spaces
+  // between words remain the only line-wrap opportunities.
   const splitString = (text: string, prefix: string): ReactNode => {
     const out: ReactNode[] = [];
     const words = text.split(" ");
     words.forEach((word, wordIdx) => {
       if (wordIdx > 0) out.push(" ");
+      if (word.length === 0) return;
+      const chars: ReactNode[] = [];
       word.split("").forEach((c, i) => {
-        out.push(animateChar(c, `${prefix}-${wordIdx}-${i}`));
+        chars.push(animateChar(c, `${prefix}-${wordIdx}-${i}`));
       });
+      out.push(
+        <span
+          key={`${prefix}-w-${wordIdx}`}
+          style={{ whiteSpace: "nowrap" }}
+        >
+          {chars}
+        </span>,
+      );
     });
     return out;
   };

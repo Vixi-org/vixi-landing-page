@@ -1,7 +1,9 @@
 "use client";
 
 import Lenis from "lenis";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+import { usePathname } from "@/i18n/navigation";
 
 /**
  * Site-wide smooth scrolling powered by Lenis.
@@ -21,8 +23,14 @@ import { useEffect } from "react";
  *     unaffected.
  *   - Anchor-link clicks (`href="#section"`) are auto-handled by Lenis
  *     and inherit the smooth easing.
+ *   - On route changes, Lenis is force-jumped to the top. Next.js's
+ *     default `window.scrollTo(0,0)` doesn't reset Lenis's internal
+ *     target, so without this the scroll position bleeds across pages.
  */
 export function SmoothScroll() {
+  const lenisRef = useRef<Lenis | null>(null);
+  const pathname = usePathname();
+
   useEffect(() => {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -39,6 +47,7 @@ export function SmoothScroll() {
       touchMultiplier: 1.5,
       syncTouch: false,
     });
+    lenisRef.current = lenis;
 
     let rafId = 0;
     function raf(time: number) {
@@ -50,8 +59,17 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true, force: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
 
   return null;
 }
