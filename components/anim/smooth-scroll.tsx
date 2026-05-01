@@ -1,9 +1,8 @@
 "use client";
 
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-
-import { usePathname } from "@/i18n/navigation";
 
 /**
  * Site-wide smooth scrolling powered by Lenis.
