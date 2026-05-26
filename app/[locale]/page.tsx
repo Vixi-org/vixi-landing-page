@@ -9,6 +9,7 @@ import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { HeroSection } from "@/components/home/hero-section";
 import { PartnersSection } from "@/components/home/partners-section";
+import { APP_URL } from "@/lib/urls";
 import {
   EditableVisual,
   VoiceVisual,
@@ -48,12 +49,11 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
   const t = await getTranslations("home");
 
   return (
     <>
-      <HeroSection appUrl={appUrl} />
+      <HeroSection appUrl={APP_URL} />
       <PartnersSection />
       <CoursesSection />
 
@@ -150,7 +150,7 @@ export default async function HomePage({
             </p>
           </FadeUp>
           <FadeUp delay={0.7} className="mt-8 w-full">
-            <HeroPromptForm appUrl={appUrl} />
+            <HeroPromptForm appUrl={APP_URL} />
           </FadeUp>
         </div>
       </section>

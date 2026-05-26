@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { APP_URL } from "@/lib/urls";
+
 
 import { ContactSection } from "@/components/contact/contact-section";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
@@ -39,7 +41,7 @@ export default async function ContactPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const appUrl = APP_URL;
 
   return (
     <>

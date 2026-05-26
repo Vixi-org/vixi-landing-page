@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
+import { APP_URL } from "@/lib/urls";
+
 
 import { CtaBanner } from "@/components/for-companies/cta-banner";
 
@@ -18,7 +20,7 @@ export default async function PostLayout({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const appUrl = APP_URL;
 
   return (
     <>

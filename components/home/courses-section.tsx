@@ -3,14 +3,12 @@ import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { LEARNER_API_URL, LEARNER_URL } from "@/lib/urls";
 
 // Backend public-courses endpoint. Server-side fetch (Next.js RSC) means
 // no CORS round-trip — the request goes from Vercel directly to nginx on
 // the VM (vixiai.co subdomain proxies /api/* to the .NET backend).
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ?? "https://learn.vixiai.co/api";
-const LEARNER_URL =
-  process.env.NEXT_PUBLIC_LEARNER_URL ?? "https://learn.vixiai.co";
+const API_BASE = LEARNER_API_URL;
 
 interface PublicCourse {
   id: number;

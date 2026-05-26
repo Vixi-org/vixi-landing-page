@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { APP_URL } from "@/lib/urls";
 
 const NAV_LINKS = [
   { href: "/", labelKey: "home" },
@@ -20,7 +21,7 @@ const NAV_LINKS = [
 ] as const;
 
 export function SiteHeader() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const appUrl = APP_URL;
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const [scrolled, setScrolled] = useState(false);

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { APP_URL } from "@/lib/urls";
+
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
 import { TeachersCarousel } from "@/components/for-companies/teachers-carousel";
@@ -45,7 +47,7 @@ export default async function ForCreatorsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const appUrl = APP_URL;
   const t = await getTranslations("forCreators");
 
   return (

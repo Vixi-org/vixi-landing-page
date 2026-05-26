@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { APP_URL } from "@/lib/urls";
+
 
 import { UniversitiesSection } from "@/components/about/universities-section";
 import { FadeUp } from "@/components/anim/fade-up";
@@ -41,7 +43,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
+  const appUrl = APP_URL;
   const t = await getTranslations("about");
 
   return (
