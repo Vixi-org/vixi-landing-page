@@ -5,7 +5,6 @@ import { UniversitiesSection } from "@/components/about/universities-section";
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
-import { PageBanner } from "@/components/page-banner";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
@@ -44,11 +43,9 @@ export default async function AboutPage({
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
   const t = await getTranslations("about");
-  const tBanner = await getTranslations("pageBanner");
 
   return (
     <>
-      <PageBanner title={tBanner("breadcrumbs.about")} />
       <UniversitiesSection />
 
       <section className="bg-background pb-20 md:pb-28">

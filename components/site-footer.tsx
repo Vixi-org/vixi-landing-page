@@ -21,8 +21,19 @@ const SOCIAL_LINKS = [
   },
 ];
 
+const SOLUTIONS_LINKS = [
+  { href: "/for-companies", labelKey: "forCompanies" as const },
+  { href: "/for-schools", labelKey: "forSchools" as const },
+  { href: "/for-creators", labelKey: "forCreators" as const },
+];
+
 const COMPANY_LINKS = [
   { href: "/about", labelKey: "about" as const },
+  { href: "/blog", labelKey: "blog" as const },
+  { href: "/contact", labelKey: "contact" as const },
+];
+
+const LEGAL_LINKS = [
   { href: "/privacy", labelKey: "privacy" as const },
   { href: "/terms", labelKey: "terms" as const },
 ];
@@ -33,9 +44,9 @@ export async function SiteFooter() {
 
   return (
     <footer className="mt-auto bg-gradient-to-br from-background via-background to-muted/40">
-      <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-6 md:py-20">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-7">
+      <div className="mx-auto w-full max-w-6xl px-4 pt-16 pb-4 md:px-6 md:pt-20 md:pb-5">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-10">
+          <div className="md:col-span-5">
             <Link href="/" className="inline-flex" aria-label="Vixi home">
               <Image
                 src="/brand/vixi-logo.png"
@@ -48,6 +59,7 @@ export async function SiteFooter() {
             <p className="mt-4 max-w-md text-sm leading-6 text-foreground">
               {t("tagline")}
             </p>
+
             <div className="mt-6 flex gap-3">
               {SOCIAL_LINKS.map(({ href, labelKey, path }) => (
                 <a
@@ -71,29 +83,63 @@ export async function SiteFooter() {
             </div>
           </div>
 
-          <div className="md:col-span-3 md:col-start-10">
-            <h3 className="font-heading text-lg font-semibold text-secondary">
-              {t("company")}
-            </h3>
-            <ul className="mt-5 flex flex-col gap-3">
-              {COMPANY_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-card-foreground transition-colors hover:text-secondary"
-                  >
-                    {t(`links.${link.labelKey}`)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterColumn
+            title={t("solutions")}
+            links={SOLUTIONS_LINKS}
+            t={(key: string) => t(`links.${key}`)}
+            className="md:col-span-2"
+          />
+          <FooterColumn
+            title={t("company")}
+            links={COMPANY_LINKS}
+            t={(key: string) => t(`links.${key}`)}
+            className="md:col-span-2"
+          />
+          <FooterColumn
+            title={t("legal")}
+            links={LEGAL_LINKS}
+            t={(key: string) => t(`links.${key}`)}
+            className="md:col-span-3"
+          />
         </div>
 
-        <div className="mt-14 border-t border-border pt-6 text-center text-sm text-foreground">
-          {t("copyright", { year })}
+        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-center text-sm text-foreground md:flex-row md:text-start">
+          <span>{t("copyright", { year })}</span>
+          <span className="text-muted-foreground">{t("tagSentence")}</span>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({
+  title,
+  links,
+  t,
+  className,
+}: {
+  title: string;
+  links: ReadonlyArray<{ href: string; labelKey: string }>;
+  t: (key: string) => string;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <h3 className="font-heading text-base font-semibold text-secondary">
+        {title}
+      </h3>
+      <ul className="mt-5 flex flex-col gap-3">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="text-sm text-card-foreground transition-colors hover:text-secondary"
+            >
+              {t(link.labelKey)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

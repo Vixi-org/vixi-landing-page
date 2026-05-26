@@ -24,13 +24,21 @@
   },
   "footer": {
     "tagline": "تمكّنك Vixi AI من تحويل معارفك إلى دورات تفاعلية جذّابة على غرار Duolingo في وقت قياسي.",
+    "solutions": "الحلول",
     "company": "الشركة",
+    "legal": "قانوني",
     "links": {
+      "forCompanies": "للشركات",
+      "forSchools": "للمدارس",
+      "forCreators": "لصنّاع المحتوى",
       "about": "من نحن",
+      "blog": "المدوّنة",
+      "contact": "تواصل معنا",
       "privacy": "سياسة الخصوصية",
       "terms": "الشروط والأحكام"
     },
     "copyright": "جميع الحقوق محفوظة © {year}، Vixi AI.",
+    "tagSentence": "صُنع بعناية للمعلّمين والفرق وصنّاع المحتوى.",
     "social": {
       "linkedin": "لينكدإن",
       "instagram": "إنستغرام",
@@ -150,6 +158,10 @@
     },
     "partners": {
       "heading": "بدعم من"
+    },
+    "courses": {
+      "heading": "استكشف الدورات المُنشأة على Vixi",
+      "subheading": "دورات حقيقية من مدرّسين حقيقيين. اضغط على أي بطاقة لتبدأ التعلّم."
     },
     "transform": {
       "eyebrow": "تعرّف على المزيد",

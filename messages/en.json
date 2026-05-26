@@ -24,13 +24,21 @@
   },
   "footer": {
     "tagline": "Vixi AI allows people to transform their knowledge into gamified Duolingo-like courses in no time!",
+    "solutions": "Solutions",
     "company": "Company",
+    "legal": "Legal",
     "links": {
+      "forCompanies": "For Companies",
+      "forSchools": "For Schools",
+      "forCreators": "For Creators",
       "about": "About",
+      "blog": "Blog",
+      "contact": "Contact",
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions"
     },
     "copyright": "Copyright © {year}, Vixi AI. All Rights Reserved.",
+    "tagSentence": "Built with care for educators, teams, and creators.",
     "social": {
       "linkedin": "LinkedIn",
       "instagram": "Instagram",
@@ -150,6 +158,10 @@
     },
     "partners": {
       "heading": "Backed & supported by"
+    },
+    "courses": {
+      "heading": "Explore courses built on Vixi",
+      "subheading": "Real courses from real educators. Tap any card to start learning."
     },
     "transform": {
       "eyebrow": "Learn More About Us",

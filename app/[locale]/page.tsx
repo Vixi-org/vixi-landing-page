@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { HeroPromptForm } from "@/components/hero-prompt-form";
+import { CoursesSection } from "@/components/home/courses-section";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { HeroSection } from "@/components/home/hero-section";
@@ -54,6 +55,7 @@ export default async function HomePage({
     <>
       <HeroSection appUrl={appUrl} />
       <PartnersSection />
+      <CoursesSection />
 
       <FeatureRow
         eyebrow={t("transform.eyebrow")}

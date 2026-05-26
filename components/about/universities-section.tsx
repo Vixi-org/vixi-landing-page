@@ -13,7 +13,7 @@ export async function UniversitiesSection() {
   const bullets = t.raw("bullets") as string[];
 
   return (
-    <section className="bg-background py-20 md:py-28">
+    <section className="bg-background pt-28 pb-20 md:pt-32 md:pb-28">
       <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
           <div>

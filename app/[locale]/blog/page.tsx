@@ -5,7 +5,6 @@ import { setRequestLocale } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { PageBanner } from "@/components/page-banner";
 import { formatPostDate, posts } from "@/lib/posts";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
@@ -38,10 +37,7 @@ export default async function BlogIndexPage({
   const [featured, ...rest] = posts;
 
   return (
-    <>
-      <PageBanner title="Blog" current="Blog" />
-
-      <section className="bg-background py-16 md:py-20">
+    <section className="bg-background pt-28 pb-16 md:pt-32 md:pb-20">
         <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
           {featured && (
             <FadeUp>
@@ -126,8 +122,7 @@ export default async function BlogIndexPage({
               ))}
             </ul>
           )}
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

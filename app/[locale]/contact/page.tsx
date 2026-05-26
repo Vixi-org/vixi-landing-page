@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ContactSection } from "@/components/contact/contact-section";
 import { CtaBanner } from "@/components/for-companies/cta-banner";
-import { PageBanner } from "@/components/page-banner";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
 
@@ -41,11 +40,9 @@ export default async function ContactPage({
   setRequestLocale(locale);
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.vixiai.co";
-  const tBanner = await getTranslations("pageBanner");
 
   return (
     <>
-      <PageBanner title={tBanner("breadcrumbs.contact")} />
       <ContactSection />
       <CtaBanner appUrl={appUrl} />
     </>
