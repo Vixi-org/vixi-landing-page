@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Globe } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useTransition } from "react";
 
@@ -54,9 +54,13 @@ export function LanguageSwitcher({
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={t("label")}
-        className="flex h-10 w-10 items-center justify-center rounded-full text-card-foreground transition-colors hover:bg-muted hover:text-secondary"
+        className="flex h-9 cursor-pointer items-center gap-1 rounded-md px-2 text-sm font-medium text-card-foreground transition-colors hover:bg-muted hover:text-secondary"
       >
-        <Globe className="size-5" aria-hidden />
+        <span className="uppercase">{locale}</span>
+        <ChevronDown
+          className={`size-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        />
       </button>
 
       {open && (
@@ -72,7 +76,7 @@ export function LanguageSwitcher({
                   type="button"
                   role="menuitem"
                   onClick={() => switchTo(code)}
-                  className={`flex w-full items-center justify-between gap-3 px-4 py-2.5 text-sm font-medium transition-colors ${
+                  className={`flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-sm font-medium transition-colors ${
                     active
                       ? "bg-secondary/10 text-secondary"
                       : "text-card-foreground hover:bg-muted hover:text-secondary"

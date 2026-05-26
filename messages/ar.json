@@ -10,7 +10,8 @@
     "noCardsRequired": "بدون بطاقة ائتمان",
     "thirtyDayFreeTrial": "تجربة مجانية لمدة 30 يوماً",
     "generatingCourse": "جارٍ الإنشاء…",
-    "generateCourse": "أنشئ الدورة"
+    "generateCourse": "أنشئ الدورة",
+    "learn": "تعلّم"
   },
   "nav": {
     "home": "الرئيسية",
@@ -210,7 +211,7 @@
       ]
     },
     "buildPrompt": {
-      "heading": "هل أنت مستعدّ لبناء دورتك؟",
+      "heading": "هل لديك ما تودّ تدريسه؟",
       "invite": "صف ما تودّ تدريسه — وسنحوّله إلى دورة تفاعلية."
     }
   },

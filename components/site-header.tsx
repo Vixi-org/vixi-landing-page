@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Menu } from "lucide-react";
+import { Menu, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { LoginChoiceModal } from "@/components/login-choice-modal";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { APP_URL } from "@/lib/urls";
+import { APP_URL, LEARNER_URL } from "@/lib/urls";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", labelKey: "home" },
@@ -16,15 +17,26 @@ const NAV_LINKS = [
   { href: "/for-schools", labelKey: "forSchools" },
   { href: "/for-creators", labelKey: "forCreators" },
   { href: "/about", labelKey: "about" },
-  { href: "/blog", labelKey: "blog" },
-  { href: "/contact", labelKey: "contact" },
 ] as const;
 
+// Header CTAs use the Vixi sticker style (border-2 + 3px hard shadow that
+// collapses on hover). "Generate course" mirrors the hero-prompt-form submit
+// button so the two primary "create" actions look identical across the page.
+// "Learn" is the same shape in outline form so the duo reads as a pair.
+const STICKER_BUTTON_BASE =
+  "inline-flex h-10 items-center justify-center gap-2 select-none rounded-2xl border-2 border-card-foreground px-4 text-sm font-semibold " +
+  "shadow-[3px_3px_0_0_rgb(74,50,111)] transition-all duration-150 ease-out " +
+  "hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-[1.5px_1.5px_0_0_rgb(74,50,111)] " +
+  "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)] " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2";
+
 export function SiteHeader() {
-  const appUrl = APP_URL;
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const [scrolled, setScrolled] = useState(false);
+  // The Login link opens a chooser dialog instead of routing directly —
+  // visitors disambiguate "educator login" vs "learner login" first.
+  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -67,19 +79,35 @@ export function SiteHeader() {
 
         <div className="hidden items-center gap-3 md:flex">
           <LanguageSwitcher />
-          <Button
-            asChild
-            variant="outline"
-            className="h-10 rounded-full border-2 border-secondary px-5 text-sm font-semibold text-secondary hover:bg-secondary hover:text-secondary-foreground"
+          {/* Thin divider separating the casual nav (lang + login) from the
+              primary CTAs (Learn / Generate course). */}
+          <span aria-hidden className="h-5 w-px bg-card-foreground/25" />
+          <button
+            type="button"
+            onClick={() => setLoginOpen(true)}
+            className="ml-0.5 cursor-pointer text-sm font-medium text-card-foreground transition-colors hover:text-secondary"
           >
-            <a href={`${appUrl}/login`}>{tCommon("login")}</a>
-          </Button>
-          <Button
-            asChild
-            className="h-10 rounded-full bg-secondary px-5 text-sm font-semibold text-secondary-foreground hover:bg-secondary/90"
+            {tCommon("login")}
+          </button>
+          <a
+            href={LEARNER_URL}
+            className={cn(
+              STICKER_BUTTON_BASE,
+              "ml-1.5 bg-background text-card-foreground",
+            )}
           >
-            <a href={`${appUrl}/signup`}>{tCommon("seeADemo")}</a>
-          </Button>
+            {tCommon("learn")}
+          </a>
+          <a
+            href={`${APP_URL}/signup`}
+            className={cn(
+              STICKER_BUTTON_BASE,
+              "bg-secondary text-secondary-foreground",
+            )}
+          >
+            <Wand2 className="size-4" aria-hidden />
+            {tCommon("generateCourse")}
+          </a>
         </div>
 
         <details className="relative md:hidden">
@@ -102,23 +130,41 @@ export function SiteHeader() {
             </ul>
             <div className="mt-1 flex flex-col gap-2 border-t border-border pt-2">
               <LanguageSwitcher className="self-start" />
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-full border-2 border-secondary text-secondary"
+              <button
+                type="button"
+                onClick={() => setLoginOpen(true)}
+                className="cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
               >
-                <a href={`${appUrl}/login`}>{tCommon("login")}</a>
-              </Button>
-              <Button
-                asChild
-                className="rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                {tCommon("login")}
+              </button>
+              <a
+                href={LEARNER_URL}
+                className={cn(
+                  STICKER_BUTTON_BASE,
+                  "bg-background text-card-foreground",
+                )}
               >
-                <a href={`${appUrl}/signup`}>{tCommon("seeADemo")}</a>
-              </Button>
+                {tCommon("learn")}
+              </a>
+              <a
+                href={`${APP_URL}/signup`}
+                className={cn(
+                  STICKER_BUTTON_BASE,
+                  "bg-secondary text-secondary-foreground",
+                )}
+              >
+                <Wand2 className="size-4" aria-hidden />
+                {tCommon("generateCourse")}
+              </a>
             </div>
           </div>
         </details>
       </div>
+
+      <LoginChoiceModal
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+      />
     </header>
   );
 }

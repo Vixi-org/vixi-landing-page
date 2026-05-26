@@ -10,7 +10,8 @@
     "noCardsRequired": "No cards required",
     "thirtyDayFreeTrial": "30 day free trial",
     "generatingCourse": "Generating…",
-    "generateCourse": "Generate course"
+    "generateCourse": "Generate course",
+    "learn": "Learn"
   },
   "nav": {
     "home": "Home",
@@ -210,7 +211,7 @@
       ]
     },
     "buildPrompt": {
-      "heading": "Ready to build your course?",
+      "heading": "Got something you want to teach?",
       "invite": "Describe what you want to teach — we'll turn it into a gamified course."
     }
   },
