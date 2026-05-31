@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { APP_URL } from "@/lib/urls";
+import { APP_URL, DEMO_URL } from "@/lib/urls";
 
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
@@ -49,6 +49,7 @@ export default async function ForCreatorsPage({
 
   const appUrl = APP_URL;
   const t = await getTranslations("forCreators");
+  const tCommon = await getTranslations("common");
 
   return (
     <>
@@ -69,7 +70,8 @@ export default async function ForCreatorsPage({
         }
         body={t("transform.body")}
         bullets={t.raw("transform.bullets") as string[]}
-        ctaHref={`${appUrl}/signup`}
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/transform.png"
         imageAlt={t("transform.imageAlt")}
       />
@@ -87,7 +89,8 @@ export default async function ForCreatorsPage({
         }
         body={t("avatar.body")}
         bullets={t.raw("avatar.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/avatars.png"
         imageAlt={t("avatar.imageAlt")}
         reverse
@@ -108,7 +111,8 @@ export default async function ForCreatorsPage({
         }
         body={t("themes.body")}
         bullets={t.raw("themes.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<ThemesShowcase />}
       />
 
@@ -124,7 +128,8 @@ export default async function ForCreatorsPage({
         }
         body={t("editable.body")}
         bullets={t.raw("editable.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}
         reverse
         background="tint"

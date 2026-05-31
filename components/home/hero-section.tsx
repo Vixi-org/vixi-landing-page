@@ -11,8 +11,14 @@ interface HeroSectionProps {
 
 export async function HeroSection({ appUrl }: HeroSectionProps) {
   const t = await getTranslations("home.hero");
+  // The hero fills the viewport and vertically centers its content, so the
+  // top/bottom breathing room scales with screen height instead of being a
+  // fixed pad (which left a big gap below the fold on tall monitors). The
+  // header is fixed at 89px, so pt = 89 + the bottom pad keeps the content
+  // optically centered in the *visible* area below the header. min-h uses svh
+  // so mobile browser chrome doesn't throw the math off.
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-36 pb-24 md:pt-44 md:pb-32">
+    <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-[121px] pb-8">
       <FloatingDot
         className="absolute left-[10%] top-[18%] h-2.5 w-2.5 rounded-full bg-secondary/70"
         amplitude={12}
@@ -78,11 +84,11 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
           </span>
         </HeadingPop>
         <FadeUp delay={1.1}>
-          <p className="mt-8 text-lg leading-7 text-foreground md:text-xl">
+          <p className="mt-16 text-[1.24rem] leading-7 text-foreground md:text-[1.375rem]">
             {t("promptInvite")}
           </p>
         </FadeUp>
-        <FadeUp delay={1.2} className="mt-6 w-full max-w-2xl">
+        <FadeUp delay={1.2} className="mt-[17px] w-full max-w-2xl">
           <HeroPromptForm appUrl={appUrl} />
         </FadeUp>
       </div>

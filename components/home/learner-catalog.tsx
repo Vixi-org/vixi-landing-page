@@ -4,6 +4,9 @@ import {
   paletteForCategory,
 } from "@/lib/courses-data";
 
+import { ArrowCarousel } from "@/components/arrow-carousel";
+import { HeadingPop } from "@/components/anim/heading-pop";
+
 import { CourseCard } from "./catalog-shared";
 import { TopicFilter } from "./topic-filter";
 
@@ -39,16 +42,23 @@ export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
                   >
                     {cat.name}
                   </span>
-                  <h3 className="mt-3 text-xl font-semibold text-card-foreground md:text-2xl">
+                  <HeadingPop
+                    as="h3"
+                    className="mt-3 text-xl font-semibold text-card-foreground md:text-2xl"
+                  >
                     Top {cat.name.toLowerCase()} on Vixi
-                  </h3>
+                  </HeadingPop>
                 </div>
                 <span className="hidden text-xs text-muted-foreground md:block">
                   {cat.courses.length}{" "}
                   {cat.courses.length === 1 ? "course" : "courses"}
                 </span>
               </div>
-              <div className="-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-3 md:mx-0 md:px-0">
+              <ArrowCarousel
+                ariaLabel={`Top ${cat.name.toLowerCase()} courses`}
+                className="-mx-4 md:mx-0"
+                scrollClassName="snap-x snap-mandatory gap-5 px-4 pb-3 md:px-0"
+              >
                 {cat.courses.slice(0, 8).map((c) => (
                   <div
                     key={c.id}
@@ -57,7 +67,7 @@ export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
                     <CourseCard course={c} compact />
                   </div>
                 ))}
-              </div>
+              </ArrowCarousel>
             </div>
           </section>
         );

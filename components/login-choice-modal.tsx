@@ -1,6 +1,7 @@
 "use client";
 
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { GraduationCap, Wand2, X } from "lucide-react";
 
 import { APP_URL, LEARNER_URL } from "@/lib/urls";
@@ -16,6 +17,11 @@ interface LoginChoiceModalProps {
 // same sticker treatment as the page's CTA buttons so the dialog feels
 // native to the rest of the site.
 export function LoginChoiceModal({ open, onClose }: LoginChoiceModalProps) {
+  // Portal target only exists on the client. Gate on mount so SSR/hydration
+  // stays consistent and createPortal never runs without a document.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -32,9 +38,14 @@ export function LoginChoiceModal({ open, onClose }: LoginChoiceModalProps) {
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
-  return (
+  // Portal to <body> so the dialog escapes the fixed header. Once the header
+  // is scrolled it gains a backdrop-filter, which turns it into the
+  // containing block for any position:fixed descendant — that would re-anchor
+  // this modal to the ~80px header strip and clip it. Rendering at body level
+  // keeps `fixed inset-0` relative to the viewport, always centered.
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
@@ -93,7 +104,8 @@ export function LoginChoiceModal({ open, onClose }: LoginChoiceModalProps) {
           />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

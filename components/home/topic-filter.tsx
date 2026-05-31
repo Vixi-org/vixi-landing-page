@@ -8,6 +8,7 @@ import {
   paletteForCategory,
 } from "@/lib/courses-data";
 import { cn } from "@/lib/utils";
+import { HeadingPop } from "@/components/anim/heading-pop";
 
 import { CourseCard } from "./catalog-shared";
 
@@ -26,15 +27,24 @@ export function TopicFilter({ courses }: { courses: PublicCourse[] }) {
   if (!active) return null;
 
   return (
-    <section className="border-y border-border/60 bg-[#fdf6f0] py-14 md:py-20">
-      <div className="mx-auto w-full max-w-6xl px-7 md:px-11">
+    <section className="relative border-b border-border/60 bg-[#fdf6f0] py-14 md:py-20">
+      {/* Smooth fade from the white hero above into this cream band — softens
+          the hard color seam between the two sections. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-background to-transparent"
+      />
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-7 md:px-11">
         <div className="mb-8">
           <span className="font-subheading text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
             Browse
           </span>
-          <h2 className="mt-2 text-2xl font-semibold text-card-foreground md:text-4xl">
+          <HeadingPop
+            as="h2"
+            className="mt-2 text-2xl font-semibold text-card-foreground md:text-4xl"
+          >
             Pick a topic
-          </h2>
+          </HeadingPop>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
             Tap a topic to see what learners are taking on Vixi right now.
           </p>

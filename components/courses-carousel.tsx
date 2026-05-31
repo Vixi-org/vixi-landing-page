@@ -20,6 +20,7 @@ import {
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { ArrowCarousel } from "@/components/arrow-carousel";
 
 const numFor = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -96,13 +97,15 @@ export async function CoursesCarousel({
         </div>
       </div>
 
-      <FadeUp className="relative mt-12" delay={0.1}>
-        <ul
-          className="-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-4 pb-6 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:-mx-6 md:px-6"
-          role="list"
-        >
+      <FadeUp delay={0.1}>
+        <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+          <ArrowCarousel
+            ariaLabel="Courses"
+            className="mt-12"
+            scrollClassName="snap-x snap-mandatory gap-5 pb-6 pt-2"
+          >
           {finalCourses.map((course, i) => (
-            <li key={`${course.title}-${i}`} className="snap-start">
+            <div key={`${course.title}-${i}`} className="snap-start">
               <article className="group relative flex h-full w-[300px] shrink-0 flex-col overflow-hidden rounded-2xl border-2 border-secondary/30 bg-background p-6 transition-all duration-300 hover:-translate-y-1 hover:border-secondary hover:shadow-[0_25px_60px_-30px_rgba(255,164,44,0.55)] md:w-[340px]">
                 <span
                   aria-hidden
@@ -134,9 +137,10 @@ export async function CoursesCarousel({
                   </p>
                 </div>
               </article>
-            </li>
+            </div>
           ))}
-        </ul>
+          </ArrowCarousel>
+        </div>
       </FadeUp>
     </section>
   );

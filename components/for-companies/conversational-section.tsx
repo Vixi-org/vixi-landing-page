@@ -3,8 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { CourseConversation } from "@/components/for-companies/course-conversation";
-import { Link } from "@/i18n/navigation";
 import { Cta } from "@/components/ui/cta";
+import { DEMO_URL } from "@/lib/urls";
 
 export async function ConversationalSection() {
   const t = await getTranslations("conversationalSection");
@@ -25,7 +25,7 @@ export async function ConversationalSection() {
                 {t("body")}
               </p>
               <Cta asChild className="mt-8">
-                <Link href="/contact">{tCommon("seeADemo")}</Link>
+                <a href={DEMO_URL}>{tCommon("seeADemo")}</a>
               </Cta>
             </FadeUp>
           </div>

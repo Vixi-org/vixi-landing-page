@@ -11,3 +11,8 @@
 export const APP_URL = "https://create.vixiai.co";
 export const LEARNER_URL = "https://learn.vixiai.co";
 export const LEARNER_API_URL = "https://learn.vixiai.co/api";
+
+// Demo-booking destination for the segment landing pages (For Companies /
+// For Schools / For Creators). Every primary CTA on those pages routes here
+// instead of straight into signup, so the sales team can qualify the lead.
+export const DEMO_URL = "https://linkly.link/2GHMB";

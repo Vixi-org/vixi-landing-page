@@ -4,8 +4,8 @@ import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { HeroVisual } from "@/components/for-schools/hero-visual";
-import { Link } from "@/i18n/navigation";
 import { Cta } from "@/components/ui/cta";
+import { DEMO_URL } from "@/lib/urls";
 
 interface HeroSectionProps {
   appUrl: string;
@@ -82,7 +82,7 @@ export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
               {t("body")}
             </p>
             <Cta asChild className="mt-8">
-              <Link href="/contact">{tCommon("seeADemo")}</Link>
+              <a href={DEMO_URL}>{tCommon("seeADemo")}</a>
             </Cta>
           </FadeUp>
         </div>

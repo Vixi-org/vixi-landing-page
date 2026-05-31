@@ -83,7 +83,14 @@ export async function FeatureRow({
 
               {ctaHref && (
                 <Cta asChild className="mt-8">
-                  <Link href={ctaHref}>{finalCtaLabel}</Link>
+                  {/* Absolute URLs (e.g. the demo-booking link) bypass the
+                      locale-aware Link and render a plain anchor so next-intl
+                      doesn't prepend a locale segment to an external host. */}
+                  {/^https?:\/\//.test(ctaHref) ? (
+                    <a href={ctaHref}>{finalCtaLabel}</a>
+                  ) : (
+                    <Link href={ctaHref}>{finalCtaLabel}</Link>
+                  )}
                 </Cta>
               )}
             </FadeUp>

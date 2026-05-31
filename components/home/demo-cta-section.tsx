@@ -2,11 +2,12 @@ import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Link } from "@/i18n/navigation";
 import { Cta } from "@/components/ui/cta";
+import { DEMO_URL } from "@/lib/urls";
 
 export async function DemoCtaSection() {
   const t = await getTranslations("demoCta");
+  const tCommon = await getTranslations("common");
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-r from-[#fdf6f0] via-background to-[#fdf6f0] py-20 md:py-24">
@@ -29,7 +30,7 @@ export async function DemoCtaSection() {
               {t("body")}
             </p>
             <Cta asChild className="mt-8">
-              <Link href="/contact">{t("cta")}</Link>
+              <a href={DEMO_URL}>{tCommon("seeADemo")}</a>
             </Cta>
           </FadeUp>
         </div>

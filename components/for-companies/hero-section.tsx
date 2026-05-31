@@ -5,15 +5,14 @@ import { getTranslations } from "next-intl/server";
 import { FadeUp } from "@/components/anim/fade-up";
 import { FloatingDot } from "@/components/anim/floating-dot";
 import { HeadingPop } from "@/components/anim/heading-pop";
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
 import { Cta } from "@/components/ui/cta";
+import { DEMO_URL } from "@/lib/urls";
 
 interface HeroSectionProps {
   appUrl: string;
 }
 
-export async function HeroSection({ appUrl }: HeroSectionProps) {
+export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
   const t = await getTranslations("forCompanies.hero");
   const tCommon = await getTranslations("common");
 
@@ -71,15 +70,8 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
               <Cta asChild>
-                <a href={`${appUrl}/signup`}>{tCommon("startFreeTrial")}</a>
+                <a href={DEMO_URL}>{tCommon("seeADemo")}</a>
               </Cta>
-              <Button
-                asChild
-                variant="outline"
-                className="h-11 rounded-full border-2 border-primary bg-transparent px-6 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
-              >
-                <Link href="/contact">{tCommon("bookADemo")}</Link>
-              </Button>
             </div>
           </FadeUp>
         </div>

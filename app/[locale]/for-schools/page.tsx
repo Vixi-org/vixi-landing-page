@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { APP_URL } from "@/lib/urls";
+import { APP_URL, DEMO_URL } from "@/lib/urls";
 
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
@@ -54,6 +54,7 @@ export default async function ForSchoolsPage({
 
   const appUrl = APP_URL;
   const t = await getTranslations("forSchools");
+  const tCommon = await getTranslations("common");
   const tSchool = await getTranslations("schoolCourses");
 
   const schoolCourses: Course[] = SCHOOL_COURSE_KEYS.map(({ key, Icon }) => ({
@@ -83,7 +84,8 @@ export default async function ForSchoolsPage({
         }
         body={t("instantGamification.body")}
         bullets={t.raw("instantGamification.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/transform.png"
         imageAlt={t("instantGamification.imageAlt")}
       />
@@ -104,7 +106,8 @@ export default async function ForSchoolsPage({
         }
         body={t("themes.body")}
         bullets={t.raw("themes.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<ThemesShowcase />}
       />
 
@@ -120,7 +123,8 @@ export default async function ForSchoolsPage({
         }
         body={t("editable.body")}
         bullets={t.raw("editable.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}
         reverse
         background="tint"

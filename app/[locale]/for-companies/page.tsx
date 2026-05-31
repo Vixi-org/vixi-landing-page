@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { APP_URL } from "@/lib/urls";
+import { APP_URL, DEMO_URL } from "@/lib/urls";
 
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
@@ -50,6 +50,7 @@ export default async function ForCompaniesPage({
 
   const appUrl = APP_URL;
   const t = await getTranslations("forCompanies");
+  const tCommon = await getTranslations("common");
 
   return (
     <>
@@ -89,7 +90,8 @@ export default async function ForCompaniesPage({
         }
         body={t("onboarding.body")}
         bullets={t.raw("onboarding.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}
         reverse
         background="tint"
@@ -147,7 +149,8 @@ export default async function ForCompaniesPage({
         }
         body={t("themes.body")}
         bullets={t.raw("themes.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<ThemesShowcase />}
       />
 
@@ -163,7 +166,8 @@ export default async function ForCompaniesPage({
         }
         body={t("editable.body")}
         bullets={t.raw("editable.bullets") as string[]}
-        ctaHref="/contact"
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}
         reverse
         background="tint"
