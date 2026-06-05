@@ -157,10 +157,10 @@
         "دليل المبيعات لمنفّذي حسابات SaaS بين الشركات"
       ],
       "sourceChip": {
-        "linkedin": "{count, plural, one {منشور لينكدإن واحد} other {# منشور لينكدإن}}",
+        "linkedin": "{count, plural, one {منشور واحد} other {# منشور}}",
         "editTitle": "عدّل منشوراتك",
-        "x": "{count, plural, one {منشور إكس واحد} other {# منشور إكس}}",
-        "pdf": "{count, plural, one {ملف PDF واحد} other {# ملف PDF}}"
+        "x": "{count, plural, one {منشور واحد} other {# منشور}}",
+        "pdf": "{count, plural, one {ملف واحد} other {# ملف}}"
       }
     },
     "partners": {

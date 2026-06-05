@@ -157,10 +157,10 @@
         "Sales playbook for B2B SaaS account executives"
       ],
       "sourceChip": {
-        "linkedin": "{count, plural, one {# LinkedIn post} other {# LinkedIn posts}}",
+        "linkedin": "{count, plural, one {# post} other {# posts}}",
         "editTitle": "Edit your posts",
-        "x": "{count, plural, one {# X post} other {# X posts}}",
-        "pdf": "{count, plural, one {# PDF file} other {# PDF files}}"
+        "x": "{count, plural, one {# post} other {# posts}}",
+        "pdf": "{count, plural, one {# file} other {# files}}"
       }
     },
     "partners": {
