@@ -155,7 +155,13 @@
         "Spanish phrases for travelers heading to Mexico",
         "Intro to machine learning for product managers",
         "Sales playbook for B2B SaaS account executives"
-      ]
+      ],
+      "sourceChip": {
+        "linkedin": "{count, plural, one {# LinkedIn post} other {# LinkedIn posts}}",
+        "editTitle": "Edit your posts",
+        "x": "{count, plural, one {# X post} other {# X posts}}",
+        "pdf": "{count, plural, one {# PDF file} other {# PDF files}}"
+      }
     },
     "partners": {
       "heading": "Backed & supported by"
@@ -213,6 +219,35 @@
     "buildPrompt": {
       "heading": "Got something you want to teach?",
       "invite": "Describe what you want to teach — we'll turn it into a gamified course."
+    },
+    "sourcePopup": {
+      "linkedin": {
+        "title": "Paste the text of your post (Not URL)",
+        "subtitle": "Paste the text of a post — not the link.",
+        "placeholder": "Paste a LinkedIn post here…"
+      },
+      "x": {
+        "title": "Paste the text of your post (Not URL)",
+        "subtitle": "Paste the text of a post — not the link.",
+        "placeholder": "Paste an X post here…"
+      },
+      "addPost": "Add post",
+      "savePost": "Save",
+      "done": "Done",
+      "count": "{count, plural, =0 {No posts added} one {# post added} other {# posts added}}",
+      "edit": "Edit",
+      "delete": "Delete",
+      "close": "Close",
+      "noPosts": "No posts added",
+      "viewMore": "More posts",
+      "cancel": "Cancel",
+      "editTitle": "Edit post",
+      "pdf": {
+        "title": "Add your PDF files"
+      },
+      "addMore": "Add PDFs",
+      "noFiles": "No files added",
+      "fileCount": "{count, plural, =0 {No files added} one {# file added} other {# files added}}"
     }
   },
   "forCompanies": {
@@ -502,10 +537,22 @@
     "headingLine3Highlight": "Teachers",
     "body": "Teachers can upload their photo, and our AI generates a 3D animated version of them to personally guide students through lessons — making remote learning more engaging and familiar.",
     "teachers": {
-      "history": { "role": "History teacher", "name": "Alex Huffman" },
-      "math": { "role": "Math teacher", "name": "Hugo Hoffman" },
-      "biology": { "role": "Biology teacher", "name": "Henry Lucas" },
-      "physics": { "role": "Physics teacher", "name": "Lina Carter" }
+      "history": {
+        "role": "History teacher",
+        "name": "Alex Huffman"
+      },
+      "math": {
+        "role": "Math teacher",
+        "name": "Hugo Hoffman"
+      },
+      "biology": {
+        "role": "Biology teacher",
+        "name": "Henry Lucas"
+      },
+      "physics": {
+        "role": "Physics teacher",
+        "name": "Lina Carter"
+      }
     }
   },
   "conversationalSection": {

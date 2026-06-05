@@ -1,83 +1,35 @@
 "use client";
 
 import {
+  type ChangeEvent,
   type ComponentType,
   type FormEvent,
   type KeyboardEvent,
   useEffect,
+  useId,
+  useRef,
   useState,
 } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Wand2 } from "lucide-react";
+import { Pencil, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
+import {
+  LinkedinGlyph,
+  PdfFileGlyph,
+  XGlyph,
+} from "@/components/source-glyphs";
+import {
+  type PostSourceType,
+  type SourcePost,
+  SourcePopup,
+} from "@/components/source-popup";
+import { type PdfFileItem, PdfPopup } from "@/components/pdf-popup";
+
+let pdfSeq = 0;
 
 export type SourceType = "linkedin" | "twitter" | "pdf";
-
-// Brand glyphs as inline SVGs — lucide's brand icons aren't stable across
-// versions and X (Twitter rebrand) isn't included at all, so just inline both.
-function XGlyph({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden
-    >
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
-
-function LinkedinGlyph({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden
-    >
-      <path d="M20.451 20.452h-3.554v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.94v5.666H9.355V9h3.414v1.561h.046c.477-.9 1.637-1.852 3.37-1.852 3.602 0 4.267 2.37 4.267 5.455v6.288zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  );
-}
-
-// Custom PDF glyph — a document silhouette with the literal letters "PDF"
-// stamped on the body, so the file type is obvious even at icon scale. Bold
-// + tight letter-spacing keeps the text legible at 16-20 px.
-function PdfFileGlyph({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14 2v6h6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <text
-        x="12"
-        y="18"
-        textAnchor="middle"
-        fontSize="7"
-        fontWeight="900"
-        fill="currentColor"
-        letterSpacing="-0.5"
-        fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
-      >
-        PDF
-      </text>
-    </svg>
-  );
-}
 
 interface SourceMeta {
   type: SourceType;
@@ -94,7 +46,7 @@ const SOURCES: SourceMeta[] = [
     type: "linkedin",
     label: "LinkedIn",
     Icon: LinkedinGlyph,
-    hint: "Paste a LinkedIn post or profile URL — we'll turn it into a course",
+    hint: "Add LinkedIn posts — we'll turn them into a course",
   },
   {
     type: "twitter",
@@ -109,6 +61,22 @@ const SOURCES: SourceMeta[] = [
     hint: "Describe the PDF you want to upload — you'll attach it next",
   },
 ];
+
+// LinkedIn + X are "post" source types (paste text into a popup); PDF is a file.
+function isPostType(t: SourceType): t is PostSourceType {
+  return t === "linkedin" || t === "twitter";
+}
+// Pill-chip styling + i18n key per post type (shown once posts are added).
+const CHIP: Record<PostSourceType, { key: "linkedin" | "x"; chip: string }> = {
+  linkedin: {
+    key: "linkedin",
+    chip: "border-[#cfe2fb] bg-[#EAF3FF] text-[#0A66C2] hover:border-[#b6d6f7] hover:bg-[#dcebfb]",
+  },
+  twitter: {
+    key: "x",
+    chip: "border-[#d2d5d9] bg-[#F2F3F4] text-[#0F1419] hover:border-[#c2c5c9] hover:bg-[#e6e7e9]",
+  },
+};
 
 const TYPE_MS = 45;
 const TYPE_JITTER = 25;
@@ -181,45 +149,98 @@ interface HeroPromptFormProps {
 }
 
 // Hero prompt form with an inline source-picker toolbar at the bottom-left
-// (LinkedIn / X / PDF). Multi-select — visitors can combine sources. On
-// submit, the URL carries ?prompt=… and (if any picked) ?source=linkedin,…
-// over to the educator platform's signup flow.
+// (LinkedIn / X / PDF). LinkedIn opens a popup to paste post text (multi-add);
+// X / PDF still toggle for now (popups come next). On submit, the URL carries
+// ?prompt=… and (if any active) ?source=linkedin,… over to signup. NOTE: the
+// actual post CONTENT handoff (anonymous-draft + token) is the next phase —
+// for now the posts live in local state and only the source TYPE is passed.
 export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   const t = useTranslations("home.hero");
   const tCommon = useTranslations("common");
   const samples = t.raw("samples") as string[];
   const [prompt, setPrompt] = useState("");
-  // Multi-select: users can combine sources (e.g. LinkedIn + PDF) when the
-  // course should pull from more than one place. Order in the URL is stable
-  // (matches SOURCES declaration) so the wizard can rely on it.
-  const [sources, setSources] = useState<Set<SourceType>>(new Set());
+  // All three source types collect content now: LinkedIn / X paste posts, PDF
+  // attaches files. "Selected" = has content of that type.
+  const [postsByType, setPostsByType] = useState<
+    Record<PostSourceType, SourcePost[]>
+  >({ linkedin: [], twitter: [] });
+  const [pdfFiles, setPdfFiles] = useState<PdfFileItem[]>([]);
+  const [openPopup, setOpenPopup] = useState<PostSourceType | null>(null);
+  const [pdfOpen, setPdfOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const placeholder = useTypewriterPlaceholder(samples, sources.size > 0);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  // Stable, instance-unique id so the empty-state PDF affordance can be a real
+  // <label htmlFor> (native OS picker on click — no programmatic .click(), which
+  // some browsers/profiles silently swallow). Unique per HeroPromptForm so the
+  // two instances on the page don't collide on a duplicate id.
+  const pdfInputId = useId();
 
-  const toggleSource = (s: SourceType) => {
-    setSources((prev) => {
-      const next = new Set(prev);
-      if (next.has(s)) next.delete(s);
-      else next.add(s);
-      return next;
-    });
+  const isActive = (type: SourceType) =>
+    isPostType(type) ? postsByType[type].length > 0 : pdfFiles.length > 0;
+  const activeCount = SOURCES.filter((s) => isActive(s.type)).length;
+  const placeholder = useTypewriterPlaceholder(samples, activeCount > 0);
+
+  const pickPdfs = () => pdfInputRef.current?.click();
+  const handlePdfPick = (e: ChangeEvent<HTMLInputElement>) => {
+    const picked = Array.from(e.target.files ?? []).filter(
+      (f) =>
+        f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"),
+    );
+    if (picked.length > 0) {
+      setPdfFiles((prev) => [
+        ...picked.map((file) => ({
+          id: `pdf-${++pdfSeq}`,
+          name: file.name,
+          size: file.size,
+          file,
+        })),
+        ...prev,
+      ]);
+      setPdfOpen(true); // show the manage popup after picking
+    }
+    e.target.value = ""; // allow re-picking the same file
   };
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const value = prompt.trim();
     if (!value || submitting) return;
     setSubmitting(true);
+
     const params = new URLSearchParams();
     params.set("prompt", value);
-    if (sources.size > 0) {
-      // Comma-separated keeps the URL human-readable and easy to parse on the
-      // educator side as a single search param.
-      const ordered = SOURCES.filter((s) => sources.has(s.type)).map(
-        (s) => s.type,
-      );
-      params.set("source", ordered.join(","));
+
+    const activeTypes = SOURCES.filter((s) => isActive(s.type)).map((s) => s.type);
+    if (activeTypes.length > 0) {
+      // Keep the source-type hint (so the wizard pre-selects the right tabs).
+      params.set("source", activeTypes.join(","));
+
+      // Stash the actual content (posts + PDFs) in an anonymous backend draft;
+      // the token travels in the URL and the educator app claims it post-signup.
+      // Best-effort: a failure just drops the content (user re-adds in the
+      // wizard) but never blocks the signup hand-off.
+      try {
+        const fd = new FormData();
+        const posts = [
+          ...postsByType.linkedin.map((p) => ({ type: 0, content: p.content })),
+          ...postsByType.twitter.map((p) => ({ type: 3, content: p.content })),
+        ];
+        if (posts.length > 0) fd.append("posts", JSON.stringify(posts));
+        pdfFiles.forEach((f) => fd.append("files", f.file, f.name));
+
+        const res = await fetch(`${appUrl}/api/Sources/draft`, {
+          method: "POST",
+          body: fd,
+        });
+        if (res.ok) {
+          const data = (await res.json()) as { token?: string };
+          if (data.token) params.set("draft", data.token);
+        }
+      } catch {
+        // swallow — proceed to signup with just the prompt + source hint
+      }
     }
+
     window.location.href = `${appUrl}/signup?${params.toString()}`;
   }
 
@@ -232,68 +253,121 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
 
   const canSubmit = prompt.trim().length > 0 && !submitting;
   const textareaPlaceholder = (() => {
-    if (sources.size === 0) return placeholder || " ";
-    if (sources.size === 1) {
-      const only = SOURCES.find((s) => sources.has(s.type));
+    if (activeCount === 0) return placeholder || " ";
+    if (activeCount === 1) {
+      const only = SOURCES.find((s) => isActive(s.type));
       return only?.hint ?? " ";
     }
-    const labels = SOURCES.filter((s) => sources.has(s.type)).map(
-      (s) => s.label,
-    );
+    const labels = SOURCES.filter((s) => isActive(s.type)).map((s) => s.label);
     return `Combining ${labels.join(" + ")} — describe what to teach`;
   })();
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="group relative w-full overflow-hidden rounded-2xl border border-border bg-background shadow-[0_20px_60px_-30px_rgba(74,50,111,0.35)] transition-shadow focus-within:border-primary focus-within:shadow-[0_25px_70px_-25px_rgba(74,50,111,0.45)]"
-    >
-      <textarea
-        value={prompt}
-        onChange={(event) => setPrompt(event.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder={textareaPlaceholder}
-        rows={3}
-        autoFocus
-        disabled={submitting}
-        aria-label={t("promptAriaLabel")}
-        className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-base leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className="group relative w-full overflow-hidden rounded-2xl border border-border bg-background shadow-[0_20px_60px_-30px_rgba(74,50,111,0.35)] transition-shadow focus-within:border-primary focus-within:shadow-[0_25px_70px_-25px_rgba(74,50,111,0.45)]"
+      >
+        <textarea
+          value={prompt}
+          onChange={(event) => setPrompt(event.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder={textareaPlaceholder}
+          rows={3}
+          autoFocus
+          disabled={submitting}
+          aria-label={t("promptAriaLabel")}
+          className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-base leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
+        />
+        <div className="flex items-center justify-between gap-3 px-[10px] pb-[9px] md:px-[14px] md:pb-[10px]">
+          <SourceToolbar
+            counts={{
+              linkedin: postsByType.linkedin.length,
+              twitter: postsByType.twitter.length,
+            }}
+            pdfCount={pdfFiles.length}
+            pdfInputId={pdfInputId}
+            onOpen={(type) => setOpenPopup(type)}
+            onOpenPdf={() => setPdfOpen(true)}
+          />
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className={cn(
+              "inline-flex h-10 cursor-pointer items-center justify-center gap-2 select-none",
+              "rounded-2xl border-2 border-card-foreground bg-secondary px-4 text-sm font-semibold text-secondary-foreground",
+              "shadow-[3px_3px_0_0_rgb(74,50,111)]",
+              "transition-all duration-150 ease-out",
+              "hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-[1.5px_1.5px_0_0_rgb(74,50,111)]",
+              "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
+              "disabled:pointer-events-none disabled:opacity-60",
+            )}
+          >
+            <Wand2 className="size-4" aria-hidden />
+            {submitting ? tCommon("generatingCourse") : tCommon("generateCourse")}
+          </button>
+        </div>
+      </form>
+
+      <SourcePopup
+        open={openPopup !== null}
+        onClose={() => setOpenPopup(null)}
+        sourceType={openPopup ?? "linkedin"}
+        posts={openPopup ? postsByType[openPopup] : []}
+        onChange={(next) =>
+          openPopup &&
+          setPostsByType((prev) => ({ ...prev, [openPopup]: next }))
+        }
       />
-      <div className="flex items-center justify-between gap-3 px-[10px] pb-[9px] md:px-[14px] md:pb-[10px]">
-        <SourceToolbar sources={sources} onToggle={toggleSource} />
-        <button
-          type="submit"
-          disabled={!canSubmit}
-          className={cn(
-            "inline-flex h-10 cursor-pointer items-center justify-center gap-2 select-none",
-            "rounded-2xl border-2 border-card-foreground bg-secondary px-4 text-sm font-semibold text-secondary-foreground",
-            "shadow-[3px_3px_0_0_rgb(74,50,111)]",
-            "transition-all duration-150 ease-out",
-            "hover:translate-x-[1.5px] hover:translate-y-[1.5px] hover:shadow-[1.5px_1.5px_0_0_rgb(74,50,111)]",
-            "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
-            "disabled:pointer-events-none disabled:opacity-60",
-          )}
-        >
-          <Wand2 className="size-4" aria-hidden />
-          {submitting ? tCommon("generatingCourse") : tCommon("generateCourse")}
-        </button>
-      </div>
-    </form>
+
+      <PdfPopup
+        open={pdfOpen}
+        onClose={() => setPdfOpen(false)}
+        files={pdfFiles}
+        onChange={setPdfFiles}
+        onAddMore={pickPdfs}
+      />
+
+      {/* Native OS file picker, triggered by the PDF icon / "Add more" button.
+          Kept in the DOM (visually hidden, NOT display:none) so .click() opens
+          the chooser reliably across browsers. */}
+      <input
+        ref={pdfInputRef}
+        id={pdfInputId}
+        type="file"
+        accept="application/pdf,.pdf"
+        multiple
+        onChange={handlePdfPick}
+        className="sr-only"
+        tabIndex={-1}
+      />
+    </>
   );
 }
 
-// Source picker toolbar that lives in the bottom-left of the input. "Add
-// knowledge from" label on the left (hidden on phones to save space), then
-// three 36px square icon buttons. Active state is a pale secondary tint —
-// intentionally subtle so the icons don't shout.
+// Pill style for the PDF "files added" chip (PDF red tint).
+const PDF_CHIP =
+  "border-[#f3c6c6] bg-[#FDECEC] text-[#C8102E] hover:border-[#eaadad] hover:bg-[#fbe0e0]";
+
+// Source picker toolbar (bottom-left of the input). "Add knowledge from" label,
+// then the source affordances. Each source shows a count "pill chip" once it
+// has content (click reopens its popup); otherwise an icon. LinkedIn / X icons
+// open the paste-text popup; the PDF icon opens the native file picker.
 function SourceToolbar({
-  sources,
-  onToggle,
+  counts,
+  pdfCount,
+  pdfInputId,
+  onOpen,
+  onOpenPdf,
 }: {
-  sources: Set<SourceType>;
-  onToggle: (s: SourceType) => void;
+  counts: Record<PostSourceType, number>;
+  pdfCount: number;
+  pdfInputId: string;
+  onOpen: (s: PostSourceType) => void;
+  onOpenPdf: () => void;
 }) {
+  const t = useTranslations("home.hero");
   return (
     <div className="flex items-center gap-2.5">
       <span className="hidden text-xs font-medium text-foreground/60 sm:inline">
@@ -301,20 +375,61 @@ function SourceToolbar({
       </span>
       <div className="flex items-center gap-1">
         {SOURCES.map(({ type, label, Icon }) => {
-          const active = sources.has(type);
+          const count = type === "pdf" ? pdfCount : counts[type as PostSourceType];
+
+          // Has content → pill chip indicator (replaces the icon).
+          if (count > 0) {
+            const isPdf = type === "pdf";
+            const chip = isPdf ? PDF_CHIP : CHIP[type as PostSourceType].chip;
+            const chipLabel = isPdf
+              ? t("sourceChip.pdf", { count })
+              : t(`sourceChip.${CHIP[type as PostSourceType].key}`, { count });
+            return (
+              <button
+                key={type}
+                type="button"
+                onClick={() => (isPdf ? onOpenPdf() : onOpen(type))}
+                title={t("sourceChip.editTitle")}
+                className={cn(
+                  "inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full border px-2.5 text-xs font-semibold transition-colors",
+                  chip,
+                )}
+              >
+                <Icon className="size-3.5" />
+                {chipLabel}
+                <Pencil className="size-3 opacity-70" aria-hidden />
+              </button>
+            );
+          }
+
+          const iconClass =
+            "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl text-foreground/70 transition-all hover:bg-muted hover:text-card-foreground";
+
+          // PDF (empty): a real <label> tied to the file input — clicking opens
+          // the native OS picker with zero JS, so it can't be swallowed by
+          // user-activation quirks the way a programmatic input.click() can.
+          if (type === "pdf") {
+            return (
+              <label
+                key={type}
+                htmlFor={pdfInputId}
+                title={`Use ${label} as source`}
+                className={iconClass}
+              >
+                <Icon className="size-4" />
+                <span className="sr-only">{label}</span>
+              </label>
+            );
+          }
+
+          // LinkedIn / X (empty): open the paste-text popup.
           return (
             <button
               key={type}
               type="button"
-              onClick={() => onToggle(type)}
-              aria-pressed={active}
-              title={active ? `Using ${label}` : `Use ${label} as source`}
-              className={cn(
-                "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl transition-all",
-                active
-                  ? "bg-secondary/15 text-secondary"
-                  : "text-foreground/70 hover:bg-muted hover:text-card-foreground",
-              )}
+              onClick={() => isPostType(type) && onOpen(type)}
+              title={`Use ${label} as source`}
+              className={iconClass}
             >
               <Icon className="size-4" />
               <span className="sr-only">{label}</span>

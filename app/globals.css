@@ -263,3 +263,32 @@
     @apply font-heading text-card-foreground;
   }
 }
+/* ===== Knowledge-source popup: post add / remove animations =====
+   Ported from the educator platform (course-maker index.css). Registered the
+   Tailwind-v4 way (@theme --animate-* + @keyframes inside @theme) so the
+   keyframes survive Tailwind's unused-keyframe pruning and are exposed as
+   `animate-li-*` utilities. A new card drops in from above; a removed card
+   puffs a white halo, shrinks, and fades. */
+@theme {
+  --animate-li-add-drop: li-add-drop 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-li-composer-eject: li-composer-eject 320ms ease-out both;
+  --animate-li-remove-puff: li-remove-puff 380ms cubic-bezier(0.4, 0, 0.6, 1) both;
+
+  @keyframes li-add-drop {
+    from { opacity: 0; transform: translateY(-110px) scale(0.96); }
+    60% { opacity: 1; }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes li-composer-eject {
+    0% { transform: scale(1); }
+    35% { transform: scale(0.98) translateY(2px); }
+    100% { transform: scale(1); }
+  }
+  @keyframes li-remove-puff {
+    0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+    35% { opacity: 1; transform: scale(1.04);
+      box-shadow: 0 0 0 8px rgba(255,255,255,0.65), 0 0 28px 14px rgba(255,255,255,0.55); }
+    100% { opacity: 0; transform: scale(0.78); filter: blur(2px);
+      box-shadow: 0 0 0 32px rgba(255,255,255,0), 0 0 72px 48px rgba(255,255,255,0); }
+  }
+}
