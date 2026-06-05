@@ -29,6 +29,24 @@ import { type PdfFileItem, PdfPopup } from "@/components/pdf-popup";
 
 let pdfSeq = 0;
 
+// Document formats we accept for the "files" source — PDF, Word, PowerPoint.
+// (Backend AsposeDocumentTextExtractor extracts text from each.)
+const DOC_EXTENSIONS = [".pdf", ".doc", ".docx", ".ppt", ".pptx"];
+const DOC_ACCEPT = [
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".ppt",
+  ".pptx",
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+].join(",");
+const isAllowedDoc = (f: File) =>
+  DOC_EXTENSIONS.some((e) => f.name.toLowerCase().endsWith(e));
+
 export type SourceType = "linkedin" | "twitter" | "pdf";
 
 interface SourceMeta {
@@ -56,9 +74,9 @@ const SOURCES: SourceMeta[] = [
   },
   {
     type: "pdf",
-    label: "PDF",
+    label: "File",
     Icon: PdfFileGlyph,
-    hint: "Describe the PDF you want to upload — you'll attach it next",
+    hint: "Describe the file you want to upload — PDF, Word or PowerPoint",
   },
 ];
 
@@ -182,10 +200,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
 
   const pickPdfs = () => pdfInputRef.current?.click();
   const handlePdfPick = (e: ChangeEvent<HTMLInputElement>) => {
-    const picked = Array.from(e.target.files ?? []).filter(
-      (f) =>
-        f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"),
-    );
+    const picked = Array.from(e.target.files ?? []).filter(isAllowedDoc);
     if (picked.length > 0) {
       setPdfFiles((prev) => [
         ...picked.map((file) => ({
@@ -336,7 +351,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         ref={pdfInputRef}
         id={pdfInputId}
         type="file"
-        accept="application/pdf,.pdf"
+        accept={DOC_ACCEPT}
         multiple
         onChange={handlePdfPick}
         className="sr-only"
