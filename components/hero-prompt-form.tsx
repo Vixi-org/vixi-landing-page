@@ -47,6 +47,27 @@ const DOC_ACCEPT = [
 const isAllowedDoc = (f: File) =>
   DOC_EXTENSIONS.some((e) => f.name.toLowerCase().endsWith(e));
 
+// Pull a human-readable reason out of the backend's failed /Sources/draft
+// response. A validation failure (e.g. a PDF over the 100-page or 25 MB cap)
+// comes back as a 400 ValidationProblemDetails: { errors: { Pdfs: [...] } }.
+// Falls back to a sensible default for non-JSON / unexpected bodies.
+async function readDraftError(res: Response): Promise<string> {
+  try {
+    const body = (await res.json()) as {
+      errors?: Record<string, string[]>;
+      detail?: string;
+    };
+    const msgs = body.errors
+      ? Object.values(body.errors).flat().filter(Boolean)
+      : [];
+    if (msgs.length > 0) return msgs.join(" ");
+    if (body.detail) return body.detail;
+  } catch {
+    // non-JSON body — fall through to the default
+  }
+  return "We couldn't add one of your files. It may be too long (max 100 pages) or too large (max 25 MB).";
+}
+
 export type SourceType = "linkedin" | "twitter" | "pdf";
 
 interface SourceMeta {
@@ -186,6 +207,9 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   const [openPopup, setOpenPopup] = useState<PostSourceType | null>(null);
   const [pdfOpen, setPdfOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  // Surfaced when the anonymous-draft upload fails (e.g. a too-long PDF) so the
+  // visitor isn't silently dropped through to signup without their source.
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
   // Stable, instance-unique id so the empty-state PDF affordance can be a real
   // <label htmlFor> (native OS picker on click — no programmatic .click(), which
@@ -220,6 +244,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
     event.preventDefault();
     const value = prompt.trim();
     if (!value || submitting) return;
+    setSubmitError(null);
     setSubmitting(true);
 
     const params = new URLSearchParams();
@@ -250,9 +275,22 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         if (res.ok) {
           const data = (await res.json()) as { token?: string };
           if (data.token) params.set("draft", data.token);
+        } else {
+          // The draft upload failed (e.g. a PDF over the 100-page / 25 MB cap, or
+          // an unsupported file). Surface the backend's reason instead of silently
+          // dropping the source and continuing — that's how an uploaded doc used to
+          // vanish without a trace. Keep the visitor here so they can fix or remove
+          // it and retry.
+          setSubmitError(await readDraftError(res));
+          setSubmitting(false);
+          return;
         }
       } catch {
-        // swallow — proceed to signup with just the prompt + source hint
+        setSubmitError(
+          "We couldn't add your sources. Check your connection and try again.",
+        );
+        setSubmitting(false);
+        return;
       }
     }
 
@@ -285,7 +323,10 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
       >
         <textarea
           value={prompt}
-          onChange={(event) => setPrompt(event.target.value)}
+          onChange={(event) => {
+            setPrompt(event.target.value);
+            if (submitError) setSubmitError(null);
+          }}
           onKeyDown={handleKeyDown}
           placeholder={textareaPlaceholder}
           rows={3}
@@ -324,6 +365,15 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
           </button>
         </div>
       </form>
+
+      {submitError && (
+        <p
+          role="alert"
+          className="mt-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
+          {submitError}
+        </p>
+      )}
 
       <SourcePopup
         open={openPopup !== null}
