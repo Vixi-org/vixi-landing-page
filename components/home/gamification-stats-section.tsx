@@ -17,7 +17,7 @@ export async function GamificationStatsSection() {
 
   return (
     <section className="bg-background py-20 md:py-28">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <FadeUp>
             <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">

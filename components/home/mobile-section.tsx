@@ -21,7 +21,7 @@ export function MobileSection({
         className="pointer-events-none absolute inset-y-0 right-0 w-1/2 opacity-20 [background-image:radial-gradient(circle,rgba(255,255,255,0.7)_1px,transparent_1px)] [background-size:20px_20px]"
         aria-hidden
       />
-      <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
           <div>
             <HeadingPop className="text-3xl font-semibold leading-tight md:text-5xl">

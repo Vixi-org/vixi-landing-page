@@ -54,7 +54,7 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
         delay={0.8}
       />
 
-      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 text-center md:px-6">
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-8 text-center md:px-6">
         <FadeUp>
           <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             {t("eyebrow")}
@@ -62,7 +62,7 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
         </FadeUp>
         <HeadingPop
           as="h1"
-          className="mt-6 text-[1.91rem] font-semibold leading-[1.05] text-card-foreground md:text-[3.19rem] lg:text-[3.83rem]"
+          className="mt-6 text-[1.91rem] font-semibold leading-[1.47] text-card-foreground md:text-[3.19rem] md:leading-[1.05] lg:text-[3.83rem]"
         >
           {t("title.main")}{" "}
           <span className="relative inline-block text-secondary">

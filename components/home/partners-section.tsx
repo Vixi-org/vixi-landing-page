@@ -15,7 +15,7 @@ export async function PartnersSection() {
   const t = await getTranslations("home.partners");
   return (
     <section className="bg-background pt-16 pb-9 md:pt-20 md:pb-10" aria-labelledby="partners-heading">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <HeadingPop
           as="h2"
           id="partners-heading"

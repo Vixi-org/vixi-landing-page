@@ -14,7 +14,7 @@ export async function ContactSection() {
 
   return (
     <section className="bg-background pt-28 pb-20 md:pt-32 md:pb-24">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-16">
           <div>
             <FadeUp>

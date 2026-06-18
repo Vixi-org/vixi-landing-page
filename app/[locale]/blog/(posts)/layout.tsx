@@ -25,7 +25,7 @@ export default async function PostLayout({
   return (
     <>
       <article className="bg-background pt-32 pb-12 md:pt-36 md:pb-16">
-        <div className="mx-auto w-full max-w-3xl px-4 md:px-6">
+        <div className="mx-auto w-full max-w-3xl px-8 md:px-6">
           <Link
             href="/blog"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-secondary"

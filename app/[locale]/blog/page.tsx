@@ -38,7 +38,7 @@ export default async function BlogIndexPage({
 
   return (
     <section className="bg-background pt-28 pb-16 md:pt-32 md:pb-20">
-        <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
           {featured && (
             <FadeUp>
             <Link

@@ -70,6 +70,8 @@ export function ArrowCarousel({
     el.scrollBy({ left: dir * el.clientWidth * 0.85, behavior: "smooth" });
   };
 
+  const showArrows = canLeft || canRight;
+
   return (
     <div className={cn("relative", className)}>
       <div
@@ -77,12 +79,15 @@ export function ArrowCarousel({
         aria-label={ariaLabel}
         className={cn(
           "flex overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          // Mobile-only right-edge fade while a card peeks off the right.
+          canRight && "rail-fade-right",
           scrollClassName,
         )}
       >
         {children}
       </div>
 
+      {/* Desktop: arrows float over the rail's left/right edges. */}
       <CarouselArrow
         side="left"
         disabled={!canLeft}
@@ -93,6 +98,25 @@ export function ArrowCarousel({
         disabled={!canRight}
         onClick={() => scrollByPage(1)}
       />
+
+      {/* Mobile: a stable left/right pair tucked into the lower-right corner,
+          below the rail. Swipe still works — these are just the obvious tap
+          target on touch. Hidden entirely when everything fits without
+          scrolling. */}
+      {showArrows && (
+        <div className="mt-3 flex justify-end gap-2 pr-4 md:hidden">
+          <CornerArrow
+            side="left"
+            disabled={!canLeft}
+            onClick={() => scrollByPage(-1)}
+          />
+          <CornerArrow
+            side="right"
+            disabled={!canRight}
+            onClick={() => scrollByPage(1)}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -128,6 +152,41 @@ function CarouselArrow({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
         side === "left" ? "-left-3 lg:-left-5" : "-right-3 lg:-right-5",
         disabled && "pointer-events-none opacity-0",
+      )}
+    >
+      <Icon className="size-5" aria-hidden />
+    </button>
+  );
+}
+
+// In-flow sticker button used for the mobile corner pair. Same Vixi control
+// language as CarouselArrow, but it sits in the normal flow (lower-right of the
+// rail) rather than floating over the edges. Disabled ends stay visible at low
+// opacity so the pair never shifts the layout as you scroll.
+function CornerArrow({
+  side,
+  disabled,
+  onClick,
+}: {
+  side: "left" | "right";
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  const Icon = side === "left" ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={side === "left" ? "Scroll left" : "Scroll right"}
+      className={cn(
+        "inline-flex h-11 w-11 shrink-0 cursor-pointer select-none items-center justify-center rounded-full",
+        "border-2 border-card-foreground bg-background text-card-foreground",
+        "shadow-[3px_3px_0_0_rgb(74,50,111)]",
+        "transition-all duration-150 ease-out",
+        "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)]",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2",
+        disabled && "pointer-events-none opacity-40",
       )}
     >
       <Icon className="size-5" aria-hidden />

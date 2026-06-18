@@ -33,7 +33,7 @@ export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
                 : "bg-[#fdf6f0] py-12 md:py-16"
             }
           >
-            <div className="mx-auto w-full max-w-6xl px-7 md:px-11">
+            <div className="mx-auto w-full max-w-6xl px-8 md:px-11">
               <div className="mb-6 flex items-end justify-between gap-4">
                 <div>
                   <span
@@ -57,7 +57,7 @@ export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
               <ArrowCarousel
                 ariaLabel={`Top ${cat.name.toLowerCase()} courses`}
                 className="-mx-4 md:mx-0"
-                scrollClassName="snap-x snap-mandatory gap-5 px-4 pb-3 md:px-0"
+                scrollClassName="snap-x snap-mandatory gap-5 px-4 pb-3 scroll-pl-4 md:px-0 md:scroll-pl-0"
               >
                 {cat.courses.slice(0, 8).map((c) => (
                   <div

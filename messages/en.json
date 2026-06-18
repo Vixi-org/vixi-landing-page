@@ -146,7 +146,7 @@
         "main": "Create your Duolingo-like courses,",
         "highlight": "in minutes"
       },
-      "promptInvite": "What do you want to teach?",
+      "promptInvite": "What's your course about?",
       "promptAriaLabel": "Course prompt",
       "samples": [
         "Teach digital marketing fundamentals to junior marketers",

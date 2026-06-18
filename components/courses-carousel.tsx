@@ -79,7 +79,7 @@ export async function CoursesCarousel({
 
   return (
     <section className="bg-background py-20 md:py-24" aria-labelledby="courses-heading">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <HeadingPop
             id="courses-heading"
@@ -98,7 +98,7 @@ export async function CoursesCarousel({
       </div>
 
       <FadeUp delay={0.1}>
-        <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+        <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
           <ArrowCarousel
             ariaLabel="Courses"
             className="mt-12"

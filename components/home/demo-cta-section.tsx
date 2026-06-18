@@ -15,7 +15,7 @@ export async function DemoCtaSection() {
         className="pointer-events-none absolute end-12 top-1/2 hidden h-32 w-40 -translate-y-1/2 opacity-60 md:block [background-image:radial-gradient(circle,rgb(74,50,111,0.6)_1.5px,transparent_1.5px)] [background-size:18px_18px]"
         aria-hidden
       />
-      <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="max-w-xl">
           <FadeUp>
             <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">

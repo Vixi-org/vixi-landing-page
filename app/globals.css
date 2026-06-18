@@ -251,6 +251,16 @@
   :root {
     font-size: 110%;
   }
+  /* Phones: the 110% scale is too large for a narrow vertical viewport.
+     Because every token is rem-based, dialing the root down to 88% shrinks
+     typography (and spacing) ~20% in lockstep — a clean proportional scale
+     rather than just smaller text. Desktop/laptop keep the full 110%.
+     Tweak this single value to change the reduction: 0.85 ≈ 15%, 0.75 ≈ 25%. */
+  @media (max-width: 767px) {
+    :root {
+      font-size: 88%;
+    }
+  }
   body {
     @apply bg-background text-foreground font-sans;
   }
@@ -261,6 +271,26 @@
   h5,
   h6 {
     @apply font-heading text-card-foreground;
+  }
+}
+
+/* Mobile course rails: fade the right edge so the peeking "next" card
+   dissolves into the section instead of being hard-cropped. Toggled via the
+   canRight state in ArrowCarousel, so it only shows while there's more to
+   scroll. The mask reveals whatever sits behind, so it works on both the
+   cream and white section bands without hard-coding a colour. */
+@media (max-width: 767px) {
+  .rail-fade-right {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 calc(100% - 2.5rem),
+      transparent 100%
+    );
   }
 }
 /* ===== Knowledge-source popup: post add / remove animations =====

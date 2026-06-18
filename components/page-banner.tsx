@@ -22,7 +22,7 @@ export async function PageBanner({ title, current }: PageBannerProps) {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fdf6f0] via-background to-background pt-36 pb-12 md:pt-44 md:pb-16">
-      <div className="relative mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-8 md:px-6">
         <FadeUp>
           <nav
             aria-label="Breadcrumb"

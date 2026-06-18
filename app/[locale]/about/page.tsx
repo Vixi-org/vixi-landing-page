@@ -51,7 +51,7 @@ export default async function AboutPage({
       <UniversitiesSection />
 
       <section className="bg-background pb-20 md:pb-28">
-        <div className="mx-auto grid w-full max-w-5xl gap-16 px-4 md:gap-20 md:px-6">
+        <div className="mx-auto grid w-full max-w-5xl gap-16 px-8 md:gap-20 md:px-6">
           <div>
             <FadeUp>
               <span className="font-subheading text-sm font-semibold uppercase tracking-[0.2em] text-secondary">

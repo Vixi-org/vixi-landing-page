@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Menu, Wand2 } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+import { Menu, Wand2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -30,6 +36,46 @@ const STICKER_BUTTON_BASE =
   "active:translate-x-[3px] active:translate-y-[3px] active:shadow-[0_0_0_0_rgb(74,50,111)] " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2";
 
+// Animated mobile-menu reveal: the panel pops out from the toggle corner with
+// a small spring, then the items cascade in — mirrors the playful "sticker
+// pop" motion used elsewhere on the page. A plain fade replaces it when the
+// visitor prefers reduced motion.
+const MENU_PANEL_VARIANTS: Variants = {
+  hidden: { opacity: 0, scale: 0.92, y: -10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 380,
+      damping: 30,
+      mass: 0.8,
+      staggerChildren: 0.06,
+      delayChildren: 0.04,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.92,
+    y: -8,
+    transition: { duration: 0.14, ease: "easeIn" },
+  },
+};
+const MENU_LIST_VARIANTS: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+const MENU_ITEM_VARIANTS: Variants = {
+  hidden: { opacity: 0, x: 8 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.2, ease: "easeOut" } },
+};
+const MENU_REDUCED_VARIANTS: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
 export function SiteHeader() {
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
@@ -37,6 +83,9 @@ export function SiteHeader() {
   // The Login link opens a chooser dialog instead of routing directly —
   // visitors disambiguate "educator login" vs "learner login" first.
   const [loginOpen, setLoginOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -44,6 +93,30 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close the animated menu on outside tap or Escape — the native <details>
+  // used to handle this for free; now that we drive it from state we wire it
+  // up ourselves.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  const panelVariants = reduceMotion ? MENU_REDUCED_VARIANTS : MENU_PANEL_VARIANTS;
+  const itemVariants = reduceMotion ? MENU_REDUCED_VARIANTS : MENU_ITEM_VARIANTS;
 
   return (
     <header
@@ -110,55 +183,105 @@ export function SiteHeader() {
           </a>
         </div>
 
-        <details className="relative md:hidden">
-          <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-lg text-primary hover:bg-muted [&::-webkit-details-marker]:hidden">
-            <Menu className="size-5" aria-hidden />
+        <div ref={menuRef} className="relative md:hidden">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-expanded={menuOpen}
+            aria-haspopup="menu"
+            aria-controls="mobile-menu"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-primary hover:bg-muted"
+          >
+            {/* Hamburger morphs to an X on open. */}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={menuOpen ? "close" : "open"}
+                initial={
+                  reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: -90 }
+                }
+                animate={
+                  reduceMotion ? { opacity: 1 } : { opacity: 1, rotate: 0 }
+                }
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center justify-center"
+              >
+                {menuOpen ? (
+                  <X className="size-5" aria-hidden />
+                ) : (
+                  <Menu className="size-5" aria-hidden />
+                )}
+              </motion.span>
+            </AnimatePresence>
             <span className="sr-only">{tNav("openMenu")}</span>
-          </summary>
-          <div className="absolute end-0 mt-2 w-56 rounded-lg border border-border bg-background p-2 shadow-lg">
-            <ul className="flex flex-col">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="block rounded-md px-3 py-2 text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
+          </button>
+
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                id="mobile-menu"
+                variants={panelVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                style={{ transformOrigin: "top right" }}
+                className="absolute end-0 z-50 mt-2 w-56 rounded-lg border border-border bg-background p-2 shadow-lg"
+              >
+                <motion.ul
+                  variants={reduceMotion ? undefined : MENU_LIST_VARIANTS}
+                  className="flex flex-col"
+                >
+                  {NAV_LINKS.map((link) => (
+                    <motion.li key={link.href} variants={itemVariants}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="block rounded-md px-3 py-2 text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
+                      >
+                        {tNav(link.labelKey)}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+                <motion.div
+                  variants={itemVariants}
+                  className="mt-1 flex flex-col gap-2 border-t border-border pt-2"
+                >
+                  <LanguageSwitcher className="self-start" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setLoginOpen(true);
+                    }}
+                    className="cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
                   >
-                    {tNav(link.labelKey)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-1 flex flex-col gap-2 border-t border-border pt-2">
-              <LanguageSwitcher className="self-start" />
-              <button
-                type="button"
-                onClick={() => setLoginOpen(true)}
-                className="cursor-pointer rounded-md px-3 py-2 text-left text-sm font-medium text-card-foreground hover:bg-muted hover:text-secondary"
-              >
-                {tCommon("login")}
-              </button>
-              <a
-                href={LEARNER_URL}
-                className={cn(
-                  STICKER_BUTTON_BASE,
-                  "bg-background text-card-foreground",
-                )}
-              >
-                {tCommon("learn")}
-              </a>
-              <a
-                href={`${APP_URL}/signup`}
-                className={cn(
-                  STICKER_BUTTON_BASE,
-                  "bg-secondary text-secondary-foreground",
-                )}
-              >
-                <Wand2 className="size-4" aria-hidden />
-                {tCommon("generateCourse")}
-              </a>
-            </div>
-          </div>
-        </details>
+                    {tCommon("login")}
+                  </button>
+                  <a
+                    href={LEARNER_URL}
+                    className={cn(
+                      STICKER_BUTTON_BASE,
+                      "bg-background text-card-foreground",
+                    )}
+                  >
+                    {tCommon("learn")}
+                  </a>
+                  <a
+                    href={`${APP_URL}/signup`}
+                    className={cn(
+                      STICKER_BUTTON_BASE,
+                      "bg-secondary text-secondary-foreground",
+                    )}
+                  >
+                    <Wand2 className="size-4" aria-hidden />
+                    {tCommon("generateCourse")}
+                  </a>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
       <LoginChoiceModal

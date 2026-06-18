@@ -42,7 +42,7 @@ export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
         delay={1.6}
       />
 
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 md:grid-cols-[1fr_1.1fr] md:gap-10 md:px-6">
+      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-8 md:grid-cols-[1fr_1.1fr] md:gap-10 md:px-6">
         <div>
           <HeadingPop
             as="h1"

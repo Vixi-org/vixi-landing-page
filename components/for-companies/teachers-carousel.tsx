@@ -16,7 +16,7 @@ export async function TeachersCarousel() {
 
   return (
     <section className="bg-gradient-to-b from-background via-[#fdf6f0] to-background py-20 md:py-28" aria-labelledby="teachers-heading">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
           <div>
             <FadeUp>

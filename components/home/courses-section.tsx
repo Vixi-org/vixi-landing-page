@@ -95,7 +95,7 @@ export async function CoursesSection() {
       className="bg-background py-20 md:py-28"
       aria-labelledby="courses-heading"
     >
-      <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-7xl px-8 md:px-6">
         <div className="mb-12 text-center">
           <HeadingPop
             as="h2"

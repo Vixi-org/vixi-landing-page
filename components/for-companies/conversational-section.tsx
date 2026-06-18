@@ -12,7 +12,7 @@ export async function ConversationalSection() {
 
   return (
     <section className="bg-background py-20 md:py-28">
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
           <div>
             <HeadingPop className="text-3xl font-semibold leading-tight md:text-5xl">

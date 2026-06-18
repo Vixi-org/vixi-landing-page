@@ -44,7 +44,7 @@ export async function FeatureRow({
 
   return (
     <section className={`relative ${bgClass} py-20 md:py-28`}>
-      <div className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
         <div
           className={`grid items-center gap-12 md:grid-cols-2 md:gap-16 ${
             reverse ? "md:[&>:first-child]:order-2" : ""
