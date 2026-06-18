@@ -294,7 +294,11 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
       }
     }
 
-    window.location.href = `${appUrl}/signup?${params.toString()}`;
+    // Hand off to the GUEST create wizard (no signup) — a logged-out visitor generates a course
+    // anonymously and is only prompted to sign up after they've seen + tried it. The wizard
+    // pre-fills ?prompt and skips the topic step; ?source/?draft carry the knowledge sources. An
+    // already-signed-in visitor is redirected from /start to the authed wizard, preserving params.
+    window.location.href = `${appUrl}/start?${params.toString()}`;
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
