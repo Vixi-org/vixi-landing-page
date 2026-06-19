@@ -337,7 +337,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
           autoFocus
           disabled={submitting}
           aria-label={t("promptAriaLabel")}
-          className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-base leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
+          className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-[16px] leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
         />
         <div className="flex items-center justify-between gap-3 px-[10px] pb-[9px] md:px-[14px] md:pb-[10px]">
           <SourceToolbar
