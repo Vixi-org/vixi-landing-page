@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Pencil, Wand2 } from "lucide-react";
+import { Loader2, Pencil, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
@@ -377,6 +377,22 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         >
           {submitError}
         </p>
+      )}
+
+      {/* Full-screen busy overlay while we stash the sources + hand off to the
+          create wizard (the /start load can take a few seconds). Dims the page
+          behind a soft backdrop so the wait reads as "working", not "stuck". */}
+      {submitting && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm"
+        >
+          <Loader2 className="size-12 animate-spin text-primary" aria-hidden />
+          <p className="text-sm font-medium text-foreground/70">
+            {tCommon("generatingCourse")}
+          </p>
+        </div>
       )}
 
       <SourcePopup
