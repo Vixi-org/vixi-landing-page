@@ -480,7 +480,7 @@ function SourceToolbar({
                   chip,
                 )}
               >
-                <Icon className="size-3.5" />
+                <Icon className="size-3.5 max-[640px]:size-[1.05rem]" />
                 {chipLabel}
                 <Pencil className="size-3 opacity-70" aria-hidden />
               </button>
@@ -501,7 +501,7 @@ function SourceToolbar({
                 title={`Use ${label} as source`}
                 className={iconClass}
               >
-                <Icon className="size-4" />
+                <Icon className="size-4 max-[640px]:size-[1.2rem]" />
                 <span className="sr-only">{label}</span>
               </label>
             );
@@ -516,7 +516,7 @@ function SourceToolbar({
               title={`Use ${label} as source`}
               className={iconClass}
             >
-              <Icon className="size-4" />
+              <Icon className="size-4 max-[640px]:size-[1.2rem]" />
               <span className="sr-only">{label}</span>
             </button>
           );

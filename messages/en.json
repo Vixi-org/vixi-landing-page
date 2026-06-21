@@ -245,7 +245,7 @@
       "pdf": {
         "title": "Add your files (PDF, Word or PowerPoint)"
       },
-      "addMore": "Add files",
+      "addMore": "Add more files",
       "noFiles": "No files added",
       "fileCount": "{count, plural, =0 {No files added} one {# file added} other {# files added}}"
     }
