@@ -5,8 +5,10 @@ import {
   type ComponentType,
   type FormEvent,
   type KeyboardEvent,
+  useCallback,
   useEffect,
   useId,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -69,6 +71,11 @@ async function readDraftError(res: Response): Promise<string> {
 }
 
 export type SourceType = "linkedin" | "twitter" | "pdf";
+
+// Result of an anonymous-source draft upload: a token to carry in the URL (or
+// null if the backend returned none), or a human-readable error to surface
+// (validation failure such as a too-long PDF, or a network error).
+type DraftResult = { token: string | null } | { error: string };
 
 interface SourceMeta {
   type: SourceType;
@@ -240,6 +247,89 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
     e.target.value = ""; // allow re-picking the same file
   };
 
+  // ---- Anonymous source draft: pre-upload on pick (not on submit) ----------
+  // Stashing the posts + files in a backend draft is the slowest part of the
+  // hand-off (uploading a big PDF + server-side text extraction). Instead of
+  // doing it on the "Generate" click, we kick it off in the BACKGROUND the
+  // moment a source is added/changed — keyed by a content signature — so by the
+  // time the visitor clicks, the draft token is already waiting and the click
+  // navigates immediately. (Bonus: this also pre-warms the per-file synopsis the
+  // wizard's clarifying questions are grounded on.) A signature change (add /
+  // remove / edit a source) supersedes the previous draft and re-uploads.
+  const sourceSignature = useMemo(() => {
+    const posts = [
+      ...postsByType.linkedin.map((p) => `0:${p.content}`),
+      ...postsByType.twitter.map((p) => `3:${p.content}`),
+    ];
+    const files = pdfFiles.map(
+      (f) => `${f.name}:${f.size}:${f.file.lastModified}`,
+    );
+    if (posts.length === 0 && files.length === 0) return "";
+    return JSON.stringify({ posts, files });
+  }, [postsByType, pdfFiles]);
+
+  // The in-flight/finished pre-upload, tagged with the signature it was built
+  // from so the submit path can tell whether it's still current.
+  const draftRef = useRef<{
+    signature: string;
+    promise: Promise<DraftResult>;
+  } | null>(null);
+
+  const startDraftUpload = useCallback(
+    (signature: string): Promise<DraftResult> => {
+      const fd = new FormData();
+      const posts = [
+        ...postsByType.linkedin.map((p) => ({ type: 0, content: p.content })),
+        ...postsByType.twitter.map((p) => ({ type: 3, content: p.content })),
+      ];
+      if (posts.length > 0) fd.append("posts", JSON.stringify(posts));
+      pdfFiles.forEach((f) => fd.append("files", f.file, f.name));
+
+      const promise = fetch(`${appUrl}/api/Sources/draft`, {
+        method: "POST",
+        body: fd,
+      })
+        .then(async (res): Promise<DraftResult> => {
+          if (res.ok) {
+            const data = (await res.json()) as { token?: string };
+            return { token: data.token ?? null };
+          }
+          return { error: await readDraftError(res) };
+        })
+        .catch(
+          (): DraftResult => ({
+            error:
+              "We couldn't add your sources. Check your connection and try again.",
+          }),
+        );
+
+      draftRef.current = { signature, promise };
+      // Don't cache a FAILED upload — drop it so the next attempt (a later pick
+      // or the submit click) re-uploads instead of replaying the same error,
+      // matching the old "every submit retries" behavior. A success stays cached
+      // for instant reuse.
+      void promise.then((result) => {
+        if ("error" in result && draftRef.current?.promise === promise) {
+          draftRef.current = null;
+        }
+      });
+      return promise;
+    },
+    [appUrl, postsByType, pdfFiles],
+  );
+
+  // Pre-upload (debounced) whenever the source content changes; skip if the
+  // current content is already (being) uploaded.
+  useEffect(() => {
+    if (!sourceSignature) {
+      draftRef.current = null;
+      return;
+    }
+    if (draftRef.current?.signature === sourceSignature) return;
+    const id = setTimeout(() => startDraftUpload(sourceSignature), 400);
+    return () => clearTimeout(id);
+  }, [sourceSignature, startDraftUpload]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const value = prompt.trim();
@@ -255,43 +345,26 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
       // Keep the source-type hint (so the wizard pre-selects the right tabs).
       params.set("source", activeTypes.join(","));
 
-      // Stash the actual content (posts + PDFs) in an anonymous backend draft;
-      // the token travels in the URL and the educator app claims it post-signup.
-      // Best-effort: a failure just drops the content (user re-adds in the
-      // wizard) but never blocks the signup hand-off.
-      try {
-        const fd = new FormData();
-        const posts = [
-          ...postsByType.linkedin.map((p) => ({ type: 0, content: p.content })),
-          ...postsByType.twitter.map((p) => ({ type: 3, content: p.content })),
-        ];
-        if (posts.length > 0) fd.append("posts", JSON.stringify(posts));
-        pdfFiles.forEach((f) => fd.append("files", f.file, f.name));
+      // Reuse the anonymous draft the background pre-upload (started when the
+      // source was picked) already produced — the token travels in the URL and
+      // the educator app claims it post-signup. Only upload here if that draft is
+      // missing or stale (content changed in the last instant), so the common
+      // case resolves instantly and the click navigates with no perceptible wait.
+      // Best-effort: a failure surfaces the reason (e.g. a PDF over the 100-page
+      // / 25 MB cap) and keeps the visitor here to fix or remove it and retry,
+      // instead of silently dropping the source.
+      const pending =
+        draftRef.current?.signature === sourceSignature
+          ? draftRef.current.promise
+          : startDraftUpload(sourceSignature);
+      const result = await pending;
 
-        const res = await fetch(`${appUrl}/api/Sources/draft`, {
-          method: "POST",
-          body: fd,
-        });
-        if (res.ok) {
-          const data = (await res.json()) as { token?: string };
-          if (data.token) params.set("draft", data.token);
-        } else {
-          // The draft upload failed (e.g. a PDF over the 100-page / 25 MB cap, or
-          // an unsupported file). Surface the backend's reason instead of silently
-          // dropping the source and continuing — that's how an uploaded doc used to
-          // vanish without a trace. Keep the visitor here so they can fix or remove
-          // it and retry.
-          setSubmitError(await readDraftError(res));
-          setSubmitting(false);
-          return;
-        }
-      } catch {
-        setSubmitError(
-          "We couldn't add your sources. Check your connection and try again.",
-        );
+      if ("error" in result) {
+        setSubmitError(result.error);
         setSubmitting(false);
         return;
       }
+      if (result.token) params.set("draft", result.token);
     }
 
     // Hand off to the GUEST create wizard (no signup) — a logged-out visitor generates a course
