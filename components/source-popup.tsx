@@ -76,6 +76,30 @@ export function SourcePopup({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Anchor the dialog to the VISUAL viewport (the area NOT covered by the
+  // on-screen keyboard) instead of the layout viewport. On mobile, focusing the
+  // composer raises the keyboard; a layout-centered modal would slide partly
+  // behind it and push the "Done" button off-screen (and iOS would try to scroll
+  // the input into view). Tracking visualViewport.height/offsetTop keeps the
+  // popup centered in the space ABOVE the keyboard — sticky as the user types,
+  // and re-centering down a touch when the keyboard is dismissed. Paired with the
+  // 16px composer font below (≥16px stops iOS from auto-zooming on focus).
+  const [vv, setVv] = useState<{ top: number; height: number } | null>(null);
+  useEffect(() => {
+    if (!open) return;
+    const visualViewport = window.visualViewport;
+    if (!visualViewport) return;
+    const update = () =>
+      setVv({ top: visualViewport.offsetTop, height: visualViewport.height });
+    update();
+    visualViewport.addEventListener("resize", update);
+    visualViewport.addEventListener("scroll", update);
+    return () => {
+      visualViewport.removeEventListener("resize", update);
+      visualViewport.removeEventListener("scroll", update);
+    };
+  }, [open]);
+
   // Scroll affordance for the fixed-height list: the "View more" pill shows
   // while there's content below the fold.
   const listRef = useRef<HTMLDivElement>(null);
@@ -190,17 +214,23 @@ export function SourcePopup({
       aria-modal="true"
       aria-labelledby="source-popup-heading"
       data-lenis-prevent
-      className="fixed inset-0 z-50 flex animate-in fade-in items-center justify-center p-4 duration-200"
+      className="fixed inset-0 z-50 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div className="absolute inset-0 backdrop-blur-md" />
 
+      {/* Centering wrapper pinned to the visual viewport so the card stays above
+          the keyboard. Falls back to the full layout viewport before mount. */}
       <div
-        className="relative flex w-full max-w-[29rem] animate-in fade-in zoom-in-95 flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-[0_30px_80px_-30px_rgba(74,50,111,0.5)] duration-300 ease-out"
-        onClick={(e) => e.stopPropagation()}
+        className="absolute inset-x-0 flex items-center justify-center p-4"
+        style={vv ? { top: vv.top, height: vv.height } : { top: 0, bottom: 0 }}
       >
+        <div
+          className="relative flex max-h-full w-full max-w-[29rem] animate-in fade-in zoom-in-95 flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-[0_30px_80px_-30px_rgba(74,50,111,0.5)] duration-300 ease-out"
+          onClick={(e) => e.stopPropagation()}
+        >
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 pt-6">
+        <div className="flex flex-none items-center gap-3 px-6 pt-6">
           <span
             className="flex h-8 w-8 flex-none items-center justify-center rounded-lg text-white"
             style={{ background: cfg.brand }}
@@ -225,6 +255,9 @@ export function SourcePopup({
           </button>
         </div>
 
+        {/* Scrollable body — shrinks (and scrolls) when the viewport above the
+            keyboard is short, keeping the footer's "Done" always on screen. */}
+        <div className="min-h-0 overflow-y-auto">
         {/* Composer */}
         <div className="px-6 pt-4">
           <textarea
@@ -236,7 +269,7 @@ export function SourcePopup({
             autoFocus
             placeholder={t(`${cfg.i18nKey}.placeholder`)}
             className={cn(
-              "block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-sm leading-relaxed text-card-foreground placeholder:text-foreground/50 focus:border-primary focus:outline-none",
+              "block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-base leading-relaxed text-card-foreground placeholder:text-foreground/50 focus:border-primary focus:outline-none sm:text-sm",
               composerPulse && "animate-li-composer-eject",
             )}
           />
@@ -248,7 +281,7 @@ export function SourcePopup({
         </div>
 
         {/* Fixed-height list region (constant height for 0 / 2 / N posts) */}
-        <div className="relative mx-6 mt-3.5">
+        <div className="relative mx-6 mt-3.5 mb-3.5">
           <div
             ref={listRef}
             onScroll={recompute}
@@ -314,13 +347,15 @@ export function SourcePopup({
             </button>
           ) : null}
         </div>
+        </div>
 
         {/* Footer */}
-        <div className="mt-3.5 flex items-center justify-between gap-3 border-t border-border bg-muted/30 px-6 py-3.5">
+        <div className="flex flex-none items-center justify-between gap-3 border-t border-border bg-muted/30 px-6 py-3.5">
           <span className="text-[13px] font-medium text-muted-foreground">
             {t("count", { count: posts.length })}
           </span>
           <StickerButton onClick={onClose}>{t("done")}</StickerButton>
+        </div>
         </div>
       </div>
     </div>
@@ -332,15 +367,19 @@ export function SourcePopup({
       role="dialog"
       aria-modal="true"
       data-lenis-prevent
-      className="fixed inset-0 z-[60] flex animate-in fade-in items-center justify-center p-4 duration-150"
+      className="fixed inset-0 z-[60] animate-in fade-in duration-150"
       onClick={() => setEditing(null)}
     >
       <div className="absolute inset-0 bg-foreground/10 backdrop-blur-md" />
       <div
-        className="relative flex w-full max-w-[29rem] animate-in fade-in zoom-in-95 flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-[0_30px_80px_-30px_rgba(74,50,111,0.55)] duration-200 ease-out"
+        className="absolute inset-x-0 flex items-center justify-center p-4"
+        style={vv ? { top: vv.top, height: vv.height } : { top: 0, bottom: 0 }}
+      >
+      <div
+        className="relative flex max-h-full w-full max-w-[29rem] animate-in fade-in zoom-in-95 flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-[0_30px_80px_-30px_rgba(74,50,111,0.55)] duration-200 ease-out"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 px-6 pt-6">
+        <div className="flex flex-none items-center gap-3 px-6 pt-6">
           <span
             className="flex h-8 w-8 flex-none items-center justify-center rounded-lg text-white"
             style={{ background: cfg.brand }}
@@ -359,16 +398,16 @@ export function SourcePopup({
             <X className="size-[18px]" aria-hidden />
           </button>
         </div>
-        <div className="px-6 pt-4">
+        <div className="min-h-0 overflow-y-auto px-6 pb-4 pt-4">
           <textarea
             value={editValue}
             onChange={(e) => setEditValue(e.target.value.slice(0, MAX_LEN))}
             rows={8}
             autoFocus
-            className="block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-sm leading-relaxed text-card-foreground focus:border-primary focus:outline-none"
+            className="block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-base leading-relaxed text-card-foreground focus:border-primary focus:outline-none sm:text-sm"
           />
         </div>
-        <div className="mt-4 flex items-center justify-end gap-2 border-t border-border bg-muted/30 px-6 py-3.5">
+        <div className="flex flex-none items-center justify-end gap-2 border-t border-border bg-muted/30 px-6 py-3.5">
           <GhostButton onClick={() => setEditing(null)}>{t("cancel")}</GhostButton>
           <StickerButton
             onClick={saveEdit}
@@ -377,6 +416,7 @@ export function SourcePopup({
             {t("savePost")}
           </StickerButton>
         </div>
+      </div>
       </div>
     </div>
   ) : null;

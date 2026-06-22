@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Loader2, Pencil, Wand2 } from "lucide-react";
+import { Pencil, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
@@ -381,15 +381,22 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
 
       {/* Full-screen busy overlay while we stash the sources + hand off to the
           create wizard (the /start load can take a few seconds). Dims the page
-          behind a soft backdrop so the wait reads as "working", not "stuck". */}
+          behind a soft backdrop so the wait reads as "working", not "stuck". A
+          dual counter-rotating ring (brand purple + orange) reads as a lively
+          "loading", deliberately NOT "generating" — the course is only built
+          once the visitor reaches the wizard. */}
       {submitting && (
         <div
           role="status"
           aria-live="polite"
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-5 bg-background/80 backdrop-blur-sm"
         >
-          <Loader2 className="size-12 animate-spin text-primary" aria-hidden />
-          <p className="text-sm font-medium text-foreground/70">
+          <span className="relative block size-16" aria-hidden>
+            <span className="absolute inset-0 rounded-full border-4 border-primary/15" />
+            <span className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary border-r-primary/50" />
+            <span className="absolute inset-[7px] animate-spin rounded-full border-[3px] border-transparent border-b-secondary [animation-direction:reverse] [animation-duration:0.85s]" />
+          </span>
+          <p className="animate-pulse text-sm font-medium text-foreground/70">
             {tCommon("generatingCourse")}
           </p>
         </div>
