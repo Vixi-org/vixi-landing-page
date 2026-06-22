@@ -269,7 +269,7 @@ export function SourcePopup({
             autoFocus
             placeholder={t(`${cfg.i18nKey}.placeholder`)}
             className={cn(
-              "block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-base leading-relaxed text-card-foreground placeholder:text-foreground/50 focus:border-primary focus:outline-none sm:text-sm",
+              "block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-[16px] leading-relaxed text-card-foreground placeholder:text-foreground/50 focus:border-primary focus:outline-none sm:text-sm",
               composerPulse && "animate-li-composer-eject",
             )}
           />
@@ -404,7 +404,7 @@ export function SourcePopup({
             onChange={(e) => setEditValue(e.target.value.slice(0, MAX_LEN))}
             rows={8}
             autoFocus
-            className="block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-base leading-relaxed text-card-foreground focus:border-primary focus:outline-none sm:text-sm"
+            className="block w-full resize-none rounded-xl border border-border bg-background px-3.5 py-3 text-[16px] leading-relaxed text-card-foreground focus:border-primary focus:outline-none sm:text-sm"
           />
         </div>
         <div className="flex flex-none items-center justify-end gap-2 border-t border-border bg-muted/30 px-6 py-3.5">
