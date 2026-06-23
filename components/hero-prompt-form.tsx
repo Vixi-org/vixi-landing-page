@@ -405,6 +405,22 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
             if (submitError) setSubmitError(null);
           }}
           onKeyDown={handleKeyDown}
+          onBlur={() => {
+            // iOS scrolls the page up to fit the keyboard on focus, but leaves
+            // it scrolled after the keyboard is dismissed (tapping "Done"/blur).
+            // Snap the hero back to its at-rest top position. Mobile only — on
+            // desktop a blur shouldn't yank the page around. The small delay lets
+            // Safari finish its own keyboard-close viewport adjustment first.
+            if (
+              typeof window !== "undefined" &&
+              window.matchMedia("(max-width: 767px)").matches
+            ) {
+              window.setTimeout(
+                () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                50,
+              );
+            }
+          }}
           placeholder={textareaPlaceholder}
           rows={3}
           autoFocus
