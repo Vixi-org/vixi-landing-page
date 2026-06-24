@@ -89,7 +89,7 @@ export function LoginChoiceModal({ open, onClose }: LoginChoiceModalProps) {
           <ChoiceCard
             href={`${APP_URL}/login`}
             icon={<Wand2 className="size-7" aria-hidden />}
-            title="Log in as Educator"
+            title="Log in as Creator"
             description="Create gamified courses and grow your audience."
             iconBg="bg-secondary/15"
             iconText="text-secondary"

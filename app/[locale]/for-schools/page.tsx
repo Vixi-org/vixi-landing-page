@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { APP_URL, DEMO_URL } from "@/lib/urls";
+import { hl } from "@/lib/highlight-word";
 
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
@@ -76,14 +77,13 @@ export default async function ForSchoolsPage({
             {t("instantGamification.headingLine1")}{" "}
             <span className="text-secondary">
               {t("instantGamification.headingLine1Highlight")}
-            </span>{" "}
-            {t("instantGamification.headingLine1End")}
+            </span>
             <br />
+            {t("instantGamification.headingLine1End")}{" "}
             {t("instantGamification.headingLine3")}
           </>
         }
         body={t("instantGamification.body")}
-        bullets={t.raw("instantGamification.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/transform.png"
@@ -99,13 +99,12 @@ export default async function ForSchoolsPage({
         eyebrow={t("themes.eyebrow")}
         heading={
           <>
-            {t("themes.headingLine1")}
+            {hl(t("themes.headingLine1"), "Customizable")}
             <br />
             {t("themes.headingLine2")}
           </>
         }
         body={t("themes.body")}
-        bullets={t.raw("themes.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
         visual={<ThemesShowcase />}
@@ -115,14 +114,13 @@ export default async function ForSchoolsPage({
         eyebrow={t("editable.eyebrow")}
         heading={
           <>
-            {t("editable.headingLine1")}{" "}
+            {hl(t("editable.headingLine1"), "editable")}{" "}
             <span className="whitespace-nowrap">
               {t("editable.headingLine2")}
             </span>
           </>
         }
         body={t("editable.body")}
-        bullets={t.raw("editable.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}

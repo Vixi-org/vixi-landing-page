@@ -80,17 +80,16 @@ export async function CoursesCarousel({
   return (
     <section className="bg-background py-20 md:py-24" aria-labelledby="courses-heading">
       <div className="mx-auto w-full max-w-6xl px-8 md:px-6">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
           <HeadingPop
             id="courses-heading"
             className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl"
           >
-            {t("headingLine1")}
-            <br />
+            {t("headingLine1")}{" "}
             <span className="text-secondary">{t("headingLine2")}</span>
           </HeadingPop>
           <FadeUp delay={0.85}>
-            <p className="mt-5 text-base leading-7 text-foreground md:text-lg">
+            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-foreground md:text-lg">
               {finalBody}
             </p>
           </FadeUp>

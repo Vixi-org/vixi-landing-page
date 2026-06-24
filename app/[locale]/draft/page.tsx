@@ -112,7 +112,6 @@ export default async function DraftHomePage({
           </>
         }
         body={t("editable.body")}
-        bullets={t.raw("editable.bullets") as string[]}
         ctaHref="/"
         visual={<EditableVisual />}
         reverse
@@ -129,7 +128,6 @@ export default async function DraftHomePage({
           </>
         }
         body={t("themes.body")}
-        bullets={t.raw("themes.bullets") as string[]}
         ctaHref="/"
         visual={<ThemesShowcase />}
       />

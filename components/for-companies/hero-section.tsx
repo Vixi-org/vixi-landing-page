@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
@@ -40,13 +39,9 @@ export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
         <div>
           <HeadingPop
             as="h1"
-            className="text-[2.025rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.375rem]"
+            className="text-[1.8225rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.0375rem]"
           >
             {t("title.line1")}
-            <br />
-            {t("title.line2")}
-            <br />
-            {t("title.line3")}
             <br />
             <span className="text-primary">{t("title.line4Highlight")}</span>
           </HeadingPop>
@@ -54,20 +49,6 @@ export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
             <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
               {t("body")}
             </p>
-            <div className="mt-7 flex flex-col gap-4 text-sm text-card-foreground sm:flex-row sm:items-center sm:gap-7">
-              <span className="inline-flex items-center gap-2">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-secondary text-secondary">
-                  <Check className="size-3" strokeWidth={3} aria-hidden />
-                </span>
-                {tCommon("noCardsRequired")}
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-secondary text-secondary">
-                  <Check className="size-3" strokeWidth={3} aria-hidden />
-                </span>
-                {tCommon("thirtyDayFreeTrial")}
-              </span>
-            </div>
             <div className="mt-9 flex flex-wrap gap-3">
               <Cta asChild>
                 <a href={DEMO_URL}>{tCommon("seeADemo")}</a>

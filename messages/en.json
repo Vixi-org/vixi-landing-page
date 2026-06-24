@@ -1,4 +1,12 @@
 {
+  "discovery": {
+    "eyebrow": "Browse",
+    "title": "What others are creating",
+    "subtitle": "Tap a topic to see what learners are taking on Vixi right now.",
+    "all": "All",
+    "topOnVixi": "Top {category} on Vixi",
+    "courseCount": "{count, plural, =1 {# course} other {# courses}}"
+  },
   "common": {
     "seeADemo": "See a demo",
     "bookADemo": "Book a demo",
@@ -253,10 +261,10 @@
   "forCompanies": {
     "hero": {
       "title": {
-        "line1": "AI-Powered",
-        "line2": "Gamified",
+        "line1": "Gamified learning",
+        "line2": "learning for",
         "line3": "Learning for",
-        "line4Highlight": "employees"
+        "line4Highlight": "for employees"
       },
       "body": "Our AI-powered course maker is for businesses, SMEs, and training teams looking to transform traditional learning materials into engaging, gamified experiences."
     },
@@ -281,15 +289,14 @@
       "body": "Cut training time, boost engagement, and ensure new hires quickly adapt — leading to faster productivity, stronger retention, and a thriving workplace!",
       "bullets": [
         "Transform boring onboarding manuals into interactive journeys that new hires actually enjoy.",
-        "Use real-world scenarios, challenges, and rewards to help employees grasp company culture, policies, and workflows faster.",
-        "Progress tracking & milestone rewards ensure new employees feel a sense of accomplishment from day one."
+        "Use real-world scenarios, challenges, and rewards to help employees grasp company culture, policies, and workflows faster."
       ]
     },
     "compliance": {
       "eyebrow": "Reinvented",
       "headingLine1": "Corporate Training & Compliance",
       "headingLine2Highlight": "Reinvented",
-      "body": "Make training exciting, not exhausting! Our AI transforms compliance and workplace training into interactive experiences — boosting engagement, improving decisions, and ensuring employees stay motivated and accountable.",
+      "body": "Keep employees engaged in mandatory training (HR policies, cybersecurity, workplace safety, etc.) with gamified experiences. Our AI transforms compliance and workplace training into interactive experiences with leaderboards, certifications, and progress tracking that keep employees motivated.",
       "bullets": [
         "Keep employees engaged in mandatory training (HR policies, cybersecurity, workplace safety, etc.) with gamified experiences.",
         "AI-generated role-playing scenarios simulate real-life workplace challenges to improve decision-making skills.",
@@ -302,7 +309,7 @@
       "headingLine1": "Turn your company's",
       "headingLine2": "trainers into an",
       "headingLine3": "animated character",
-      "body": "Bring your teaching to life with a 3D animated avatar that mirrors your appearance, making your presence truly felt in the course. Simply upload a picture, and our AI generates a Pixar-like digital character with natural facial expressions, gestures, and animations.",
+      "body": "This feature allows C-level executives, HR managers, or industry experts to be the face of training, making it more relatable. Simply upload a picture, and our AI generates a Pixar-like digital character with natural facial expressions, gestures, and animations.",
       "bullets": [
         "SMEs and businesses can upload a leader's or expert's photo to create a lifelike 3D AI avatar as the course instructor.",
         "This feature allows C-level executives, HR managers, or industry experts to be the face of training, making it more relatable."

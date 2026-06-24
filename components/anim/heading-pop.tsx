@@ -10,6 +10,13 @@ import {
   type ReactNode,
 } from "react";
 
+// Cursive scripts (Arabic, Persian, Urdu, …) must keep each word's letters in a
+// single text run, or they lose their connecting (initial / medial / final)
+// forms and render disjointed. When a word contains such characters we animate
+// the whole word as one unit instead of splitting it into per-character spans.
+const CURSIVE_RE =
+  /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
+
 interface HeadingPopProps {
   children: ReactNode;
   className?: string;
@@ -89,13 +96,22 @@ export function HeadingPop({
     words.forEach((word, wordIdx) => {
       if (wordIdx > 0) out.push(" ");
       if (word.length === 0) return;
+      // Cursive words must stay whole, or their letters disconnect — animate
+      // the entire word as a single unit instead of per character.
+      if (CURSIVE_RE.test(word)) {
+        out.push(animateChar(word, `${prefix}-w-${wordIdx}`));
+        return;
+      }
       const chars: ReactNode[] = [];
       word.split("").forEach((c, i) => {
         chars.push(animateChar(c, `${prefix}-${wordIdx}-${i}`));
       });
       out.push(
+        // dir="ltr" keeps Latin words (e.g. a brand name inside an Arabic
+        // heading) from rendering right-to-left when the page is RTL.
         <span
           key={`${prefix}-w-${wordIdx}`}
+          dir="ltr"
           style={{ whiteSpace: "nowrap" }}
         >
           {chars}

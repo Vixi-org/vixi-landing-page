@@ -1,8 +1,11 @@
+import { getLocale, getTranslations } from "next-intl/server";
+
 import {
   type PublicCourse,
   groupByCategory,
   paletteForCategory,
 } from "@/lib/courses-data";
+import { localizeCategoryName } from "@/lib/category-i18n";
 
 import { ArrowCarousel } from "@/components/arrow-carousel";
 import { HeadingPop } from "@/components/anim/heading-pop";
@@ -14,8 +17,10 @@ import { TopicFilter } from "./topic-filter";
 // section on the homepage. Structure: interactive Pick-a-topic filter → per-
 // category horizontal rails. Cards link to the learner platform; the create-
 // course CTA lives in the build-prompt section just above the footer.
-export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
+export async function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
   if (courses.length === 0) return null;
+  const t = await getTranslations("discovery");
+  const locale = await getLocale();
   const rails = groupByCategory(courses).slice(0, 4);
 
   return (
@@ -40,18 +45,21 @@ export function LearnerCatalog({ courses }: { courses: PublicCourse[] }) {
                     className="inline-flex h-7 items-center rounded-full px-3 text-[11px] font-semibold uppercase tracking-wide"
                     style={{ background: palette.bg, color: palette.fg }}
                   >
-                    {cat.name}
+                    {localizeCategoryName(cat.name, locale)}
                   </span>
                   <HeadingPop
                     as="h3"
                     className="mt-3 text-xl font-semibold text-card-foreground md:text-2xl"
                   >
-                    Top {cat.name.toLowerCase()} on Vixi
+                    {t("topOnVixi", {
+                      category: locale.startsWith("ar")
+                        ? localizeCategoryName(cat.name, locale)
+                        : cat.name.toLowerCase(),
+                    })}
                   </HeadingPop>
                 </div>
                 <span className="hidden text-xs text-muted-foreground md:block">
-                  {cat.courses.length}{" "}
-                  {cat.courses.length === 1 ? "course" : "courses"}
+                  {t("courseCount", { count: cat.courses.length })}
                 </span>
               </div>
               <ArrowCarousel

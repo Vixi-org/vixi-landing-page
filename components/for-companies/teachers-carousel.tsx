@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
+import { Cta } from "@/components/ui/cta";
+import { DEMO_URL } from "@/lib/urls";
 
 const TEACHER_KEYS = ["history", "math", "biology", "physics"] as const;
 const TEACHER_GRADIENTS = {
@@ -13,6 +15,7 @@ const TEACHER_GRADIENTS = {
 
 export async function TeachersCarousel() {
   const t = await getTranslations("teachersCarousel");
+  const tCommon = await getTranslations("common");
 
   return (
     <section className="bg-gradient-to-b from-background via-[#fdf6f0] to-background py-20 md:py-28" aria-labelledby="teachers-heading">
@@ -41,6 +44,9 @@ export async function TeachersCarousel() {
               <p className="mt-6 max-w-md text-base leading-7 text-foreground md:text-lg">
                 {t("body")}
               </p>
+              <Cta asChild className="mt-8">
+                <a href={DEMO_URL}>{tCommon("seeADemo")}</a>
+              </Cta>
               <div
                 className="mt-8 h-16 w-32 opacity-40 [background-image:radial-gradient(circle,rgb(74,50,111,0.7)_1.5px,transparent_1.5px)] [background-size:14px_14px]"
                 aria-hidden

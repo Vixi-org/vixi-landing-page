@@ -55,7 +55,7 @@ export default async function HomePage({
       <GamificationStatsSection />
 
       <section className="relative overflow-hidden bg-gradient-to-b from-background via-[#fdf6f0] to-background py-20 md:py-28">
-        <div className="mx-auto w-full max-w-3xl px-8 text-center md:px-6">
+        <div className="mx-auto w-full max-w-5xl px-8 text-center md:px-6">
           <HeadingPop className="text-3xl font-semibold leading-tight text-card-foreground md:text-5xl">
             {t("buildPrompt.heading")}
           </HeadingPop>
@@ -64,7 +64,7 @@ export default async function HomePage({
               {t("buildPrompt.invite")}
             </p>
           </FadeUp>
-          <FadeUp delay={0.7} className="mt-8 w-full">
+          <FadeUp delay={0.7} className="mx-auto mt-8 w-full max-w-3xl">
             <HeroPromptForm appUrl={APP_URL} />
           </FadeUp>
         </div>

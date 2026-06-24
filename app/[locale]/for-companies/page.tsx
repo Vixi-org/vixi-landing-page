@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { APP_URL, DEMO_URL } from "@/lib/urls";
+import { hl } from "@/lib/highlight-word";
 
 
 import { ConversationalSection } from "@/components/for-companies/conversational-section";
@@ -11,6 +12,8 @@ import { DemoCtaSection } from "@/components/home/demo-cta-section";
 import { FeatureRow } from "@/components/home/feature-row";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { EditableVisual } from "@/components/home/placeholder-visuals";
+import { OnboardingJourneyVisual } from "@/components/home/onboarding-visuals";
+import { ComplianceModulesVisual } from "@/components/home/compliance-visuals";
 import { ThemesShowcase } from "@/components/themes-showcase";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://vixiai.co";
@@ -72,7 +75,8 @@ export default async function ForCompaniesPage({
           </>
         }
         body={t("instantGamification.body")}
-        bullets={t.raw("instantGamification.bullets") as string[]}
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/transform.png"
         imageAlt={t("instantGamification.imageAlt")}
       />
@@ -92,7 +96,7 @@ export default async function ForCompaniesPage({
         bullets={t.raw("onboarding.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
-        visual={<EditableVisual />}
+        visual={<OnboardingJourneyVisual />}
         reverse
         background="tint"
       />
@@ -109,9 +113,9 @@ export default async function ForCompaniesPage({
           </>
         }
         body={t("compliance.body")}
-        bullets={t.raw("compliance.bullets") as string[]}
-        imageSrc="/mockups/transform.png"
-        imageAlt={t("compliance.imageAlt")}
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
+        visual={<ComplianceModulesVisual />}
       />
 
       <CoursesCarousel />
@@ -124,11 +128,12 @@ export default async function ForCompaniesPage({
             <br />
             {t("trainersAvatar.headingLine2")}
             <br />
-            {t("trainersAvatar.headingLine3")}
+            {hl(t("trainersAvatar.headingLine3"), "animated")}
           </>
         }
         body={t("trainersAvatar.body")}
-        bullets={t.raw("trainersAvatar.bullets") as string[]}
+        ctaHref={DEMO_URL}
+        ctaLabel={tCommon("seeADemo")}
         imageSrc="/mockups/avatars.png"
         imageAlt={t("trainersAvatar.imageAlt")}
         reverse
@@ -142,13 +147,12 @@ export default async function ForCompaniesPage({
         eyebrow={t("themes.eyebrow")}
         heading={
           <>
-            {t("themes.headingLine1")}
+            {hl(t("themes.headingLine1"), "Customizable")}
             <br />
             {t("themes.headingLine2")}
           </>
         }
         body={t("themes.body")}
-        bullets={t.raw("themes.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
         visual={<ThemesShowcase />}
@@ -158,14 +162,13 @@ export default async function ForCompaniesPage({
         eyebrow={t("editable.eyebrow")}
         heading={
           <>
-            {t("editable.headingLine1")}{" "}
+            {hl(t("editable.headingLine1"), "editable")}{" "}
             <span className="whitespace-nowrap">
               {t("editable.headingLine2")}
             </span>
           </>
         }
         body={t("editable.body")}
-        bullets={t.raw("editable.bullets") as string[]}
         ctaHref={DEMO_URL}
         ctaLabel={tCommon("seeADemo")}
         visual={<EditableVisual />}

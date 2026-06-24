@@ -2,6 +2,8 @@
 
 import { useMemo, useState } from "react";
 
+import { useLocale, useTranslations } from "next-intl";
+
 import {
   type CategoryBucket,
   type PublicCourse,
@@ -9,6 +11,7 @@ import {
   paletteForCategory,
 } from "@/lib/courses-data";
 import { cn } from "@/lib/utils";
+import { localizeCategoryName } from "@/lib/category-i18n";
 import { ArrowCarousel } from "@/components/arrow-carousel";
 import { HeadingPop } from "@/components/anim/heading-pop";
 
@@ -23,6 +26,8 @@ const ALL_ID = -1;
 // grid swap is local state; the full course list is streamed in from the
 // server-side fetch so we don't pay a re-fetch cost on every chip click.
 export function TopicFilter({ courses }: { courses: PublicCourse[] }) {
+  const t = useTranslations("discovery");
+  const locale = useLocale();
   const categories = useMemo(() => groupByCategory(courses), [courses]);
   // Prepend a synthetic "All" tab showing every published course. It's the
   // default selection so first paint shows the full catalog rather than just
@@ -47,16 +52,16 @@ export function TopicFilter({ courses }: { courses: PublicCourse[] }) {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-8 md:px-11">
         <div className="mb-8">
           <span className="font-subheading text-xs font-semibold uppercase tracking-[0.18em] text-secondary">
-            Browse
+            {t("eyebrow")}
           </span>
           <HeadingPop
             as="h2"
             className="mt-2 text-2xl font-semibold text-card-foreground md:text-4xl"
           >
-            What others are creating
+            {t("title")}
           </HeadingPop>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            Tap a topic to see what learners are taking on Vixi right now.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -92,7 +97,7 @@ export function TopicFilter({ courses }: { courses: PublicCourse[] }) {
                 )}
                 style={{ background: palette.bg, color: palette.fg }}
               >
-                {tab.name}
+                {isAll ? t("all") : localizeCategoryName(tab.name, locale)}
                 <span className="rounded-full bg-white/80 px-2 text-[11px] font-bold text-card-foreground">
                   {tab.courses.length}
                 </span>
