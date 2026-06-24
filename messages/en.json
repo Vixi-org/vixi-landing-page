@@ -626,5 +626,11 @@
         "body": "Incorporating gamification elements into learning experiences has been found to improve information retention rates by up to 9 times compared to traditional methods."
       }
     }
+  },
+  "consent": {
+    "aria": "Cookie consent",
+    "message": "We use cookies to measure our ads and improve Vixi. Accept to help us, or reject — your choice is saved.",
+    "accept": "Accept",
+    "reject": "Reject"
   }
 }

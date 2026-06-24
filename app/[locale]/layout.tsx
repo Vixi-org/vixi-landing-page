@@ -4,6 +4,9 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+import { ConsentBanner } from "@/components/analytics/consent-banner";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
+import { OutboundTracker } from "@/components/analytics/outbound-tracker";
 import { SmoothScroll } from "@/components/anim/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SiteFooter } from "@/components/site-footer";
@@ -147,11 +150,14 @@ export default async function RootLayout({
     >
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground">
         <JsonLd data={[ORGANIZATION_SCHEMA, websiteSchema]} />
+        <MetaPixel />
         <SmoothScroll />
         <NextIntlClientProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <OutboundTracker />
+          <ConsentBanner />
         </NextIntlClientProvider>
       </body>
     </html>

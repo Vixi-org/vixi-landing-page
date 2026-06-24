@@ -17,6 +17,7 @@ import { Pencil, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
+import { track, trackDual } from "@/lib/meta-pixel";
 import {
   LinkedinGlyph,
   PdfFileGlyph,
@@ -330,6 +331,19 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
     return () => clearTimeout(id);
   }, [sourceSignature, startDraftUpload]);
 
+  // Fire SourceAdded (Pixel-only) the first time each source type gains content.
+  const prevActiveRef = useRef<Set<SourceType>>(new Set());
+  useEffect(() => {
+    const active = new Set<SourceType>();
+    if (postsByType.linkedin.length > 0) active.add("linkedin");
+    if (postsByType.twitter.length > 0) active.add("twitter");
+    if (pdfFiles.length > 0) active.add("pdf");
+    for (const type of active) {
+      if (!prevActiveRef.current.has(type)) track("SourceAdded", { source_type: type });
+    }
+    prevActiveRef.current = active;
+  }, [postsByType, pdfFiles]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const value = prompt.trim();
@@ -339,6 +353,11 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
 
     const params = new URLSearchParams();
     params.set("prompt", value);
+
+    // Forward the Meta click id so create.* can also derive _fbc. Belt-and-suspenders:
+    // the Pixel already sets a root-domain _fbc cookie shared across subdomains.
+    const fbclid = new URLSearchParams(window.location.search).get("fbclid");
+    if (fbclid) params.set("fbclid", fbclid);
 
     const activeTypes = SOURCES.filter((s) => isActive(s.type)).map((s) => s.type);
     if (activeTypes.length > 0) {
@@ -366,6 +385,17 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
       }
       if (result.token) params.set("draft", result.token);
     }
+
+    // Top-of-funnel conversion: Lead (Pixel + CAPI, deduped on a shared event_id) plus a
+    // Pixel-only custom event with a bit more shape. Fired right before the hand-off.
+    const eventParams = {
+      content_category: "course_prompt",
+      source_types: activeTypes.length > 0 ? activeTypes.join(",") : "none",
+      num_sources: activeTypes.length,
+      prompt_length: value.length,
+    };
+    trackDual("Lead", eventParams);
+    track("GenerateCourseStarted", eventParams);
 
     // Hand off to the GUEST create wizard (no signup) — a logged-out visitor generates a course
     // anonymously and is only prompted to sign up after they've seen + tried it. The wizard
