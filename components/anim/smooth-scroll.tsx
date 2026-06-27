@@ -4,6 +4,8 @@ import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
+import { setLenisInstance } from "@/lib/lenis-instance";
+
 /**
  * Site-wide smooth scrolling powered by Lenis.
  *
@@ -47,6 +49,7 @@ export function SmoothScroll() {
       syncTouch: false,
     });
     lenisRef.current = lenis;
+    setLenisInstance(lenis);
 
     let rafId = 0;
     function raf(time: number) {
@@ -59,6 +62,7 @@ export function SmoothScroll() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
+      setLenisInstance(null);
     };
   }, []);
 

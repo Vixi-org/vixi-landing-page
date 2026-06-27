@@ -166,10 +166,15 @@ export default async function RootLayout({
         <MetaPixel />
         <SmoothScroll />
         <NextIntlClientProvider>
-          <SiteHeader />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-          <OutboundTracker />
+          {/* `display: contents` wrapper (no layout box) the consent gate flips
+              to `inert` while a choice is pending, so the whole site behind the
+              modal is non-interactive + hidden from assistive tech. */}
+          <div id="site-shell" style={{ display: "contents" }}>
+            <SiteHeader />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+            <OutboundTracker />
+          </div>
           <ConsentBanner />
         </NextIntlClientProvider>
       </body>
