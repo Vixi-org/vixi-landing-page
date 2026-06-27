@@ -50,6 +50,11 @@
 }
 
 :root {
+  /* Declare the site as light-only so Android browsers (Samsung Internet /
+     Chrome "Darken websites") don't algorithmically recolor it — that auto-dark
+     pass is what washes out the cream palette and can hide the white hero input
+     on some devices. There is no dark theme shipped; .dark is unused. */
+  color-scheme: only light;
   --background: rgb(255 255 255);
   --foreground: rgb(111 119 130);
   --card: rgb(255 255 255);

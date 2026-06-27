@@ -32,11 +32,11 @@ export function ConsentBanner() {
     <div
       role="dialog"
       aria-label={t("aria")}
-      className="fixed inset-x-3 bottom-3 z-[200] mx-auto max-w-3xl rounded-2xl border border-border bg-background/95 p-4 shadow-[0_20px_60px_-25px_rgba(74,50,111,0.45)] backdrop-blur-sm md:inset-x-auto md:left-1/2 md:bottom-5 md:-translate-x-1/2 md:p-5"
+      className="fixed bottom-3 left-3 z-[200] w-[calc(100%-1.5rem)] max-w-[31.2rem] rounded-2xl border border-border bg-background/95 p-4 shadow-[0_20px_60px_-25px_rgba(74,50,111,0.45)] backdrop-blur-sm md:bottom-5 md:left-5 md:p-5"
     >
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-5">
+      <div className="flex flex-col gap-3">
         <p className="text-sm leading-6 text-foreground">{t("message")}</p>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center justify-end gap-2">
           <button
             type="button"
             onClick={() => decide("rejected")}

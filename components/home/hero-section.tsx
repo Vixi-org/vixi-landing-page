@@ -55,13 +55,14 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
       />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center px-8 text-center md:px-6">
-        <FadeUp>
+        <FadeUp immediate>
           <span className="font-subheading text-sm font-semibold uppercase tracking-[0.18em] text-secondary">
             {t("eyebrow")}
           </span>
         </FadeUp>
         <HeadingPop
           as="h1"
+          immediate
           className="mt-6 text-[1.91rem] font-semibold leading-[1.47] text-card-foreground md:text-[3.19rem] md:leading-[1.05] lg:text-[3.83rem]"
         >
           {t("title.main")}{" "}
@@ -83,12 +84,12 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
             </svg>
           </span>
         </HeadingPop>
-        <FadeUp delay={1.1}>
+        <FadeUp immediate delay={1.1}>
           <p className="mt-16 text-[1.24rem] leading-7 text-foreground md:text-[1.375rem]">
             {t("promptInvite")}
           </p>
         </FadeUp>
-        <FadeUp delay={1.2} className="mt-[17px] w-full max-w-2xl">
+        <FadeUp immediate delay={1.2} className="mt-[17px] w-full max-w-2xl">
           <HeroPromptForm appUrl={appUrl} />
         </FadeUp>
       </div>

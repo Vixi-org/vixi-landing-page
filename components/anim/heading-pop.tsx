@@ -26,6 +26,12 @@ interface HeadingPopProps {
   startDelay?: number;
   /** Delay between consecutive characters, in seconds. Default 0.0275. */
   charStagger?: number;
+  /**
+   * Play on mount instead of on scroll-into-view. Use for the above-the-fold
+   * hero heading — see FadeUp's `immediate` note (mobile IntersectionObserver
+   * can leave whileInView content stuck invisible).
+   */
+  immediate?: boolean;
   /** Forwarded to the underlying heading tag. */
   id?: string;
 }
@@ -54,6 +60,7 @@ export function HeadingPop({
   as: Tag = "h2",
   startDelay = 0.19,
   charStagger = 0.0275,
+  immediate = false,
   id,
 }: HeadingPopProps) {
   const reduced = useReducedMotion();
@@ -65,13 +72,19 @@ export function HeadingPop({
   const animateChar = (char: string, key: string): ReactElement => {
     const delay = reduced ? 0 : startDelay + charIndex * charStagger;
     charIndex += 1;
+    // immediate → animate on mount; otherwise reveal on scroll-into-view.
+    const reveal = immediate
+      ? { animate: { opacity: 1, scale: 1, y: 0 } }
+      : {
+          whileInView: { opacity: 1, scale: 1, y: 0 },
+          viewport: { once: true, amount: 0.2 },
+        };
     return (
       <motion.span
         key={key}
         className="inline-block"
         initial={reduced ? false : { opacity: 0, scale: 1.4, y: -8 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
+        {...reveal}
         transition={{
           duration: 0.5625,
           delay,

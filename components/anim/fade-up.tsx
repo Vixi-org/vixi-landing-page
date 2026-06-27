@@ -14,6 +14,14 @@ interface FadeUpProps {
   amount?: number;
   /** When true, animates only the first time it enters view. Default true. */
   once?: boolean;
+  /**
+   * Play on mount instead of on scroll-into-view. Use for ABOVE-THE-FOLD hero
+   * content: `whileInView` is gated on an IntersectionObserver hit, which on
+   * some mobile browsers never fires for content that loads below a short
+   * (e.g. landscape) fold, leaving the element stuck at opacity 0. Mounting the
+   * animation guarantees it becomes visible regardless of viewport/observer.
+   */
+  immediate?: boolean;
   /** Optional className passthrough so the wrapper inherits layout styles. */
   className?: string;
   /** Render as a different HTML element. Default "div". */
@@ -34,6 +42,7 @@ export function FadeUp({
   duration = 0.6,
   amount = 0.2,
   once = true,
+  immediate = false,
   className,
   as = "div",
 }: FadeUpProps) {
@@ -44,12 +53,16 @@ export function FadeUp({
     return <Tag className={className}>{children}</Tag>;
   }
 
+  // immediate → animate on mount; otherwise reveal on scroll-into-view.
+  const reveal = immediate
+    ? { animate: { opacity: 1, y: 0 } }
+    : { whileInView: { opacity: 1, y: 0 }, viewport: { once, amount } };
+
   return (
     <Tag
       className={className}
       initial={{ opacity: 0, y: distance }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, amount }}
+      {...reveal}
       transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}

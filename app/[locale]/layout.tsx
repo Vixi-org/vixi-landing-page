@@ -145,6 +145,9 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={isArabic ? "rtl" : "ltr"}
+      // Light-only: stop Android browsers (Samsung Internet / Chrome "Darken
+      // websites") auto-recoloring the cream palette + hiding the hero input.
+      style={{ colorScheme: "light" }}
       className={`${readexPro.variable} ${roboto.variable} ${nunitoSans.variable} ${geistMono.variable} ${cairo.variable} antialiased`}
       suppressHydrationWarning
     >
