@@ -219,25 +219,11 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   // visitor isn't silently dropped through to signup without their source.
   const [submitError, setSubmitError] = useState<string | null>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   // Stable, instance-unique id so the empty-state PDF affordance can be a real
   // <label htmlFor> (native OS picker on click — no programmatic .click(), which
   // some browsers/profiles silently swallow). Unique per HeroPromptForm so the
   // two instances on the page don't collide on a duplicate id.
   const pdfInputId = useId();
-
-  // Focus the prompt on load for DESKTOP only. Autofocusing on mobile pops the
-  // soft keyboard the instant the landing opens (and yanks the short hero
-  // around) — jarring, and on some Android browsers it interferes with the hero
-  // layout. Touch / narrow viewports skip it.
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(min-width: 768px)").matches
-    ) {
-      textareaRef.current?.focus();
-    }
-  }, []);
 
   const isActive = (type: SourceType) =>
     isPostType(type) ? postsByType[type].length > 0 : pdfFiles.length > 0;
@@ -443,7 +429,6 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
         className="group relative w-full overflow-hidden rounded-2xl border border-border bg-background shadow-[0_20px_60px_-30px_rgba(74,50,111,0.35)] transition-shadow focus-within:border-primary focus-within:shadow-[0_25px_70px_-25px_rgba(74,50,111,0.45)]"
       >
         <textarea
-          ref={textareaRef}
           value={prompt}
           onChange={(event) => {
             setPrompt(event.target.value);
@@ -468,6 +453,7 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
           }}
           placeholder={textareaPlaceholder}
           rows={3}
+          autoFocus
           disabled={submitting}
           aria-label={t("promptAriaLabel")}
           className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-[16px] leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
