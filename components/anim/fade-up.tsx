@@ -39,14 +39,19 @@ export function FadeUp({
 }: FadeUpProps) {
   const reduced = useReducedMotion();
   const Tag = motion[as] as typeof motion.div;
+  // `vixi-reveal` is the hook for the CSS @media(prefers-reduced-motion) rule in
+  // globals.css that force-shows this element. Under "Remove animations" the JS
+  // fade-in can fail to run on some engines, leaving the SSR opacity:0 stuck —
+  // the CSS !important override clears it regardless of JS/hydration.
+  const revealClass = className ? `${className} vixi-reveal` : "vixi-reveal";
 
   if (reduced) {
-    return <Tag className={className}>{children}</Tag>;
+    return <Tag className={revealClass}>{children}</Tag>;
   }
 
   return (
     <Tag
-      className={className}
+      className={revealClass}
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, amount }}

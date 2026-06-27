@@ -68,7 +68,7 @@ export function HeadingPop({
     return (
       <motion.span
         key={key}
-        className="inline-block"
+        className="inline-block vixi-reveal"
         initial={reduced ? false : { opacity: 0, scale: 1.4, y: -8 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}

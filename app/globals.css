@@ -123,6 +123,20 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* "Remove animations" (prefers-reduced-motion) users: framer-motion renders
+   reveal elements at opacity:0 server-side (to avoid a flash) and fades them in
+   with JS. On some engines that reveal never runs under reduced motion, leaving
+   the content stuck invisible — the entire hero (heading + input) vanished on a
+   Galaxy A06. Force every reveal wrapper visible: !important overrides the
+   inline opacity:0 on first paint, with no dependency on JS/hydration. Normal-
+   motion users are unaffected (this only matches under reduced motion). */
+@media (prefers-reduced-motion: reduce) {
+  .vixi-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @keyframes voice-bar {
   0%, 100% {
     transform: scaleY(0.28);
