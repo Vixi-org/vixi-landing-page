@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cairo, Geist_Mono, Nunito_Sans, Readex_Pro, Roboto } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -73,6 +73,16 @@ const ORGANIZATION_SCHEMA = {
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
+
+// Light-only site. `colorScheme: "light"` emits <meta name="color-scheme"
+// content="light"> — the signal Samsung Internet / Chrome auto-dark respect to
+// keep the branded orange/white palette instead of algorithmically darkening
+// the page on phones set to night mode. `themeColor` keeps the browser chrome
+// light to match. (Reinforced by `color-scheme: light` on <html> + :root.)
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#ffffff",
+};
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
