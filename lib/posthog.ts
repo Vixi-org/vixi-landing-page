@@ -24,42 +24,53 @@ const EXCEPTION_NOISE = [
   "Non-Error promise rejection captured", // a reject() with no Error object
 ];
 
-// PII / secrets that must never reach PostHog Cloud — scrubbed from exception
-// message strings and captured URLs.
+// Patterns that are PII or a capability secret. Redacted from EVERY string that
+// leaves the browser — exception messages AND stack frames, captured URLs, link
+// hrefs, heatmap URLs, etc. — via a deep walk of each event's properties.
 const EMAIL_RE = /[^\s@<>()[\]]+@[^\s@<>()[\]]+\.[^\s@<>()[\]]+/g;
 const JWT_RE = /eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g;
 const BEARER_RE = /Bearer\s+[A-Za-z0-9._-]+/gi;
 const URL_TOKEN_RE = /(\/)[A-Za-z0-9_-]{16,}(?=$|[/?#])/g;
-const URL_PROPS = ["$current_url", "$pathname", "$referrer", "$initial_current_url", "$session_entry_url"];
+// Keys holding intentional PII we KEEP (person email/name set on identify).
+const PRESERVE_KEYS = new Set(["$set", "$set_once"]);
 
-function redactPII(text: string): string {
-  return text
+function redactString(s: string): string {
+  return s
     .replace(EMAIL_RE, "[redacted-email]")
     .replace(JWT_RE, "[redacted-token]")
-    .replace(BEARER_RE, "Bearer [redacted]");
+    .replace(BEARER_RE, "Bearer [redacted]")
+    .replace(URL_TOKEN_RE, "$1[redacted]");
 }
 
-/** before_send: drop known-noise $exception events; scrub PII from the rest. */
-function scrubException(payload: CaptureResult | null): CaptureResult | null {
-  if (!payload || payload.event !== "$exception") return payload;
-  const list =
-    (payload.properties?.["$exception_list"] as Array<{ type?: string; value?: string }> | undefined) ?? [];
-  const text = list.map((e) => `${e.type ?? ""} ${e.value ?? ""}`).join(" ");
-  if (EXCEPTION_NOISE.some((p) => text.includes(p))) return null;
-  for (const e of list) if (typeof e.value === "string") e.value = redactPII(e.value);
-  const props = payload.properties;
-  if (props && typeof props["$exception_message"] === "string") {
-    props["$exception_message"] = redactPII(props["$exception_message"] as string);
+/** Recursively redact every string in a value (bounded depth); mutates in place. */
+function deepRedact(value: unknown, depth: number): unknown {
+  if (value == null || depth > 6) return value;
+  if (typeof value === "string") return redactString(value);
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) value[i] = deepRedact(value[i], depth + 1);
+    return value;
   }
+  if (typeof value === "object") {
+    const obj = value as Record<string, unknown>;
+    for (const k of Object.keys(obj)) {
+      if (depth === 0 && PRESERVE_KEYS.has(k)) continue; // keep person email/name
+      obj[k] = deepRedact(obj[k], depth + 1);
+    }
+  }
+  return value;
+}
+
+/** before_send: drop noise $exception events; deep-redact PII + tokens from the rest. */
+function scrubEvent(payload: CaptureResult | null): CaptureResult | null {
+  if (!payload) return payload;
+  if (payload.event === "$exception") {
+    const list =
+      (payload.properties?.["$exception_list"] as Array<{ type?: string; value?: string }> | undefined) ?? [];
+    const text = list.map((e) => `${e.type ?? ""} ${e.value ?? ""}`).join(" ");
+    if (EXCEPTION_NOISE.some((p) => text.includes(p))) return null;
+  }
+  if (payload.properties) deepRedact(payload.properties, 0);
   return payload;
-}
-
-/** sanitize_properties: strip capability tokens out of every captured URL. */
-function sanitizeProperties(props: Record<string, unknown>): Record<string, unknown> {
-  for (const k of URL_PROPS) {
-    if (typeof props[k] === "string") props[k] = (props[k] as string).replace(URL_TOKEN_RE, "$1[redacted]");
-  }
-  return props;
 }
 
 /** Actually initialize PostHog — only ever called once consent is accepted. */
@@ -81,9 +92,7 @@ function bootPostHog(): void {
       capture_unhandled_rejections: true,
       capture_console_errors: false,
     },
-    before_send: scrubException,
-    // Strip capability tokens (e.g. share/reset links) out of every captured URL.
-    sanitize_properties: sanitizeProperties,
+    before_send: scrubEvent,
     disable_session_recording: true, // replay stays OFF on the landing (cost; apps only)
     // Heatmaps — click/scroll density on the marketing pages (cheap; useful for
     // hero + funnel layout decisions). Gated server-side by heatmaps_opt_in.
