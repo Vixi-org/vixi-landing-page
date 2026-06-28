@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { ConsentBanner } from "@/components/analytics/consent-banner";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { OutboundTracker } from "@/components/analytics/outbound-tracker";
+import { PostHogAnalytics } from "@/components/analytics/posthog-provider";
 import { SmoothScroll } from "@/components/anim/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SiteFooter } from "@/components/site-footer";
@@ -164,6 +165,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground">
         <JsonLd data={[ORGANIZATION_SCHEMA, websiteSchema]} />
         <MetaPixel />
+        <PostHogAnalytics />
         <SmoothScroll />
         <NextIntlClientProvider>
           {/* `display: contents` wrapper (no layout box) the consent gate flips
