@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@next/mdx": "^16.2.4",
+    "@posthog/nextjs-config": "1.9.68",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
