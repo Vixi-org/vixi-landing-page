@@ -137,6 +137,47 @@
   }
 }
 
+/* ===== /api coming-soon screen ===================================== */
+/* The page is a single non-scrolling viewport: hide the global footer the
+   layout renders after <main> so there is nothing below the fold. Scoped
+   via :has() on the page's own marker — no layout restructuring needed. */
+main:has([data-page="api-screen"]) + footer {
+  display: none;
+}
+
+/* Terminal mock: staggered line reveal + blinking prompt caret. Under
+   prefers-reduced-motion every line is shown immediately (same rationale
+   as .vixi-reveal above — animated-from-invisible must never stay stuck). */
+.api-line {
+  opacity: 0;
+  animation: api-line-in 0.4s ease-out both;
+}
+@keyframes api-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes api-caret {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .api-line {
+    animation: none;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @keyframes voice-bar {
   0%, 100% {
     transform: scaleY(0.28);

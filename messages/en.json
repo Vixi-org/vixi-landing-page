@@ -26,6 +26,7 @@
     "forCompanies": "For Companies",
     "forSchools": "For Schools",
     "forCreators": "For Creators",
+    "api": "API",
     "about": "About",
     "blog": "Blog",
     "contact": "Contact",
@@ -79,6 +80,10 @@
     "forCreators": {
       "title": "For Content Creators — Turn your videos into gamified courses you can sell",
       "description": "Vixi turns your Instagram reels, TikTok videos, podcasts, and YouTube content into interactive Duolingo-like courses you can sell directly to your audience — no editing skills required."
+    },
+    "apiPage": {
+      "title": "API: One request in, a whole course out",
+      "description": "The Vixi API is almost here: send a topic or your content, get back a full gamified, Duolingo-like course with lessons, quizzes, and voiceover. Join the early-access list."
     },
     "about": {
       "title": "About Vixi — Backed by top universities and education experts",
@@ -632,5 +637,40 @@
     "message": "We use cookies to measure our ads and improve Vixi. Accept to help us, or reject — your choice is saved.",
     "accept": "Accept",
     "reject": "Reject"
+  },
+  "apiPage": {
+    "title": "One request in. <accent>A whole course out.</accent>",
+    "subtitle": "We're putting Vixi's course engine behind an API. Send a topic, or your own content, and get back a gamified, Duolingo-like course.",
+    "useCasesTitle": "Imagine it inside",
+    "useCases": {
+      "lms": {
+        "title": "LMS & e-learning platforms",
+        "description": "Auto-generate courses from your existing content library."
+      },
+      "hr": {
+        "title": "HR & onboarding tools",
+        "description": "Turn policies and playbooks into training in minutes."
+      },
+      "creators": {
+        "title": "Communities & creator apps",
+        "description": "Give every creator a “course-ify this” button."
+      }
+    },
+    "cta": "Get early access",
+    "terminalTitle": "vixi-api terminal",
+    "modal": {
+      "title": "Get early access",
+      "useCaseLabel": "What's your use case?",
+      "useCaseHelp": "Anything specific in mind? Tell us so we make sure it's supported.",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "you@company.com",
+      "submit": "Join the early-access list",
+      "submitting": "Joining…",
+      "successTitle": "You're on the list!",
+      "successBody": "We'll email you the moment your API key is ready.",
+      "done": "Done",
+      "error": "Something went wrong. Please try again.",
+      "close": "Close"
+    }
   }
 }

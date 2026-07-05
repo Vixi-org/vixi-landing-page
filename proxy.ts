@@ -19,6 +19,7 @@ const ARABIC_ENABLED_PATHS = new Set<string>([
   "/for-creators",
   "/about",
   "/contact",
+  "/api",
 ]);
 
 export default function proxy(req: NextRequest) {
@@ -39,7 +40,10 @@ export default function proxy(req: NextRequest) {
 }
 
 export const config = {
+  // `api/` (with slash) keeps Route Handlers (/api/meta/*, /api/waitlist)
+  // out of the locale middleware, while the EXACT path /api falls through to
+  // it — that's the marketing page at app/[locale]/api/page.tsx.
   matcher: [
-    "/((?!api|_next|_vercel|sitemap.xml|robots.txt|opengraph-image|.*\\..*).*)",
+    "/((?!api/|_next|_vercel|sitemap.xml|robots.txt|opengraph-image|.*\\..*).*)",
   ],
 };
