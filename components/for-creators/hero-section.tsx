@@ -46,7 +46,7 @@ export async function HeroSection({ appUrl: _appUrl }: HeroSectionProps) {
         <div>
           <HeadingPop
             as="h1"
-            className="text-[2.025rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.375rem]"
+            className="text-[1.8225rem] font-semibold leading-[1.1] text-card-foreground md:text-[3.0375rem]"
           >
             {t("title.line1")}
             <br />
