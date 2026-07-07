@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { FadeUp } from "@/components/anim/fade-up";
 import { HeadingPop } from "@/components/anim/heading-pop";
 import { HeroPromptForm } from "@/components/hero-prompt-form";
+import { AffiliatesSection } from "@/components/home/affiliates-section";
 import { GamificationStatsSection } from "@/components/home/gamification-stats-section";
 import { HeroSection } from "@/components/home/hero-section";
 import { LearnerCatalog } from "@/components/home/learner-catalog";
@@ -69,6 +70,8 @@ export default async function HomePage({
           </FadeUp>
         </div>
       </section>
+
+      <AffiliatesSection />
     </>
   );
 }

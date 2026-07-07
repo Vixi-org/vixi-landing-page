@@ -20,6 +20,7 @@ const ARABIC_ENABLED_PATHS = new Set<string>([
   "/about",
   "/contact",
   "/api",
+  "/affiliates",
 ]);
 
 export default function proxy(req: NextRequest) {

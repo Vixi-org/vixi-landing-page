@@ -23,6 +23,7 @@ const NAV_LINKS = [
   { href: "/for-schools", labelKey: "forSchools" },
   { href: "/for-creators", labelKey: "forCreators" },
   { href: "/api", labelKey: "api" },
+  { href: "/affiliates", labelKey: "affiliates" },
   { href: "/about", labelKey: "about" },
 ] as const;
 

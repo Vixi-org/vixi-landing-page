@@ -30,6 +30,7 @@ const SOLUTIONS_LINKS = [
 const COMPANY_LINKS = [
   { href: "/about", labelKey: "about" as const },
   { href: "/blog", labelKey: "blog" as const },
+  { href: "/affiliates", labelKey: "affiliates" as const },
   { href: "/contact", labelKey: "contact" as const },
 ];
 

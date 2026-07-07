@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { ConsentBanner } from "@/components/analytics/consent-banner";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { OutboundTracker } from "@/components/analytics/outbound-tracker";
+import { PromoteKit } from "@/components/analytics/promotekit";
 import { PostHogAnalytics } from "@/components/analytics/posthog-provider";
 import { SmoothScroll } from "@/components/anim/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -165,6 +166,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground">
         <JsonLd data={[ORGANIZATION_SCHEMA, websiteSchema]} />
         <MetaPixel />
+        <PromoteKit />
         <PostHogAnalytics />
         <SmoothScroll />
         <NextIntlClientProvider>

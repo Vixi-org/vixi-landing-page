@@ -27,6 +27,7 @@
     "forSchools": "For Schools",
     "forCreators": "For Creators",
     "api": "API",
+    "affiliates": "Affiliates",
     "about": "About",
     "blog": "Blog",
     "contact": "Contact",
@@ -43,6 +44,7 @@
       "forCreators": "For Creators",
       "about": "About",
       "blog": "Blog",
+      "affiliates": "Affiliate Program",
       "contact": "Contact",
       "privacy": "Privacy Policy",
       "terms": "Terms & Conditions"
@@ -84,6 +86,10 @@
     "apiPage": {
       "title": "API: One request in, a whole course out",
       "description": "The Vixi API is almost here: send a topic or your content, get back a full gamified, Duolingo-like course with lessons, quizzes, and voiceover. Join the early-access list."
+    },
+    "affiliatesPage": {
+      "title": "Affiliate Program — Earn 30% recurring with Vixi",
+      "description": "Share Vixi with your audience and earn 30% recurring commission on every subscription you refer, for a full year. Free to join, monthly payouts via PayPal or Wise."
     },
     "about": {
       "title": "About Vixi — Backed by top universities and education experts",
@@ -630,6 +636,69 @@
         "title": "Better Retention Rates",
         "body": "Incorporating gamification elements into learning experiences has been found to improve information retention rates by up to 9 times compared to traditional methods."
       }
+    }
+  },
+  "affiliates": {
+    "eyebrow": "Affiliate program",
+    "heading": "Love Vixi? Get paid to share it.",
+    "body": "Join the Vixi affiliate program and earn 30% recurring commission on every subscriber you bring — for their entire first year.",
+    "steps": {
+      "share": {
+        "title": "Share your link",
+        "body": "Get your unique referral link and share it with your audience — on social, in your newsletter, on your blog, or in DMs."
+      },
+      "convert": {
+        "title": "They subscribe",
+        "body": "Anyone who clicks your link and upgrades to a paid Vixi plan is credited to you — tracked automatically, no codes to remember."
+      },
+      "earn": {
+        "title": "You earn 30%",
+        "body": "Collect 30% of every payment your referrals make during their first year, paid out monthly via PayPal or Wise."
+      }
+    },
+    "cta": "Become an affiliate"
+  },
+  "affiliatesPage": {
+    "eyebrow": "Affiliate program",
+    "title": "Turn your audience into <accent>recurring income</accent>",
+    "subtitle": "Recommend Vixi — the AI that turns anyone's knowledge into gamified, Duolingo-like courses — and earn 30% of every payment your referrals make for a full year.",
+    "ctaButton": "Apply now — it's free",
+    "terms": {
+      "commission": {
+        "value": "30%",
+        "label": "Recurring commission on every payment your referrals make"
+      },
+      "duration": {
+        "value": "12 months",
+        "label": "You keep earning for each referral's entire first year"
+      },
+      "free": {
+        "value": "$0",
+        "label": "Free to join — no fees, no commitments"
+      }
+    },
+    "how": {
+      "heading": "How it works",
+      "stepLabel": "Step {number}",
+      "steps": {
+        "apply": {
+          "title": "Sign up in two minutes",
+          "body": "Create your free affiliate account and get your unique link instantly — no audience-size requirements, no waiting for approval."
+        },
+        "share": {
+          "title": "Share your unique link",
+          "body": "You get a personal referral link and a dashboard. Share the link anywhere your audience lives — clicks and signups are tracked automatically."
+        },
+        "paid": {
+          "title": "Get paid every month",
+          "body": "When your referrals subscribe to Vixi, you earn 30% of their payments for 12 months, paid monthly via PayPal or Wise."
+        }
+      }
+    },
+    "finalCta": {
+      "heading": "Ready to start earning?",
+      "body": "Educators, creators, and communities are already turning their knowledge into courses with Vixi. Help your audience discover it — and get rewarded for every one who subscribes.",
+      "note": "You get your affiliate link instantly — start sharing right away."
     }
   },
   "consent": {
