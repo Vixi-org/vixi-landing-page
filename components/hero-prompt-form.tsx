@@ -219,6 +219,17 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   // visitor isn't silently dropped through to signup without their source.
   const [submitError, setSubmitError] = useState<string | null>(null);
   const pdfInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Desktop-only autofocus. On phones, programmatic focus can't open the
+  // keyboard, so autofocusing was invisible there — its only observable effect
+  // was arming the textarea's onBlur scroll-reset, which yanked a scrolled
+  // page back to the top on the visitor's FIRST tap of any button.
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      textareaRef.current?.focus();
+    }
+  }, []);
   // Stable, instance-unique id so the empty-state PDF affordance can be a real
   // <label htmlFor> (native OS picker on click — no programmatic .click(), which
   // some browsers/profiles silently swallow). Unique per HeroPromptForm so the
@@ -451,9 +462,9 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
               );
             }
           }}
+          ref={textareaRef}
           placeholder={textareaPlaceholder}
           rows={3}
-          autoFocus
           disabled={submitting}
           aria-label={t("promptAriaLabel")}
           className="block w-full resize-none border-0 bg-transparent px-[17px] pt-[17px] pb-[7px] text-[16px] leading-7 text-card-foreground placeholder:text-foreground/60 focus:outline-none disabled:opacity-60 md:text-lg"
