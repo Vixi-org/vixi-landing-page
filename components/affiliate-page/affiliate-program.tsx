@@ -34,6 +34,14 @@ const STEP_ITEMS = [
   { key: "paid", Icon: Wallet },
 ] as const;
 
+// Worked earnings examples (10 referrals each). Prices mirror the live plans
+// served by GetPaymentDetails in vixi-backend: Pro $14/mo, Premium $40/mo;
+// commission is 30% for 12 months. Update the message values if plans change.
+const EARNING_ROWS = [
+  { key: "pro", chipBg: "bg-secondary/15", chipText: "text-secondary" },
+  { key: "premium", chipBg: "bg-primary/10", chipText: "text-primary" },
+] as const;
+
 export function AffiliateProgram() {
   const t = useTranslations("affiliatesPage");
 
@@ -106,6 +114,52 @@ export function AffiliateProgram() {
               </FadeUp>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ── Earnings illustration ────────────────────────────────────── */}
+      <section className="relative pb-16 md:pb-24">
+        <div className="mx-auto w-full max-w-5xl px-8 md:px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <HeadingPop className="text-3xl font-semibold leading-tight text-card-foreground md:text-4xl">
+              {t("earnings.heading")}
+            </HeadingPop>
+            <FadeUp delay={0.4}>
+              <p className="mt-5 text-base leading-7 text-foreground md:text-lg">
+                {t("earnings.subheading")}
+              </p>
+            </FadeUp>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {EARNING_ROWS.map(({ key, chipBg, chipText }, index) => (
+              <FadeUp
+                key={key}
+                delay={0.08 * index}
+                className="rounded-3xl border border-border/70 bg-background p-7 text-center shadow-[0_15px_40px_-30px_rgba(74,50,111,0.4)]"
+              >
+                <span
+                  className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-semibold ${chipBg} ${chipText}`}
+                >
+                  {t(`earnings.rows.${key}.planLabel`)}
+                </span>
+                <p className="mt-5 font-mono text-sm text-muted-foreground">
+                  {t(`earnings.rows.${key}.math`)}
+                </p>
+                <p className="mt-3 text-card-foreground">
+                  <span className="text-4xl font-bold text-secondary md:text-5xl">
+                    {t(`earnings.rows.${key}.monthly`)}
+                  </span>
+                  <span className="ms-1.5 text-base font-semibold">{t("earnings.perMonth")}</span>
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {t("earnings.firstYear", { amount: t(`earnings.rows.${key}.yearly`) })}
+                </p>
+              </FadeUp>
+            ))}
+          </div>
+          <FadeUp delay={0.3}>
+            <p className="mt-7 text-center text-sm text-muted-foreground">{t("earnings.note")}</p>
+          </FadeUp>
         </div>
       </section>
 

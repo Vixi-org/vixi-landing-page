@@ -57,7 +57,7 @@ export function ApiComingSoon() {
       </div>
 
       {/* md:pb-20 > pt biases the vertically-centered content upward a touch. */}
-      <div className="relative mx-auto flex w-full max-w-6xl flex-1 items-center px-4 pb-6 pt-22 md:px-6 md:pb-20 md:pt-24">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-1 items-center px-12 pb-6 pt-22 md:px-6 md:pb-20 md:pt-24">
         <div className="grid w-full items-center gap-8 md:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           {/* ── Left: pitch ─────────────────────────────────────────── */}
           <div>
@@ -80,6 +80,7 @@ export function ApiComingSoon() {
             >
               {t.rich("title", {
                 accent: (chunks) => <span className="text-secondary">{chunks}</span>,
+                br: () => <br />,
               })}
             </HeadingPop>
 

@@ -677,6 +677,27 @@
         "label": "Free to join — no fees, no commitments"
       }
     },
+    "earnings": {
+      "heading": "What could you earn?",
+      "subheading": "Say 100 people subscribe to Vixi through your link. Here's what lands in your pocket:",
+      "rows": {
+        "pro": {
+          "planLabel": "Pro plan · $14/month",
+          "math": "100 subscribers × $14 × 30%",
+          "monthly": "$420",
+          "yearly": "$5,040"
+        },
+        "premium": {
+          "planLabel": "Premium plan · $40/month",
+          "math": "100 subscribers × $40 × 30%",
+          "monthly": "$1,200",
+          "yearly": "$14,400"
+        }
+      },
+      "perMonth": "/month for you",
+      "firstYear": "{amount} over their first year",
+      "note": "That's 30% of every payment for 12 months, with no cap. Refer more, earn more."
+    },
     "how": {
       "heading": "How it works",
       "stepLabel": "Step {number}",
@@ -708,7 +729,7 @@
     "reject": "Reject"
   },
   "apiPage": {
-    "title": "One request in. <accent>A whole course out.</accent>",
+    "title": "One request in.<br></br><accent>A whole course out.</accent>",
     "subtitle": "We're putting Vixi's course engine behind an API. Send a topic, or your own content, and get back a gamified, Duolingo-like course.",
     "useCasesTitle": "Imagine it inside",
     "useCases": {
