@@ -59,7 +59,7 @@ const ORGANIZATION_SCHEMA = {
   description:
     "AI-powered course maker that converts PDFs, LinkedIn posts, podcasts, and lectures into gamified Duolingo-like courses for businesses and schools.",
   foundingDate: "2024",
-  email: "hassan@vixiai.co",
+  email: "info@vixiai.co",
   address: {
     "@type": "PostalAddress",
     addressLocality: "DIFC, Dubai",
