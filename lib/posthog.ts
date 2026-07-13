@@ -63,6 +63,12 @@ function deepRedact(value: unknown, depth: number): unknown {
 /** before_send: drop noise $exception events; deep-redact PII + tokens from the rest. */
 function scrubEvent(payload: CaptureResult | null): CaptureResult | null {
   if (!payload) return payload;
+  // NEVER deep-redact replay payloads — $snapshot_data events carry gzip-compressed
+  // binary strings (cv "2024-10"); regex redaction corrupts the byte stream and makes
+  // recordings unplayable. Replay is OFF on the landing, but keep the guard so enabling
+  // it later can't silently reintroduce the corruption (full story in the coursemaker
+  // repo, packages/api/src/posthog.ts).
+  if (payload.event === "$snapshot") return payload;
   if (payload.event === "$exception") {
     const list =
       (payload.properties?.["$exception_list"] as Array<{ type?: string; value?: string }> | undefined) ?? [];
