@@ -193,6 +193,10 @@ function useTypewriterPlaceholder(samples: string[], paused: boolean) {
 
 interface HeroPromptFormProps {
   appUrl: string;
+  /** Focus the textarea on mount (desktop only). Pass on AT MOST ONE instance
+   *  per page — the home page renders two forms, and whichever focuses last
+   *  wins and gets scrolled into view by the browser. */
+  autoFocus?: boolean;
 }
 
 // Hero prompt form with an inline source-picker toolbar at the bottom-left
@@ -201,7 +205,7 @@ interface HeroPromptFormProps {
 // ?prompt=… and (if any active) ?source=linkedin,… over to signup. NOTE: the
 // actual post CONTENT handoff (anonymous-draft + token) is the next phase —
 // for now the posts live in local state and only the source TYPE is passed.
-export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
+export function HeroPromptForm({ appUrl, autoFocus = false }: HeroPromptFormProps) {
   const t = useTranslations("home.hero");
   const tCommon = useTranslations("common");
   const samples = t.raw("samples") as string[];
@@ -221,14 +225,17 @@ export function HeroPromptForm({ appUrl }: HeroPromptFormProps) {
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Desktop-only autofocus. On phones, programmatic focus can't open the
-  // keyboard, so autofocusing was invisible there — its only observable effect
-  // was arming the textarea's onBlur scroll-reset, which yanked a scrolled
-  // page back to the top on the visitor's FIRST tap of any button.
+  // Opt-in, desktop-only autofocus. On phones, programmatic focus can't open
+  // the keyboard, so autofocusing was invisible there — its only observable
+  // effect was arming the textarea's onBlur scroll-reset, which yanked a
+  // scrolled page back to the top on the visitor's FIRST tap of any button.
+  // preventScroll keeps the browser from scrolling the form into view on
+  // load — the focused instance is the top hero, already in view.
   useEffect(() => {
-    if (window.matchMedia("(min-width: 768px)").matches) {
-      textareaRef.current?.focus();
+    if (autoFocus && window.matchMedia("(min-width: 768px)").matches) {
+      textareaRef.current?.focus({ preventScroll: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Stable, instance-unique id so the empty-state PDF affordance can be a real
   // <label htmlFor> (native OS picker on click — no programmatic .click(), which

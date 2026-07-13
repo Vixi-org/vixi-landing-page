@@ -89,7 +89,7 @@ export async function HeroSection({ appUrl }: HeroSectionProps) {
           </p>
         </FadeUp>
         <FadeUp delay={1.2} className="mt-[17px] w-full max-w-2xl">
-          <HeroPromptForm appUrl={appUrl} />
+          <HeroPromptForm appUrl={appUrl} autoFocus />
         </FadeUp>
       </div>
     </section>
